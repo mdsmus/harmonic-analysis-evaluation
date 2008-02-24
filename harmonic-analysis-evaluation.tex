@@ -8,7 +8,15 @@
 \usepackage[english]{babel}
 %\usepackage[htt]{hyphenat}
 \usepackage{times}
-\usepackage{fixme}
+\usepackage{color}
+\usepackage[inline]{fixme}
+
+\newcounter{notecounter}
+
+\newcommand{\note}[1]{
+  \addtocounter{notecounter}{1}
+  \textcolor{red}{[note \arabic{notecounter}: #1]}
+}
 
 \title{}
 \oneauthor
@@ -28,6 +36,15 @@
 \section{Introduction}
 \label{sec:introduction}
 
+% metodology
+% evaluation
+% algoritmos
+
+\section{Statistical algorithms}
+\label{sec:stat-algor}
+
+\section{Heuristic algorithms}
+\label{sec:heuristic-algorithms}
 
 \section{Discution}
 \label{sec:discution}
