@@ -39,12 +39,12 @@
 % evaluation
 % algoritmos
 
-When performing harmonic analysis of a piece of tonal music an
-analyst's aim is to increase his understanding of the piece by
-extracting meaningful information from it.  He separates the chords
-underlying the notes and finds their root and tonal function.
-Fundamentally, harmonic analysis is just another information retrieval
-task, and could benefit from proper treatment as such.
+An analyst performing harmonic analysis of a piece of tonal music aims
+to increase his understanding of the piece by extracting meaningful
+information from it.  He separates the chords underlying the notes and
+finds their root and tonal function.  Fundamentally, harmonic analysis
+is just another information retrieval task, and could benefit from
+proper treatment as such.
 
 The problem of automated harmonic analysis has been approached from
 many directions, mostly mirroring approaches to natural language
@@ -79,7 +79,8 @@ analysis into a more systematic Information Retrieval framework, and
 evaluate their performance accordingly.  We review Pardo and
 Birmingham's HarmAn \cite{pardo.ea:automated}, Maxwell's expert system
 \cite{maxwell:expert}, a version of Tsui's neural networks
-\cite{tsui:harmonic} and original algorithms based on decision trees.
+\cite{tsui:harmonic} and original algorithms based on decision trees
+and the k-nearest-neighbours algorithm.
 These algorithms are evaluated according to their precision, recall,
 bias and variance in respect to the various chord types.  We also
 study the effect of incorporating enharmonic information on the many
@@ -91,24 +92,38 @@ In this article we first discuss the main characteristic and behavior
 of each algorithm. In section \ref{sec:heuristic-algorithms} we
 present Pardo et al and Maxwell's algorithms, and discuss possible
 enhancements to their original proposals. In section
-\ref{sec:stat-algor} we analyse Tsui's neural networks and our
-decision trees. Then, in section \ref{sec:enharmonic} we study the
-effect of incorporating enharmonic information in the inputs for the
-algorithms. We compare their overall performance in section
-\ref{sec:discussion} and state our case in section \ref{sec:conclusions}
+\ref{sec:stat-algor} we analyse Tsui's neural networks, our decision
+trees and a baseline k-nearest-neighbours method. Then, in section
+\ref{sec:enharmonic} we study the effect of incorporating enharmonic
+information in the inputs for the algorithms. We compare their overall
+performance in section \ref{sec:discussion} and state our case in
+section \ref{sec:conclusions}
 
 
 \section{Heuristic algorithms}
 \label{sec:heuristic-algorithms}
 
+The defining characteristic of a heuristic algorithm is that its
+behavior is based on some form of domain-specific rules manually coded
+by an expert in the problem domain.
+
 \section{Machine Learning algorithms}
 \label{sec:stat-algor}
+
+Another category of approaches to harmonic analysis is comprised of
+the machine learning algorithms. These techniques, originally from
+statistics and early AI, work by automatically extracting patterns
+from the data. 
 
 \section{Enharmonic Information}
 \label{sec:enharmonic}
 
+
+
 \section{Discussion}
 \label{sec:discussion}
+
+
 
 \section{Conclusions}
 \label{sec:conclusions}
