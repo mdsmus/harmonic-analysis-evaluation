@@ -17,7 +17,7 @@
   \textcolor{red}{[note \arabic{notecounter}: #1]}
 }
 
-\title{}
+\title{An evaluation of algorithms for symbolic chord finding}
 \oneauthor
   {Pedro Kröger, Alexandre Passos, Marcos Sampaio, Givaldo de Cidra}
   {Genos---Computer Music Research Group\\ School of Music
@@ -35,79 +35,66 @@
 \section{Introduction}
 \label{sec:introduction}
 
-% methodology
-% evaluation
-% algoritmos
-\note{passos: qual o objetivo do artigo? Só falar sobre os algoritmos
-  enche quatro páginas tranquilamente. Só falar sobre o efeito de
-  enarmonia também. Precisamos de mais foco, eu diria}
+Chords are useful metadata. When an analyst perform harmonic analysis
+of a piece of tonal music he starts by noting where and what the
+possible chords are. Then, he uses this information to find the
+piece's tonality, cadence, modulations and overall structure. After
+analysis he can use this acquired information as he wishes, to, for
+example, understand the harmony of that piece, find other similar
+songs, or write an accompaniment. Finding the chords of a piece of
+tonal music is just metadata extraction, and the study of chord
+finding as such can increse understanding of the performance and
+limitations of current techniques.
 
-\note{passos: eu acho melhor não falarmos tanto de análise harmônica e
-  sim em detecção de acordes nesse artigo. Nós não vamos nem tocar no
-  assunto de análise funcional ou detecção de tonalidade, de qualquer
-  jeito.}
-
-An analyst performing harmonic analysis of a piece of tonal music aims
-to increase his understanding of the piece by extracting meaningful
-metadata from it.  He separates the chords underlying the notes and
-finds their root and tonal function.  He assigns a key to each part of
-the music, and finds the phrases and cadences .  Fundamentally,
-harmonic analysis is just another information retrieval task, and
-could benefit from proper treatment as such.
-
-The problem of automated harmonic analysis of symbolic scores has been
-approached from many directions, mostly mirroring approaches to
-natural language processing currently in fashion.  First, Winograd
-\cite{winograd:linguistics} and Ulrich \cite{ulrich:analysis}
-developed backtracking parsers based of formal grammars and reduction
-rules.  After a hiatus they were followed by Maxwell's
-\cite{maxwell:expert} rule-based expert system and Temperley and
-Sleator's Melisma \cite{temperley.ea:modeling}, based on preference
-rules.  These were followed by Pardo and Birmingham's HarmAn
-\cite{pardo.ea:automated}, Barthelemy and Bonardi
+The problem of automated finding the chord structure of symbolic
+scores has been approached from many directions, mostly mirroring
+approaches to natural language processing currently in fashion.
+First, Winograd \cite{winograd:linguistics} and Ulrich
+\cite{ulrich:analysis} developed backtracking parsers based of formal
+grammars and productions. After a hiatus they were followed by
+Maxwell's \cite{maxwell:expert} production rule-based expert system
+and Temperley and Sleator's Melisma \cite{temperley.ea:modeling},
+based on preference rules. These were followed by Pardo and
+Birmingham's HarmAn \cite{pardo.ea:automated}, Barthelemy and Bonardi
 \cite{barthelemy.ea:figured} and Taube's workbench
 \cite{taube:automatic}, all built using pattern-matching as their core
-chord-finding method.  Following these there are Tsui's
-\cite{tsui:harmonic} neural network algorithm, Noland and Sandler's
-\cite{noland.ea:key} Hidden Markov Model algorithm and Temperley's
-\cite{temperley:bayesian} bayesian approach.
+chord-finding method. Following these are Tsui's \cite{tsui:harmonic}
+neural network algorithm and Temperley's \cite{temperley:bayesian}
+bayesian approach.
 
 All these techniques and methods were described informally, and very
-little source code is avaliable for testing.  Some articles, most
+little source code is avaliable for testing. Some articles, most
 notably Barthelemy and Bonardi \cite{barthelemy.ea:figured} and
 Temperley and Sleator \cite{temperley.ea:modeling}, don't provide
-enough information to reproduce their results reliably.  Every
-benchmark found in literature (\cite{pardo.ea:automated,
+enough information to reproduce their results reliably. Every
+benchmark found in literature \cite{pardo.ea:automated,
   barthelemy.ea:figured, tsui:harmonic, taube:automatic,
-  illescas.ea:harmonic}) is only based on published examples, and this
+  illescas.ea:harmonic} is only based on published examples, and this
 difficults a thorough statistical evaluation of each technique's main
 merits and flaws.
 
 Our goal in this article is to frame some known and new approaches to
-automatic chord finding into a more systematic Information
-Retrieval framework, and use insights obtained in this process to
-evaluate and improve their performance.  We review Pardo and
-Birmingham's HarmAn \cite{pardo.ea:automated}, Maxwell's expert system
-\cite{maxwell:expert}, a version of Tsui's neural networks
+automatic chord finding into a more systematic Information Retrieval
+framework, and use insights obtained in this process to evaluate and
+improve their performance. We review Pardo and Birmingham's HarmAn
+\cite{pardo.ea:automated}, Maxwell's expert system
+\cite{maxwell:expert}, a version of Tsui's artificial neural networks
 \cite{tsui:harmonic} and original algorithms based on decision trees
-and the k-nearest-neighbours algorithm.  These algorithms are
-evaluated according to their precision, recall, bias and variance in
-extracting the correct chords by type.  We also study the effect of
-incorporating enharmonic information as input to our algorithms. Each
-algorithm is evaluated against our corpus of 140 Bach chorales from
-the Riemenschneider \cite{bach:371} edition.  Some of these chorales
-are also used as training data, when necessary.
+and k-nearest-neighbors. These algorithms are evaluated according to
+their precision, recall, bias and variance in extracting the correct
+chords by type. We also study the effect of incorporating enharmonic
+information as input to our algorithms. Each algorithm is evaluated
+against our corpus of 140 Bach chorales from the Riemenschneider
+\cite{bach:371} edition.
 
 In this article we first discuss the main characteristics and behavior
-of each algorithm.  In section \ref{sec:heuristic-algorithms} we
+of each algorithm. In section \ref{sec:heuristic-algorithms} we
 present Pardo et al and Maxwell's algorithms, and discuss possible
-enhancements to their original proposals.  In section
-\ref{sec:stat-algor} we analyse Tsui's neural networks, our decision
-trees and a baseline k-nearest-neighbours method. Then, in section
-\ref{sec:enharmonic} we study the effect of enharmonic information as
-inputs to the algorithms.  We compare their overall performance in
-section \ref{sec:discussion} and state our case in section
-\ref{sec:conclusions}
+enhancements to their original proposals. In section
+\ref{sec:stat-algor} we analyze Tsui's artificial neural networks, our
+decision trees and a baseline k-nearest-neighbours method. We compare
+their overall performance in section \ref{sec:discussion} and state
+our case in section \ref{sec:conclusions}.
 
 
 \section{Heuristic algorithms}
@@ -115,23 +102,23 @@ section \ref{sec:discussion} and state our case in section
 
 The defining characteristic of a heuristic algorithm is that its
 behavior is based on rules of some form manually coded by an expert in
-the problem domain.  These rules might take the form of preference
+the problem domain. These rules might take the form of preference
 rules (``prefer doing X over doing Y when applicable''), simple
 pattern matching (``when a pattern somewhat like X is seen, do Y''),
 production rules (``if X then do Y''), grammar-based formalisms (``X
 can be classified as a Y if it can be generated by expanding Y's
 definition''), first-order logic (``for all X belonging to Y there is
-a Z such as X and Z are W''), and many other early
-AI algorithms.  These rules are also usually coupled with a searching
+a Z such as X and Z are W''), and many other early AI
+algorithms. These rules are also usually coupled with a searching
 strategy to more quickly determine the best possible match in the
 usually huge solution space.
 
 Systems based on such techniques can be highly effective, condensing
 the knowledge and understanding of human experts on the subject matter
-and serving as useful aid in a decision process.  However, they can
+and serving as useful aid in a decision process. However, they can
 not, in the general case, easily adapt to different situations or
-explore new solutions to the problem at hand.  They also tend to be
-brittle, failing in unforeseen corner cases.  As many of them
+explore new solutions to the problem at hand. They also tend to be
+brittle, failing in unforeseen corner cases. As many of them
 fundamentally a guided search for a solution in a vast space they can
 easily present performance problems when scaling to inputs of larger
 sizes, although powerful heuristics can solve this problem by pruning
@@ -169,10 +156,10 @@ recognizing major chords. We have also added a bass note detection.
 \label{sec:stat-algor}
 
 Another category of approaches to harmonic analysis is comprised of
-the machine learning algorithms.  These techniques, originally from
+the machine learning algorithms. These techniques, originally from
 statistics and pattern recognition, work by automatically extracting
 patterns from the data and using these patterns to approximate a given
-example classification.  Some algorithms are deceptively simple in
+example classification. Some algorithms are deceptively simple in
 their inner workings, but, they can be more effective than some
 complex cognitive approaches \cite{gomez.ea:estimating}.
 
@@ -186,7 +173,7 @@ represent, or a text classifier might extract the most meaningful
 words in a document and base its decision on that.
 
 Feature extraction is also a part of the process where it might be
-possible to preserve some invariance known a priori.  For example, our
+possible to preserve some invariance known a priori. For example, our
 feature extractors for the k-nearest-neighbors and neural network
 algorithms are invariant under transposition of every note in a given
 sonority.
@@ -197,19 +184,54 @@ big impact on the efficiency of the algorithm \cite{mitchell:machine}.
 \subsection{Decision Trees}
 \label{sec:tree}
 
+Decision trees are popular classifiers. They work by considering each
+instance as a collection of attributes, and representing a
+classification as a tree of decisions. In our implementation each
+attribute has one of a discrete set of values. The tree is built
+top-down, at each time considering the attribute on which a
+classification decision would be better. Then, for each possible value
+for that attribute a new subtree is built using the same method, until
+no more attributes are left, and a classification has to be
+made. Decision trees classify an instance by looking, starting from
+the root of the tree, for the most similar path to the
+instance. \note{consertar, muito feio}
 
+As this work is based on Bach Chorales and every chorale has four
+voices, the features considered were the four pitches in a sonority,
+from bass to soprano. This approach, however, does not scale very well
+to other musical styles, and a modification of our decision tree
+library (originally code from \cite{mitchell:machine}) to better
+handle numerical attributes is necessary for the improvement of this
+algorithm. \note{feio, reescrever}
 
-\subsection{Neural Networks}
+\subsection{Artificial Neural Networks}
 \label{sec:neural-net}
 
+Artificial neural networks are a family of useful non-linear
+regression and classification tools. Their unifying characteristic is
+that computation happens by having artificial neurons exchange
+messages in the form of activation values. Some special neuron's
+actiavtion values are then chosen as the output of the neural
+network. Our algorithms are multilayer feedforward perceptrons, which
+have a layered structure.
 
+The artificial neural networks we used are modeled after Tsui's Root
+Network A \cite{tsui:harmonic}. The only difference is in the feature
+extraction process. Tsui \cite{tsui:harmonic} uses as features a
+vector, each position representing one pitch class. On training, he
+first transposes every sonority to the 12 possible pitch classes to
+ensure that the network is transposition-invariant. While interesting,
+this approach becomes computationally prohibitive if one wants to
+distinguish enharmonic notes. Instead, we chose to transpose each
+sonority so that it has C as its bass note. This codification has
+interesting properties and has no accuracy burden.
 
 \subsection{K-Nearest-Neighbors}
 \label{sec:knn}
 
 The k-nearest-neighbors algorithm is one of the simplest techniques
 used in Machine Learning (along with the naive bayes classifier and
-decision trees).  It represents each training input as a point in a
+decision trees). It represents each training input as a point in a
 multidimensional space and classifies each input by choosing the
 classification most similar to the k nearest training points. As
 simple as it may seem, the k-nearest-neighbor algorithm is guaranteed,
@@ -221,13 +243,6 @@ The features used in this classifier were the same as in the neural
 networks. This classifier was designed and implemented to serve as a
 baseline to our other algorithms, that are expected to detect more
 useful patterns in the data.
-
-
-
-
-\section{Enharmonic Information}
-\label{sec:enharmonic}
-
 
 
 \section{Discussion}
