@@ -26,7 +26,7 @@ diff:
 %.txt: %.tex
 	detex $< > $@
 
-%.eps: %.plot %.dat
+%.eps: %.plot %.data
 	gnuplot $<
 
 %.eps: %.svg
