@@ -20,10 +20,10 @@
 \newcommand{\comment}[1]{}
 
 \title{An evaluation of heuristic and machine learning algorithms for
-  symbolic chord finding} \oneauthor {
+  symbolic chord finding} \oneauthor {}{}
 %% Teoricamente é para não botar o nome do autor no artigo, por causa
 %% do processo de revisão.
-}
+
 
 
 \begin{document}
@@ -106,7 +106,7 @@ exactly how it is wrong without looking at the surrounding
 context. Also, many times a sonority might seem to form a chord, but
 that chord could have no tonal function in that part of the piece,
 and, instead, one or more of those notes are there for purely melodic
-purposes. For example, figure \nota{passos: botar figura do exemplo
+purposes. For example, figure \note{passos: botar figura do exemplo
   v->acorde que parece diminuto->v7->i} shows a dominant chord that,
 in passing to a dominant chord with minor seventh, forms a
 configuration similar to that of a diminished chord. Therefore, some
@@ -221,7 +221,7 @@ interesting properties and has no accuracy burden.
 
 We have three neural network algorithms: \texttt{s-net},
 \texttt{es-net} and \texttt{ec-net}. \texttt{s-net} looks at one
-sonority at a time and discards enharmonic information. \textt{es-net}
+sonority at a time and discards enharmonic information. \texttt{es-net}
 looks at one sonority at a time but distinguishes enharmonic
 notes. \texttt{ec-net} is equivalent to \texttt{es-net}, but looks
 also at the surrounding context of a sonority.
