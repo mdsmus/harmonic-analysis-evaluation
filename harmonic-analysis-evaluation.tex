@@ -31,16 +31,16 @@
 \maketitle
 
 \begin{abstract}
-Chord finding is an important subset of harmonic analysis. Many
-algorithms have been proposed, but no careful comparison between them
-exists. Viewing chord finding as an information retrieval problem
-might bring some insights into understanding and improving current
-techniques. Here we evaluate Tsui's neural networks, Pardo and
-Birmingham's HarmAn and Maxwell's expert system under this light. A
-k-nearest-neighbor algorithm considering surrounding context of a
-sonority has the best averaged precision and recall over all chord
-modes, while a neural network that looks only at a single sonority
-is the best overall chord labeler.
+  Chord finding is an important subset of harmonic analysis. Many
+  algorithms have been proposed, but no careful comparison between
+  them exists. Viewing chord finding as an information retrieval
+  problem might bring some insights into understanding and improving
+  current techniques. Here we evaluate Tsui's neural networks, Pardo
+  and Birmingham's HarmAn and Maxwell's expert system under this
+  light. A k-nearest-neighbors algorithm that examines a sonority and
+  its context has the best average precision and average recall, while
+  a neural network that looks only at a single sonority is the best
+  overall chord labeler.
 \end{abstract}
 
 \section{Introduction}
@@ -137,8 +137,7 @@ different evaluation methodology. We will use a baseline algorithm,
 k-nearest-neighbours, to assess how much can be done by just
 remembering previous classifications. We will also evaluate our
 algorithms by their precision and recall with respect to each chord
-mode, thereby showing where each most easily fails; and we will
-compute the bias of each algorithm regarding each chord mode.
+mode, thereby showing where each most easily fails.
 
 We will perform these evaluation on a corpus of 140 analyzed Bach
 Chorales from the Riemenschneider edition \cite{bach:371}. The code
@@ -233,9 +232,8 @@ classes of each sonority to be classified. This, unfortunately,
 makes it impossible for these algorithms to generalize to musical
 styles not very similar to a four-part chorale.
 
-We have implemented two decision trees: \texttt{s-tree} and
-\texttt{es-tree}. The only difference between them is that
-\texttt{es-tree} distinguishes enharmonic notes.
+We have implemented one decision trees: \texttt{es-tree}. It
+distinguishes enharmonic notes but ignores the surrounding context.
 
 \subsection{Artificial Neural Networks}
 \label{sec:neural-net}
@@ -258,15 +256,13 @@ distinguish enharmonic notes. Instead, we chose to transpose each
 sonority so that it has C as its bass note. This codification has
 interesting properties and has no accuracy burden.
 
-We have three neural network algorithms: \texttt{s-net},
-\texttt{es-net} and \texttt{ec-net}. \texttt{s-net} looks at one
-sonority at a time and discards enharmonic information. \texttt{es-net}
-looks at one sonority at a time but distinguishes enharmonic
-notes. \texttt{ec-net} is equivalent to \texttt{es-net}, but looks
-also at the surrounding context of a sonority. The number of hidden
-units on the neural networks were determined by benchmarking their
-performance against a separate validation set. The results are in
-figure \ref{fig:hidden-units}
+We have two neural network algorithms: \texttt{es-net} and
+\texttt{ec-net}.  \texttt{es-net} looks at one sonority at a time and
+\texttt{ec-net} also at the surrounding context of a sonority. Both
+algorithms distinguish enharmonic notes. The number of hidden units on
+the neural networks were determined by benchmarking their performance
+against a separate validation set. The results are in figure
+\ref{fig:hidden-units}
 
 \begin{figure}
   \centering
@@ -301,26 +297,67 @@ that the best k value is 1, using only the nearest neighbor, for
 in ec-knn are weighted but a factor of 2 times their distance from the
 current sonority.
 
-\section{Discussion}
+\section{Results}
 \label{sec:discussion}
+
+\comment{
+  ==> acordes aumentados só são detectados por contexto
+  ==> melhor algoritmo em precisão e recall: ec-knn
+  ==> melhor algoritmo em accuracy: es-net
+  ==> motivo: maior peso pra acordes maiores no total
+  ==> contexto não tão important
+  ==> enarmonia significativamente importante
+  ==> problemas de pardo: precisão e recall baixos de acordes maiores
+  e menores, ignorância de notas melódicas
+  ==> problemas de ec-net: problemas com acordes menores e notas melódicas
+}
+
+Overall, \texttt{ec-knn} has the best precision and recall, but
+\texttt{es-net} has the best f-measure, as seen in tables
+\ref{tab:precision}, \ref{tab:recall}, and \ref{tab:f-measure}. Table
+\ref{tab:accuracy} shows that \texttt{es-net} has also the best
+overall accuracy.
+
+Studying the errors also reveals some interesting information:
+\begin{itemize}
+\item diminished triads, fully diminished chords, and half-diminished
+  chords do not depend on contextual information to be recognized;
+\item augmented chords can not be recognized properly unless
+  contextual information is considered;
+\item recognizing non chord tones is also context-independent;
+\item a simple memory-based classifier like \texttt{ec-knn}
+  easily outperforms heuristic approaches;
+\item even though merely memorizing the notes of major chords with a major seventh
+  isn't enough to properly classify them a neural network is able to
+  do so without looking at the surrounding context for voice leading
+  clues; and
+\item Pardo and Birmingham's algorithm and our extension have very
+  good recall but terrible precision, probably due to their discarding
+  of voice leading clues.
+\end{itemize}
+
+Averaged f-measure over all chord types is, as expected, highly
+correlated with overall accuracy, as seen it table \ref{tab:accuracy},
+but usually has a lower value due to the equal footing given to less
+frequent chord modes.
 
 \begin{table}
   \centering
-  \begin{tabular}{l|p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}}
-   & EC-Knn&EC-net &ES-Knn &ES-net &ES-PB  &ES-tree&S-net  &S-PB   &S-tree \\
-\hline                                               
-M  &$93.7 $&$ 94.1$&$ 93.5$&$ 97.1$&$ 88.7$&$ 86.3$&$ 97.1$&$ 67.4$&$86.5$   \\
-M7 &$84.3 $&$ 79.7$&$ 85.0$&$ 93.9$&$ 73.8$&$ 79.5$&$ 89.7$&$ 73.3$&$79.2$   \\
-M7+&$31.7 $&$ 38.1$&$ 28.6$&$ 45.4$&$ 40.1$&$ 24.8$&$ 46.1$&$~~0.0$&$25.6$   \\
-m  &$88.7 $&$ 88.6$&$ 91.1$&$ 92.9$&$ 79.9$&$ 83.0$&$ 91.8$&$ 79.9$&$83.9$   \\
-m7 &$72.9 $&$ 69.9$&$ 73.0$&$ 72.9$&$ 83.9$&$ 68.8$&$ 82.5$&$~~0.0$&$64.7$   \\
-°  &$71.2 $&$ 55.7$&$ 72.5$&$ 76.2$&$ 69.1$&$ 56.7$&$ 73.9$&$ 66.8$&$50.2$   \\
-°7 &$67.4 $&$ 47.1$&$ 73.6$&$ 65.6$&$ 59.7$&$ 64.8$&$ 68.8$&$ 68.8$&$66.7$   \\
-ø  &$74.3 $&$ 52.3$&$ 83.4$&$ 77.8$&$ 42.1$&$ 79.4$&$ 77.2$&$ 42.0$&$79.0$   \\
-+  &$57.1 $&$ 40.0$&$~~0.0$&$~~0.0$&$ 31.8$&$~~0.0$&$~~0.0$&$~~0.0$&$~~0.$   \\
-!  &$20.0 $&$~~9.1$&$ 29.6$&$ 27.0$&$~~4.8$&$ 35.3$&$ 29.2$&$~~0.0$&$35.3$   \\
-nct&$88.4 $&$ 87.4$&$ 89.6$&$ 91.7$&$~~0.0$&$ 79.7$&$ 90.9$&$~~0.0$&$87.0$   \\
-avg&$68.2 $&$ 60.2$&$ 65.4$&$ 67.3$&$ 52.2$&$ 59.8$&$ 67.9$&$ 36.2$&$59.8$   \\
+  \begin{tabular}{l|p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}}
+   & EC-Knn&EC-net &ES-Knn &ES-net &ES-PB  &ES-tree&S-PB     \\
+\hline                                             
+M  &$93.7 $&$ 94.1$&$ 93.5$&$ \mathbf{97.1}$&$ 88.7$&$ 86.3$&$ 67.4$  \\
+M7 &$84.3 $&$ 79.7$&$ 85.0$&$ \mathbf{93.9}$&$ 73.8$&$ 79.5$&$ 73.3$  \\
+M7+&$31.7 $&$ 38.1$&$ 28.6$&$ \mathbf{45.4}$&$ 40.1$&$ 24.8$&$~~0.0$  \\
+m  &$88.7 $&$ 88.6$&$ 91.1$&$ \mathbf{92.9}$&$ 79.9$&$ 83.0$&$ 79.9$  \\
+m7 &$72.9 $&$ 69.9$&$ 73.0$&$ 72.9$&$ \mathbf{83.9}$&$ 68.8$&$~~0.0$  \\
+°  &$71.2 $&$ 55.7$&$ 72.5$&$ \mathbf{76.2}$&$ 69.1$&$ 56.7$&$ 66.8$  \\
+°7 &$67.4 $&$ 47.1$&$ \mathbf{73.6}$&$ 65.6$&$ 59.7$&$ 64.8$&$ 68.8$  \\
+ø  &$74.3 $&$ 52.3$&$ \mathbf{83.4}$&$ 77.8$&$ 42.1$&$ 79.4$&$ 42.0$  \\
++  &$57.1 $&$ 40.0$&$~~0.0$&$~~0.0$&$ 31.8$&$~~0.0$&$~~0.0$  \\
+!  &$20.0 $&$~~9.1$&$ 29.6$&$ 27.0$&$~~4.8$&$ \mathbf{35.3}$&$~~0.0$  \\
+nct&$88.4 $&$ 87.4$&$ 89.6$&$ \mathbf{91.7}$&$~~0.0$&$ 79.7$&$~~0.0$  \\
+avg&$\mathbf{68.2} $&$ 60.2$&$ 65.4$&$ 67.3$&$ 52.2$&$ 59.8$&$ 36.2$  \\
 
   \end{tabular}
 
@@ -334,22 +371,22 @@ nct: non-chord tone, !: incomplete chord
 
 \begin{table}
   \centering
-  \begin{tabular}{l|p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}}
+  \begin{tabular}{l|p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}}
 
-   &EC-Knn&EC-net &ES-Knn &ES-net &ES-PB  &ES-tree&S-net  &S-PB   &S-tree \\
+   &EC-Knn&EC-net &ES-Knn &ES-net &ES-PB  &ES-tree&S-PB   \\
 \hline                                            
-M  &$95.7$&$ 93.3$&$ 96.4$&$95.7 $&$ 95.2$&$ 94.2$&$96.3 $&$ 97.7$&$  95.2$ \\
-M7 &$94.8$&$ 85.7$&$ 94.4$&$92.5 $&$ 95.1$&$ 77.3$&$94.9 $&$ 95.3$&$  77.3$ \\
-M7+&$62.2$&$ 73.5$&$ 60.9$&$95.5 $&$ 96.8$&$ 63.7$&$95.5 $&$  0.0$&$  66.2$ \\
-m  &$92.4$&$ 90.4$&$ 92.9$&$95.4 $&$ 95.9$&$ 88.0$&$95.8 $&$ 95.8$&$  87.5$ \\
-m7 &$82.1$&$ 77.4$&$ 88.6$&$88.0 $&$ 77.2$&$ 64.1$&$79.9 $&$~~0.0$&$  65.2$ \\
-°  &$88.1$&$ 70.9$&$ 91.7$&$90.4 $&$ 89.5$&$ 55.9$&$91.0 $&$ 90.3$&$  68.9$ \\
-°7 &$71.6$&$ 69.1$&$ 82.7$&$98.8 $&$ 98.8$&$ 56.8$&$95.1 $&$ 95.1$&$  59.3$ \\
-ø  &$50.8$&$ 29.9$&$ 57.5$&$71.9 $&$ 81.6$&$ 46.2$&$72.5 $&$ 81.6$&$  46.4$ \\
-+  &$25.0$&$ 14.3$&$~~0.0$&$~~0.0$&$ 82.4$&$~~0.0$&$~~0.0$&$~~0.0$&$ ~~0.0$ \\
-!  &$14.6$&$~~4.7$&$ 19.0$&$57.1 $&$ 62.8$&$ 14.0$&$17.5 $&$~~0.0$&$  14.0$ \\
-nct&$67.0$&$ 73.3$&$ 64.8$&$74.5 $&$~~0.0$&$ 60.2$&$76.8 $&$~~0.0$&$  57.8$ \\
-avg&$88.4$&$ 87.4$&$ 89.6$&$78.2 $&$~~0.0$&$ 79.7$&$74.1 $&$~~0.0$&$  87.0$ \\
+M  &$95.7$&$ 93.3$&$ 96.4$&$95.7 $&$ 95.2$&$ 94.2$&$ \mathbf{97.7}$ \\
+M7 &$94.8$&$ 85.7$&$ 94.4$&$92.5 $&$ 95.1$&$ 77.3$&$ \mathbf{95.3}$ \\
+M7+&$62.2$&$ 73.5$&$ 60.9$&$95.5 $&$ \mathbf{96.8}$&$ 63.7$&$  0.0$ \\
+m  &$92.4$&$ 90.4$&$ 92.9$&$95.4 $&$ \mathbf{95.9}$&$ 88.0$&$ 95.8$ \\
+m7 &$82.1$&$ 77.4$&$ \mathbf{88.6}$&$88.0 $&$ 77.2$&$ 64.1$&$~~0.0$ \\
+°  &$88.1$&$ 70.9$&$ \mathbf{91.7}$&$90.4 $&$ 89.5$&$ 55.9$&$ 90.3$ \\
+°7 &$71.6$&$ 69.1$&$ 82.7$&$\mathbf{98.8} $&$ \mathbf{98.8}$&$ 56.8$&$ 95.1$ \\
+ø  &$50.8$&$ 29.9$&$ 57.5$&$71.9 $&$ \mathbf{81.6}$&$ 46.2$&$ \mathbf{81.6}$ \\
++  &$25.0$&$ 14.3$&$~~0.0$&$~~0.0$&$ \mathbf{82.4}$&$~~0.0$&$~~0.0$ \\
+!  &$14.6$&$~~4.7$&$ 19.0$&$57.1 $&$ \mathbf{62.8}$&$ 14.0$&$~~0.0$ \\
+nct&$67.0$&$ 73.3$&$ 64.8$&$\mathbf{74.5} $&$~~0.0$&$ 60.2$&$~~0.0$ \\
+avg&$\mathbf{88.4}$&$ 87.4$&$ 89.6$&$78.2 $&$~~0.0$&$ 79.7$&$~~0.0$ \\
   \end{tabular}                                                        
 
 \medskip
@@ -362,31 +399,65 @@ nct: non-chord-tone, !: incomplete chord
 
 \begin{table}
   \centering
-  \begin{tabular}{l|p{.5cm}p{.5cm}}
-       & $\%$     & $\sigma$ \\
-\hline
-es-net &$   90  $&$ 10$   \\
-es-knn &$   87  $&$~~9$   \\
-ec-knn &$   86  $&$ 10$   \\
-ec-net &$   84  $&$ 10$   \\ 
-s-net  &$   83  $&$ 14$   \\
-es-tree&$   79  $&$ 11$   \\
-es-pb  &$   75  $&$ 10$   \\
-s-tree &$   74  $&$ 15$   \\
-s-pb   &$   64  $&$ 14$   \\
+  \begin{tabular}{l|p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}}
+         
+   &EC-Knn &EC-net &ES-Knn &ES-net &ES-PB  &ES-tree&S-PB   \\
+\hline                                            
+M  & $94.7$&$ 93.7$&$ 94.9$&$ \mathbf{96.4}$&$ 91.8$&$ 90.1$&$ 79.8$\\
+M7 & $89.2$&$ 82.6$&$ 89.5$&$\mathbf{93.2} $&$ 83.1$&$ 78.4$&$ 82.9$\\
+M7+& $42.0$&$ 50.2$&$ 38.9$&$ \mathbf{61.5}$&$ 56.7$&$ 35.7$&$~~0.0$\\
+m  & $90.5$&$ 89.5$&$ 92.0$&$\mathbf{94.1} $&$ 87.2$&$ 85.4$&$ 87.1$\\
+m7 & $77.2$&$ 73.5$&$ 80.0$&$ 79.7$&$ \mathbf{80.4}$&$ 66.4$&$~~0.0$\\
+°  & $78.8$&$ 62.4$&$ 81.0$&$\mathbf{82.7} $&$ 78.0$&$ 56.3$&$ 76.8$\\
+°7 & $69.4$&$ 56.0$&$ 77.9$&$ 78.8$&$ 74.4$&$ 60.5$&$\mathbf{79.8} $\\
+ø  & $60.3$&$ 38.0$&$ 68.1$&$ \mathbf{74.7}$&$ 55.5$&$ 58.4$&$ 55.5$\\
++  & $34.8$&$ 21.1$&$~~0.0$&$~~0.0$&$\mathbf{45.9} $&$~~0.0$&$~~0.0$\\
+!  & $16.9$&$~~6.2$&$ 23.1$&$\mathbf{36.7} $&$~~8.9$&$ 20.0$&$~~0.0$\\
+nct& $76.2$&$ 79.7$&$ 75.2$&$ \mathbf{82.2}$&$~~0.0$&$ 68.6$&$~~0.0$\\
+avg& $66.3$&$ 59.3$&$ 65.5$&$ \mathbf{70.9}$&$ 60.1$&$ 56.3$&$ 41.9$\\
 
   \end{tabular}                                                        
 
 \medskip
 
 nct: non-chord-tone, !: incomplete chord
-  \caption{Accuracy (\%)}
+  \caption{F-measure (\%)}
+  \label{tab:f-measure}
+\end{table}
+
+
+
+\begin{table}
+  \centering
+  \begin{tabular}{l|p{1.5cm}p{.5cm}p{1.5cm}}
+       & accuracy    & $\sigma$  & f-measure\\
+\hline
+es-net &$   90  $&$ 10$      &$70.9$ \\
+es-knn &$   87  $&$~~9$      &$65.5$ \\
+ec-knn &$   86  $&$ 10$      &$66.3$ \\
+ec-net &$   84  $&$ 10$      &$59.3$ \\
+es-tree&$   79  $&$ 11$      &$56.3$ \\
+es-pb  &$   75  $&$ 10$      &$60.1$ \\
+s-pb   &$   64  $&$ 14$      &$41.9$ \\
+
+  \end{tabular}                                                        
+
+\medskip
+
+nct: non-chord-tone, !: incomplete chord
+  \caption{Overall Accuracy (\%)}
   \label{tab:accuracy}
 \end{table}
 
 \section{Conclusions}
 \label{sec:conclusions}
 
+We have evaluated algorithms for chord labeling of symbolic scores of
+tonal music on a corpus of 140 Bach chorales and have found that an
+artificial neural network is best such algorithm. We have also found
+that a simple memory-based classifier can outperform some heuristic
+algorithms. We also presented a modification to the algorithm
+described in \cite{pardo.ea:automated} that is demonstrably better.
 
 \bibliographystyle{plain}
 \bibliography{strings-short,ismir,programs,coding,harmonic-analysis,dont-have,artifical-inteligence,music-harmony-and-theory,licenses,icmc}
