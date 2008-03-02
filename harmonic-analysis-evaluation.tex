@@ -298,6 +298,97 @@ current sonority.
 \section{Discussion}
 \label{sec:discussion}
 
+\begin{table}
+  \centering
+  \begin{tabular}{l|p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}}
+   & EC-Knn&EC-net&ES-Knn&ES-net&ES-PB&ES-tree&S-net &S-PB &S-tree \\
+\hline                                               
+M  & 93.7  &94.1  &93.5  &97.1  &88.7 &86.3   &97.1  & 67.4&86.5   \\
+M7 & 84.3  &79.7  &85.0  &93.9  &73.8 &79.5   &89.7  & 73.3&79.2   \\
+M7+& 31.7  &38.1  &28.6  &45.4  &40.1 &24.8   &46.1  &~~0.0&25.6   \\
+m  & 88.7  &88.6  &91.1  &92.9  &79.9 &83.0   &91.8  & 79.9&83.9   \\
+m7 & 72.9  &69.9  &73.0  &72.9  &83.9 &68.8   &82.5  &~~0.0&64.7   \\
+°  & 71.2  &55.7  &72.5  &76.2  &69.1 &56.7   &73.9  & 66.8&50.2   \\
+°7 & 67.4  &47.1  &73.6  &65.6  &59.7 &64.8   &68.8  & 68.8&66.7   \\
+ø  & 74.3  &52.3  &83.4  &77.8  &42.1 &79.4   &77.2  & 42.0&79.0   \\
++  & 57.1  &40.0  &~~0.0 &~~0.0 &31.8 &~~0.0  &~~0.0 &~~0.0&~~0.0  \\
+!  & 20.0  &~~9.1 &29.6  &27.0  &~~4.8&35.3   &29.2  &~~0.0&35.3   \\
+nct& 88.4  &87.4  &89.6  &91.7  &~~0.0&79.7   &90.9  &~~0.0&87.0   \\
+avg& 68.2  &60.2  &65.4  &67.3  &52.2 &59.8   &67.9  &36.2&59.8   \\
+
+  \end{tabular}
+
+\medskip
+
+nct: non-chord tone, !: incomplete chord
+
+  \caption{Precision (\%)}
+  \label{tab:precision}
+\end{table}
+
+\begin{table}
+  \centering
+  \begin{tabular}{l|p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}p{.5cm}}
+
+   & EC-Knn&EC-net&ES-Knn&ES-net&ES-PB &ES-tree&S-net &S-PB  &S-tree \\
+\hline                                                
+M  & 95.7  & 93.3 & 96.4 &95.7  & 95.2 & 94.2  &96.3  & 97.7 &  95.2 \\
+M7 & 94.8  & 85.7 & 94.4 &92.5  & 95.1 & 77.3  &94.9  & 95.3 &  77.3 \\
+M7+& 62.2  & 73.5 & 60.9 &95.5  & 96.8 & 63.7  &95.5  &  0.0 &  66.2 \\
+m  & 92.4  & 90.4 & 92.9 &95.4  & 95.9 & 88.0  &95.8  & 95.8 &  87.5 \\
+m7 & 82.1  & 77.4 & 88.6 &88.0  & 77.2 & 64.1  &79.9  & ~~0.0 &  65.2 \\
+°  & 88.1  & 70.9 & 91.7 &90.4  & 89.5 & 55.9  &91.0  & 90.3 &  68.9 \\
+°7 & 71.6  & 69.1 & 82.7 &98.8  & 98.8 & 56.8  &95.1  & 95.1 &  59.3 \\
+ø  & 50.8  & 29.9 & 57.5 &71.9  & 81.6 & 46.2  &72.5  & 81.6 &  46.4 \\
++  & 25.0  & 14.3 & ~~0.0 &~~0.0  & 82.4 & ~~0.0  &~~0.0  & ~~0.0 &  ~~0.0 \\
+!  & 14.6  & ~~4.7 & 19.0 &57.1  & 62.8 & 14.0  &17.5  & ~~0.0 &  14.0 \\
+nct& 67.0  & 73.3 & 64.8 &74.5  & ~~0.0 & 60.2  &76.8  & ~~0.0 &  57.8 \\
+avg& 88.4  & 87.4 & 89.6 &78.2  & ~~0.0 & 79.7  &74.1  & ~~0.0 &  87.0 \\
+  \end{tabular}                                                        
+
+\medskip
+
+nct: non-chord-tone, !: incomplete chord
+  \caption{Recall (\%)}
+  \label{tab:recall}
+\end{table}
+
+
+\begin{table}
+  \centering
+  \begin{tabular}{l|p{.5cm}p{.5cm}}
+       & $\%$     & $\sigma$ \\
+\hline
+es-net &   90.13  & 10.29    \\
+es-knn &   87.13  & ~~9.98   \\
+ec-knn &   86.67  & 10.17    \\
+ec-net &   84.11  & 10.43    \\ 
+s-net  &   83.53  & 14.90    \\
+es-tree&   79.90  & 11.10    \\
+es-pb  &   75.56  & 10.32    \\
+s-tree &   74.39  & 15.70    \\
+s-pb   &   64.17  & 14.54    \\
+
+  \end{tabular}                                                        
+
+\medskip
+
+nct: non-chord-tone, !: incomplete chord
+  \caption{Accuracy (\%)}
+  \label{tab:accuracy}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \section{Conclusions}
@@ -305,9 +396,7 @@ current sonority.
 
 
 \bibliographystyle{plain}
-\bibliography{strings-short, ismir, programs, coding,
-  harmonic-analysis, dont-have, artifical-inteligence,
-  music-harmony-and-theory, licenses, icmc}
+\bibliography{strings-short,ismir,programs,coding,harmonic-analysis,dont-have,artifical-inteligence,music-harmony-and-theory,licenses,icmc}
 
 \end{document}
 
