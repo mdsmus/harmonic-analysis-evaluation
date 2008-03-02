@@ -99,8 +99,36 @@ benchmark found in literature \cite{pardo.ea:automated,
 difficults a thorough statistical evaluation of each technique's main
 merits and flaws.
 
+Chord finding in a tonal piece is definitely not trivial. While it is
+possible to make a good guess just by looking at the notes in a
+sonority, this guess is often wrong, and it is impossible to tell
+exactly how it is wrong without looking at the surrounding
+context. Also, many times a sonority might seem to form a chord, but
+that chord could have no tonal function in that part of the piece,
+and, instead, one or more of those notes are there for purely melodic
+purposes. For example, figure \nota{passos: botar figura do exemplo
+  v->acorde que parece diminuto->v7->i} shows a dominant chord that,
+in passing to a dominant chord with minor seventh, forms a
+configuration similar to that of a diminished chord. Therefore, some
+form of contextual information is necessary to correctly label a
+chord.
 
-
+A chord finding algorithm has to decide which of the possible
+labelings is best for a given sonority. Evaluating its performance
+with a simple metric such as the ratio of correct classifications
+might be useful to give an idea of how well it generally works, but
+hides many defficiencies in the less common chord types. For example,
+correctly labeling major chords, minor chords and non-chord tones in
+our corpus is enough to get a $77\%$ accuracy. Also, some chord modes
+are often mistaken for others (for example, a minor seventh chord
+might have the same notes as a major chord) and some algorithms tend
+to ignore less frequent chord modes. For these reasons we propose a
+different evaluation methodology. We will use a baseline algorithm,
+k-nearest-neighbours, to assess how much can be done by just
+remembering previous classifications. We will also evaluate our
+algorithms by their precision and recall with respect to each chord
+mode, thereby showing where each most easily fails; and we will
+compute the bias of each algorithm regarding each chord mode.
 
 \section{Algorithms}
 \label{sec:algorithms}
@@ -109,6 +137,8 @@ merits and flaws.
   ==> features usadas pelos algoritmos
   ==> técnicas variadas: busca X learning
 }
+
+
 
 \subsection{Pardo and Birmingham's algorithm}
 \label{sec:pardo}
