@@ -9,6 +9,7 @@
 %\usepackage[htt]{hyphenat}
 \usepackage{times}
 \usepackage{color}
+\usepackage[displaymath,textmath,sections,graphics,floats,auctex]{preview}
 
 \newcounter{notecounter}
 
@@ -16,14 +17,14 @@
   \addtocounter{notecounter}{1}
   \textcolor{red}{[note \arabic{notecounter}: #1]}
 }
-
 \newcommand{\comment}[1]{}
 
-\title{An evaluation of heuristic and machine learning algorithms for
+\title{An evaluation of some heuristic and machine learning algorithms for
   symbolic chord finding} \oneauthor {}{}
 %% Teoricamente é para não botar o nome do autor no artigo, por causa
 %% do processo de revisão.
 
+\PreviewEnvironment{enumerate,itemize}
 
 
 \begin{document}
@@ -46,12 +47,6 @@
 \section{Introduction}
 \label{sec:introduction}
 
-\comment{
-  ==> chord finding é importante, vários algoritmos propostos, poucas
-  comparações 
-  ==> revisar algoritmos
-  ==> descrever artigo
-}
 
 Chords are useful metadata. When an analyst perform harmonic analysis
 of a piece of tonal music he starts by noting where and what the
@@ -76,9 +71,10 @@ based on preference rules. These were followed by Pardo and
 Birmingham's HarmAn \cite{pardo.ea:automated}, Barthelemy and Bonardi
 \cite{barthelemy.ea:figured} and Taube's workbench
 \cite{taube:automatic}, all built using pattern-matching as their core
-chord-finding method. Following these are Tsui's \cite{tsui:harmonic}
-neural network algorithm and Temperley's \cite{temperley:bayesian}
-bayesian approach.
+chord-finding method. Following these are Tsui's
+neural network algorithm \cite{tsui:harmonic}, Temperley's 
+bayesian approach \cite{temperley:bayesian}, and Raphael and
+Stoddard's hidden Markov model \cite{raphael.ea:harmonic}.
 
 Here we present an evaluation Pardo and Birmingham's, Maxwell's,
 Tsui's and two orignal algorithms. First, in section
@@ -92,11 +88,6 @@ in section \ref{sec:conclusions}.
 \section{Methodology}
 \label{sec:methodology}
 
-\comment{
-  ==> um problema de information retrieval
-  ==> precision, recall (e significado)
-  ==> corais de bach
-}
 
 All these techniques and methods were described informally, and very
 little source code is avaliable for testing. Some articles, most
@@ -116,7 +107,7 @@ exactly how it is wrong without looking at the surrounding
 context. Also, many times a sonority might seem to form a chord, but
 that chord could have no tonal function in that part of the piece,
 and, instead, one or more of those notes are there for purely melodic
-purposes. For example, figure \note{passos: botar figura do exemplo
+purposes. For example, figure \note{ passos: botar figura do exemplo
   v->acorde que parece diminuto->v7->i} shows a dominant chord that,
 in passing to a dominant chord with minor seventh, forms a
 configuration similar to that of a diminished chord. Therefore, some
@@ -149,10 +140,6 @@ branch of a git \cite{baudis:git} repository at
 \section{Algorithms}
 \label{sec:algorithms}
 
-\comment{
-  ==> features usadas pelos algoritmos
-  ==> técnicas variadas: busca X learning
-}
 
 We study two main approaches to chord finding in this article:
 heuristic algorithms and machine learning techniques. A heuristic
@@ -175,17 +162,6 @@ intractable problem and a trivial one \cite{duda.ea:statistical}.
 \subsection{Pardo and Birmingham's algorithm}
 \label{sec:pardo}
 
-\comment{
-  ==> algoritmo descrito em \cite{pardo.ea:algorithms}
-  ==> baseado em templates e pattern matching
-  ==> ignora enarmonia
-  ==> feature é um conjunto de pitches
-  ==> nossa extensão:
-  ===> mais templates
-  ===> enarmonia
-  ==> regras de desempate: a princípio promissoras, mas a abordagem
-  não escala bem
-}
 
 Pardo and Birmingham \cite{pardo.ea:algorithms} describe a
 pattern-matching algorithm for chordal analysis based on
@@ -219,12 +195,6 @@ our extended version as \texttt{es-pb}.
 \subsection{Decision Trees}
 \label{sec:tree}
 
-\comment{
-  ==> ID3 algorithm
-  ==> features: sequência de pitches
-  ==> dependência em quatro vozes 
-}
-
 Our decision trees use the ID3 algorithm
 \cite{mitchell:machine}. Since our decision tree library can't handle
 numeric attributes well, the features we chose were the four pitch
@@ -238,11 +208,6 @@ distinguishes enharmonic notes but ignores the surrounding context.
 \subsection{Artificial Neural Networks}
 \label{sec:neural-net}
 
-\comment{
-  ==> features são weighted pitch counts
-  ==> simple/enharmonic-simple/context
-  ==> mostrar gráfico de hidden units
-}
 
 The artificial neural networks we used are modeled after Tsui's Root
 Network A \cite{tsui:harmonic}. The main differences are in the
@@ -275,14 +240,6 @@ against a separate validation set. The results are in figure
 \subsection{K-Nearest-Neighbors}
 \label{sec:knn}
 
-\comment{
-  ==> baseline (similar a pardo, templates automaticos)
-  ==> good theoretical performance (citar \cite{fix.ea:important}) 
-  ==> very good practical performance (citar
-  \cite{gomez.ea:estimating})
-  ==> dizer valor de k, peso do contexto
-}
-
 Due to its good performance \cite{fix.ea:important,
   gomez.ea:estimating} and simple model we have adopted the
 k-nearest-neighbours as a baseline algorithm. The features used in
@@ -300,17 +257,6 @@ current sonority.
 \section{Results}
 \label{sec:discussion}
 
-\comment{
-  ==> acordes aumentados só são detectados por contexto
-  ==> melhor algoritmo em precisão e recall: ec-knn
-  ==> melhor algoritmo em accuracy: es-net
-  ==> motivo: maior peso pra acordes maiores no total
-  ==> contexto não tão important
-  ==> enarmonia significativamente importante
-  ==> problemas de pardo: precisão e recall baixos de acordes maiores
-  e menores, ignorância de notas melódicas
-  ==> problemas de ec-net: problemas com acordes menores e notas melódicas
-}
 
 Overall, \texttt{ec-knn} has the best precision and recall, but
 \texttt{es-net} has the best f-measure, as seen in tables
