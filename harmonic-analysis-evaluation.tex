@@ -39,108 +39,99 @@
   problem might bring some insights into understanding and improving
   current techniques. Here we evaluate Tsui's neural networks, Pardo
   and Birmingham's HarmAn and Maxwell's expert system under this
-  light. A k-nearest-neighbors algorithm that examines a sonority and
-  its context has the best average precision and average recall, while
-  a neural network that looks only at a single sonority is the best
-  overall chord labeler.
+  light. A neural network that looks only at a single sonority is the
+  best overall chord labeler, having a higher precision and recall
+  than every other algorithm analyzed..
 \end{abstract}
 
 \section{Introduction}
 \label{sec:introduction}
 
-\note{simplificar}
-\note{chords are not metadata!!!!!!!!!!!}
-Chords are useful metadata. When an analyst perform harmonic analysis
-of a piece of tonal music he starts by noting where and what the
-possible chords are. Then, he uses this information to find the
-piece's tonality, cadence, modulations and overall structure. After
-analysis he can use this acquired information as he wishes, to, for
-example, understand the harmony of that piece, find other similar
-songs, or write an accompaniment. Finding the chords of a piece of
-tonal music is just metadata extraction, and the study of chord
-finding as such can increse understanding of the performance and
-limitations of current techniques.
-
-\note{melhorar}
-\note{citar illescas}
-The problem of automated finding the chord structure of symbolic
-scores has been approached from many directions, mostly mirroring
-approaches to natural language processing currently in fashion.
-First, Winograd \cite{winograd:linguistics} and Ulrich
-\cite{ulrich:analysis} developed backtracking parsers based of formal
-grammars and productions. After a hiatus they were followed by
-Maxwell's \cite{maxwell:expert} production rule-based expert system
-and Temperley and Sleator's Melisma \cite{temperley.ea:modeling},
-based on preference rules. These were followed by Pardo and
-Birmingham's HarmAn \cite{pardo.ea:algorithms}, Barthelemy and Bonardi
-\cite{barthelemy.ea:figured} and Taube's workbench
+\note{melhorar} The problem of automatcally finding the chord
+structure of symbolic scores has been approached from many directions
+since the sixties, using, ocasionally, many techniques developed for
+natural language processing. First, Winograd
+\cite{winograd:linguistics} and Ulrich \cite{ulrich:analysis}
+developed backtracking parsers based of formal grammars and
+productions. After a hiatus they were followed by Maxwell's
+\cite{maxwell:expert} production rule-based expert system and
+Temperley and Sleator's Melisma \cite{temperley.ea:modeling}, based on
+preference rules.  These were followed by Pardo and Birmingham's
+HarmAn \cite{pardo.ea:algorithms}, Barthelemy and Bonardi
+\cite{barthelemy.ea:figured}, and Taube's workbench
 \cite{taube:automatic}, all built using pattern-matching as their core
-chord-finding method. Following these are Tsui's
-neural network algorithm \cite{tsui:harmonic}, Temperley's 
-bayesian approach \cite{temperley:bayesian}, and Raphael and
-Stoddard's hidden Markov model \cite{raphael.ea:harmonic}.
+chord-finding method. Parallel to these are Tsui's neural network
+algorithm \cite{tsui:harmonic}, Temperley's bayesian approach
+\cite{temperley:bayesian}, and Raphael and Stoddard's hidden Markov
+model \cite{raphael.ea:harmonic}. Recently, Illescas et al designed a
+mixed system, based on rules and search through a graph of possible
+solutions \cite{illescas.ea:harmonic}.
 
 In this paper we present an evaluation of Pardo and Birmingham's,
-Maxwell's, Tsui's, and two original algorithms. \note{quem fez?}
-First, in section \ref{sec:methodology} we discuss our evaluation
-methodology. In section \ref{sec:algorithms} we present Pardo et al's
-HarmAn, Maxwell's algorithms, Tsui's artificial neural networks, our
-decision trees and a baseline k-nearest-neighbours method. We compare
-their overall performance in section \ref{sec:discussion} and state
-our case in section \ref{sec:conclusions}.
+Maxwell's, and Tsui's algorithms, together with two original
+algorithms of our making.  First, in section \ref{sec:methodology} we
+discuss our evaluation methodology. In section \ref{sec:algorithms} we
+present Pardo et al's HarmAn, Maxwell's algorithms, Tsui's artificial
+neural networks, our decision trees and our baseline
+k-nearest-neighbors method. We compare their overall performance in
+section \ref{sec:discussion} and state our case in section
+\ref{sec:conclusions}.
 
 \section{Methodology}
 \label{sec:methodology}
 
+Most of the techniques and methods mentioned in section
+\ref{sec:introduction} were not described rigorously, and very little
+source code is avaliable for testing. Some articles, most notably
+Barthelemy and Bonardi \cite{barthelemy.ea:figured} and Temperley and
+Sleator \cite{temperley.ea:modeling}, don't provide enough information
+to reproduce their results reliably. Every benchmark found in
+literature \cite{pardo.ea:automated, barthelemy.ea:figured,
+  tsui:harmonic, taube:automatic, illescas.ea:harmonic} is based only
+on published examples, and this difficults a thorough statistical
+evaluation of the main merits and flaws of each technique.
 
-All these techniques \note{que tecnicas?} and methods were described
-informally \note{formal}, and very little source code is avaliable for
-testing. Some articles, most notably Barthelemy and Bonardi
-\cite{barthelemy.ea:figured} and Temperley and Sleator
-\cite{temperley.ea:modeling}, don't provide enough information to
-reproduce their results reliably. Every benchmark found in literature
-\cite{pardo.ea:automated, barthelemy.ea:figured, tsui:harmonic,
-  taube:automatic, illescas.ea:harmonic} is based only on published
-examples, and this difficults a thorough statistical evaluation of
-the main merits and flaws of each technique.
+\begin{figure}
+  \centering
+  \includegraphics[scale=4]{coral-021}
+  \caption{An analyzed excerpt from chorale 21}
+  \label{fig:coral-021}
+\end{figure}
 
-Chord finding in a tonal piece is definitely not trivial. While it is
-possible to make a good guess just by looking at the notes in a
-sonority, \note{define} this guess is often wrong, and it is
-impossible to tell exactly how it is wrong without looking at the
-surrounding context. Also, many times a sonority might seem to form a
-chord, but that chord could have no tonal function in that part of the
-piece, and, instead, one or more of those notes are there for purely
-melodic purposes. For example, figure \note{ passos: botar figura do
-  exemplo v->acorde que parece diminuto->v7->i} shows a dominant chord
-that, in passing to a dominant chord with minor seventh, forms a
-configuration similar to that of a diminished chord. Therefore, some
-form of contextual information is necessary to correctly label a
-chord.
+Chord finding consists of labeling, when possible, set of
+simultaneously sounding notes (from now on referred to as sonorities)
+on a piece with a chord. While it is possible to make a good guess
+just by looking at the notes in a sonority, this guess is often wrong,
+and it is impossible to tell exactly how it is wrong without looking
+at the surrounding context. Also, many times a sonority might seem to
+form a chord, but that chord could have no tonal function in that part
+of the piece, and, instead, one or more of those notes are there for
+purely melodic purposes. For example, the G minor chord seen in
+partition 10 of figure \ref{fig:coral-021} can only be correctly
+recognized by looking at the preceding sonority. 
 
-\note{chord modes -> chord types} A chord finding algorithm has to
-decide which of the possible labelings is best for a given sonority.
-Evaluating its performance with a simple metric such as the ratio of
-correct classifications might be useful to give an idea of how well it
-generally works, but hides many defficiencies in the less common chord
-types. \note{colocar example in context} For example, correctly
-labeling major chords, minor chords and non-chord tones in our corpus
-is enough to get a $77\%$ accuracy. Also, some chord modes are often
-mistaken for others (for example, a minor seventh chord might have the
-same notes as a major chord) and some algorithms tend to ignore less
-frequent chord modes \note{as seen in foobar}. For these reasons we
-propose a different evaluation methodology. We will use a baseline
-algorithm, k-nearest-neighbours, to assess how much can be done by
-just remembering previous classifications. We will also evaluate our
+Evaluating a chord labeling algorithm's performance with a simple
+metric such as the ratio of correct classifications might be useful to
+give an idea of how well it generally works, but hides many
+defficiencies in the less common chord types, since major chords,
+minor chords and non-chord tones make $77\%$ of our corpus. Also, some
+chord types are often mistaken for others (for example, a minor
+seventh chord might have the same notes as a major chord) and some
+algorithms tend to ignore less frequent chord modes, as can be seen in
+section \ref{sec:discussion}. 
+
+To precisely detect each of these situations we propose a different
+evaluation methodology. We will use a baseline algorithm,
+k-nearest-neighbours, to assess how much can be done by just
+remembering previous classifications. We will also evaluate our
 algorithms by their precision and recall with respect to each chord
-mode, thereby showing where each most easily fails. \note{explicar
-  metodologia}
+mode, thereby showing where each most easily fails. 
 
 We will perform these evaluation on a corpus of 140 Bach Chorales from
 the Riemenschneider edition \cite{bach:371}. The code and data used in
 this evaluation are availiable, together with instructions to
 reproduce our analysis, at the \texttt{ismir2008} branch of a git
-\cite{baudis:git} repository at \url{git://genos.mus.br/rameau.git}.
+\cite{baudis:git} repository at \url{git://anonymous}.
 
 \section{Algorithms}
 \label{sec:algorithms}
@@ -163,6 +154,9 @@ space or preserving important invariances in the algorithm. The
 selection of appropriate features might be the difference between an
 intractable problem and a trivial one \cite{duda.ea:statistical}.
 
+The machine learning algorithms (k-nearest-neighbor, decision tree,
+and neural network) were trained on the chorales numbered 1, 2, 3, 4,
+5, 6, and 162 of the Riemenschneider corpus.
 
 \subsection{Pardo and Birmingham's algorithm}
 \label{sec:pardo}
@@ -175,8 +169,10 @@ across the piece for the labeling that better matches the notes found.
 When a tie happens between two templates, a tie-breaking heuristic is
 used (one such heuristic is ``prefer more common labelings''). In
 practice, most of the non-trivial decisions made by this algorithm are
-codified as tie-breaking rules, and this approach doesn't scale well.
-\note{citar alguem}
+codified as tie-breaking rules, and this approach doesn't scale
+well. Raphael and Stoddard describe problems common to rule based
+systems \cite{raphael.ea:harmonic}, and we have found that most of
+them also apply to Pardo and Birmingham's algorithm.
 
 Some limitations are obvious from the article. The algorithm, for
 example, has no notion of a minor chord with a minor seventh, or an
@@ -187,10 +183,10 @@ augmented sixth is shown being classified as a dominant seventh.
 
 We have extended the algorithm presented in the article by
 incorporating more chord templates (giving a total of ten chord
-templates) and giving it access to enharmonic information \note{pensar
-  em algo no lugar de giving access}, which improved the recall of
-fully diminished chords and the precision in recognizing major chords.
-We have also added an inversion detection. The original algorithm is
+templates) and enabling it to distinguish enharmonic tones, which
+improved the recall of fully diminished chords and the precision in
+recognizing major chords, as seen in section \ref{sec:discussion}.  We
+have also added inversion detection. The original algorithm is
 referred to as \texttt{s-pb} and our extended version as
 \texttt{es-pb}.
 
@@ -233,7 +229,9 @@ We have two neural network algorithms: \texttt{es-net} and
 algorithms distinguish enharmonic notes. The number of hidden units on
 the neural networks were determined by benchmarking their performance
 against a separate validation set. The results are in figure
-\ref{fig:hidden-units} \note{quais corais de treinamento?}
+\ref{fig:hidden-units}. It should be noted that, unlike Tsui, our
+neural networks have an overall worse accuracy as context is added, as
+can be seen in section \ref{sec:discussion}.
 
 \begin{figure}
   \centering
@@ -281,18 +279,21 @@ Studying the errors also reveals some interesting information:
 \item even though merely memorizing the notes of major chords with a major seventh
   isn't enough to properly classify them a neural network is able to
   do so without looking at the surrounding context for voice leading
-  clues; and
-\item Pardo and Birmingham's algorithm and our extension have very
-  good recall but terrible precision, probably due to their discarding
-  of non-chord tones.
+  clues;
+\item \texttt{s-pb} and \texttt{es-pb} have very good recall but
+  terrible precision, probably due to their discarding of non-chord
+  tones; and
+\item our baseline algorithm, \texttt{es-knn} outperforms every other
+  algorithm except the neural network \texttt{es-net}, which might
+  indicate that most of the complexity of chord labeling can be
+  handled by straight pattern matching.
 \end{itemize}
 
 Averaged f-measure over all chord types is, as expected, highly
 correlated with overall accuracy, as seen it table \ref{tab:accuracy},
 but usually has a lower value due to the equal footing given to less
-frequent chord modes.
+frequent chord types.
 
-\note{inc no lugar de !, aug, ø7}
 
 \begin{table}
   \centering
@@ -307,8 +308,8 @@ m7 &$ 74.2$&$ 68.9$&$ 76.0$&$ 83.9$&$ 72.9$&$ 69.3$&$~~0.0$  \\
 °  &$ 69.7$&$ 71.8$&$ 69.7$&$ 69.1$&$ 76.3$&$ 57.4$&$ 66.8$  \\
 °7 &$ 82.6$&$ 85.9$&$ 89.0$&$ 81.3$&$ 90.0$&$ 89.1$&$ 94.6$  \\
 ø  &$ 74.3$&$ 61.1$&$ 83.4$&$ 42.2$&$ 78.8$&$ 79.0$&$ 42.2$  \\
-+  &$ 44.4$&$~~5.4$&$~~0.0$&$ 31.8$&$~~0.0$&$~~6.7$&$~~0.0$  \\
-!  &$ 20.0$&$ 15.2$&$ 29.6$&$~~5.0$&$ 30.4$&$ 35.3$&$~~0.0$  \\
+aug&$ 44.4$&$~~5.4$&$~~0.0$&$ 31.8$&$~~0.0$&$~~6.7$&$~~0.0$  \\
+inc&$ 20.0$&$ 15.2$&$ 29.6$&$~~5.0$&$ 30.4$&$ 35.3$&$~~0.0$  \\
 nct&$ 87.8$&$ 87.8$&$ 88.2$&$~~0.0$&$ 91.7$&$ 84.9$&$~~0.0$  \\
 avg&$ 86.1$&$ 85.4$&$ 86.8$&$ 75.0$&$ 90.2$&$ 80.0$&$ 69.8$  \\
 
@@ -316,7 +317,7 @@ avg&$ 86.1$&$ 85.4$&$ 86.8$&$ 75.0$&$ 90.2$&$ 80.0$&$ 69.8$  \\
 
 \medskip
 
-nct: non-chord tone, !: incomplete chord
+nct: non-chord tone, inc: incomplete chord, aug: augmented chord
 
   \caption{Precision (\%)}
   \label{tab:precision}
@@ -336,15 +337,16 @@ m7 &$79.9$&$ 75.1$&$ 84.4$&$ 77.2$&$ 88.0$&$ 61.7$&$~~0.0$ \\
 °  &$91.7$&$ 78.3$&$ 93.8$&$ 95.1$&$ 96.5$&$ 68.4$&$ 96.0$ \\
 °7 &$64.5$&$ 72.5$&$ 73.6$&$ 99.1$&$ 99.1$&$ 51.8$&$ 96.4$ \\
 ø  &$51.6$&$ 55.6$&$ 58.4$&$ 83.2$&$ 73.0$&$ 47.3$&$ 83.2$ \\
-+  &$25.0$&$ 13.3$&$~~0.0$&$ 82.4$&$~~0.0$&$~~6.2$&$~~0.0$ \\
-!  &$14.6$&$ 11.6$&$ 19.5$&$ 65.1$&$ 41.5$&$ 14.3$&$~~0.0$ \\
+aug&$25.0$&$ 13.3$&$~~0.0$&$ 82.4$&$~~0.0$&$~~6.2$&$~~0.0$ \\
+inc&$14.6$&$ 11.6$&$ 19.5$&$ 65.1$&$ 41.5$&$ 14.3$&$~~0.0$ \\
 nct&$68.4$&$ 74.3$&$ 66.4$&$~~0.0$&$ 75.6$&$ 60.3$&$~~0.0$ \\
 avg&$85.7$&$ 84.9$&$ 86.4$&$ 74.4$&$ 90.0$&$ 79.4$&$ 69.0$ \\
   \end{tabular}                                                        
 
 \medskip
 
-nct: non-chord-tone, !: incomplete chord
+nct: non-chord tone, inc: incomplete chord, aug: augmented chord, avg:
+weighted average over all chord types
   \caption{Recall (\%)}
   \label{tab:recall}
 \end{table}
@@ -364,8 +366,8 @@ m7 &$ 76.9$&$ 71.9$&$ 80.0$&$ 80.4$&$ 79.7$&$ 65.3$&$~~0.0$\\
 °  &$ 79.2$&$ 74.9$&$ 80.0$&$ 80.0$&$ 85.2$&$ 62.4$&$ 78.8$\\
 °7 &$ 72.4$&$ 78.6$&$ 80.6$&$ 89.3$&$ 94.3$&$ 65.5$&$ 95.5$\\
 ø  &$ 60.9$&$ 58.2$&$ 68.7$&$ 56.0$&$ 75.8$&$ 59.2$&$ 56.0$\\
-+  &$ 32.0$&$~~7.7$&$~~0.0$&$ 45.9$&$~~0.0$&$~~6.4$&$~~0.0$\\
-!  &$ 16.9$&$ 13.2$&$ 23.5$&$~~9.3$&$ 35.1$&$ 20.4$&$~~0.0$\\
+aug&$ 32.0$&$~~7.7$&$~~0.0$&$ 45.9$&$~~0.0$&$~~6.4$&$~~0.0$\\
+inc&$ 16.9$&$ 13.2$&$ 23.5$&$~~9.3$&$ 35.1$&$ 20.4$&$~~0.0$\\
 nct&$ 76.9$&$ 80.5$&$ 75.8$&$~~0.0$&$ 82.9$&$ 70.5$&$~~0.0$\\
 avg&$ 85.9$&$ 85.1$&$ 86.6$&$ 74.7$&$ 90.1$&$ 79.7$&$ 69.4$\\
 
@@ -373,7 +375,8 @@ avg&$ 85.9$&$ 85.1$&$ 86.6$&$ 74.7$&$ 90.1$&$ 79.7$&$ 69.4$\\
 
 \medskip
 
-nct: non-chord-tone, !: incomplete chord
+nct: non-chord tone, inc: incomplete chord, aug: augmented chord, avg:
+weighted average over all chord types
   \caption{F-measure (\%)}
   \label{tab:f-measure}
 \end{table}
@@ -397,12 +400,11 @@ s-pb   &$   64  $&$ 14$      &$69.4$ \\
 
 \medskip
 
-nct: non-chord-tone, !: incomplete chord
   \caption{Overall Accuracy (\%)}
   \label{tab:accuracy}
 \end{table}
 
-\section{Conclusions}
+\section{Conclusions and future work}
 \label{sec:conclusions}
 
 We have evaluated algorithms for chord labeling of symbolic scores of
@@ -411,6 +413,13 @@ artificial neural network is best such algorithm. We have also found
 that a simple memory-based classifier can outperform some heuristic
 algorithms. We also presented a modification to the algorithm
 described in \cite{pardo.ea:algorithms} that is demonstrably better.
+
+We will continue to reimplement, test, and benchmark algorithms for
+automated harmonic analysis. The highest priority one is Raphael and
+Stoddard's hidden Markov model \cite{raphael.ea:harmonic}. We will
+also extend our test corpus incorporating Beethoven sonatas, the
+Kostka-Payne corpus \cite{temperley:bayesian}, Bach partitas, and
+other representative tonal pieces.
 
 \bibliographystyle{plain}
 \bibliography{strings-short,ismir,programs,coding,harmonic-analysis,dont-have,artifical-inteligence,music-harmony-and-theory,licenses,icmc}
