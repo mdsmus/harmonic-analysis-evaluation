@@ -127,8 +127,8 @@ chord & meaning \\ \hline
 
 \begin{table*}
 \centering
-\begin{tabular}{l|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}}
-      &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct  \\  \hline
+\begin{tabular}{l||p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|}
+      &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct  \\  \hline\hline
     M & $ 452 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   6 $ \\ \hline
    M7 & $ $& $ 107 $& $ $& $   2 $& $ $& $   6 $& $ $& $ $& $ $& $ $& $ $& $  10 $ \\ \hline
   M7+ & $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $  16 $ \\ \hline
@@ -181,7 +181,11 @@ recall.
 
 We will perform this evaluation on a corpus of 40 manually analyzed
 \note{eu ainda acho que vale a pena deixar mais claro que isso e feito
-  nos gabaritos, etc. passos: eu não acho, e não sei como dizer diferente}
+  nos gabaritos, etc. passos: eu não acho, e não sei como dizer
+  diferente. kroger: ``manually analyzed'' significa que alguem
+  analizou na mao, mas nao deixa claro e explicito que o resultado da
+  analise é salva em arquivos com codificacao especifica para isso e é
+usada para comparar os resultados e no treinamento.}
 Bach Chorales from the Riemenschneider edition \cite{bach:371}. The
 code and data used in this evaluation are available, together with
 instructions to reproduce our analysis, at
@@ -193,9 +197,9 @@ instructions to reproduce our analysis, at
 
 \begin{table*}
 \centering
-\begin{tabular}{l|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}}
-      &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct  \\  \hline
-    M & $ 451 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   8 $& $ $& $ $ \\ \hline
+\begin{tabular}{l||p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|}
+      &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct  \\  \hline\hline
+    M & $ 451 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   8 $& $ $& $ $ \\ 
    M7 & $ $& $ 111 $& $   2 $& $   2 $& $ $& $   6 $& $ $& $ $& $ $& $ $& $ $& $ $ \\ \hline
   M7+ & $ $& $ $& $   8 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $ \\ \hline
     m & $   2 $& $ $& $ $& $ 205 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $ \\ \hline
