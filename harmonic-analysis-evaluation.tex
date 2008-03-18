@@ -291,16 +291,14 @@ enharmonic notes. Instead, we chose to transpose each sonority so that
 it has C as its lowest note. This codification also preserves
 transposition invariance and allows a much simpler network structure.
 
-We have two neural network algorithms: \texttt{es-net} and
-\texttt{ec-net}. \texttt{es-net} looks at one sonority at a time and
-\texttt{ec-net} also examines the surrounding context of a sonority.
-Both algorithms distinguish enharmonic notes. \note{merge 3 ultimas
-  frases} It should be noted that, unlike Tsui, our neural networks
-have an overall worse accuracy as context is added, as can be seen in
-section \ref{sec:discussion}. Our experiments determined that the best
-amount of contextual information is the least possible, so
-\texttt{ec-net} looks only at one preceding and one following
-sonority.
+We implemented two neural network algorithms: \texttt{es-net}, that
+does not use contextual information, and \texttt{ec-net}, which
+does. Both distinguish enharmonic notes.  It should be noted that,
+unlike Tsui, our neural networks have an overall worse accuracy as
+context is added, as can be seen in section \ref{sec:discussion}. Our
+experiments determined that the best amount of contextual information
+is the least possible, so \texttt{ec-net} looks only at one preceding
+and one following sonority.
 
 
 \subsection{K-Nearest-Neighbors}
@@ -449,14 +447,14 @@ also presented a modification to the algorithm described in
 \cite{pardo.ea:algorithms} that is demonstrably better.
 
 We will continue to reimplement, test, and benchmark algorithms for
-automated harmonic analysis. The highest priority algorithms are
-Raphael and Stoddard's hidden Markov model \cite{raphael.ea:harmonic}
-and Maxwell's expert system \cite{maxwell:expert}. \note{merge 2
-  ultimas frases} We will also extend our test corpus to incorporate
-Beethoven sonatas, the Kostka-Payne corpus \cite{temperley:bayesian},
-Bach partitas, and other representative tonal pieces. Our aim is to
-benchmark and study the whole harmonic analysis process, from pitch
-spelling to functional and non-chord tone analysis.
+automated chord labeling and harmonic analysis, starting with Raphael
+and Stoddard's hidden Markov model \cite{raphael.ea:harmonic} and
+Maxwell's expert system \cite{maxwell:expert}.  We will also extend
+our test corpus to incorporate Beethoven sonatas, the Kostka-Payne
+corpus \cite{temperley:bayesian}, Bach partitas, and other
+representative tonal pieces. Our aim is to benchmark and study the
+whole harmonic analysis process, from pitch spelling to functional and
+non-chord tone analysis.
 
 \bibliographystyle{plain}
 \bibliography{strings-short,ismir,programs,coding,harmonic-analysis,dont-have,artifical-inteligence,music-harmony-and-theory,licenses,icmc}
