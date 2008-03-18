@@ -153,13 +153,12 @@ chord & meaning \\ \hline
 
 
 
-Evaluating a chord labeling algorithm's performance \note{Evaluating
-  the performance of a chord labeling algorithm} with a simple metric
-such as the ratio of correct classifications might be useful to give
-an idea of how well it generally works, but hides many defficiencies
-in the less common chord types \note{``but hides many defficiencies in
-  the less common chord types'' é estranho}. Some chord types are
-often mistaken for others, as can be seen in table
+Evaluating the performance of a chord labeling algorithm with a simple
+metric such as the ratio of correct classifications might be useful to
+give an idea of how well it generally works, but hides many
+defficiencies in the less common chord types \note{``but hides many
+  defficiencies in the less common chord types'' é estranho}. Some
+chord types are often mistaken for others, as can be seen in table
 \ref{tab:erros-es-net}, and some algorithms tend to ignore less
 frequent chord modes, as can be seen in table \ref{tab:erros-es-pb}.
 
@@ -173,21 +172,22 @@ The decision of evaluating chord labeling performance using precision
 and recall is a bit unusual, and deserves justification. Here, we
 assume that the aim of our algorithms is to retrieve correctly each
 sonority belonging to a certain chord type from a song. We also treat
-detecting \note{the detection of} each chord type separately. Hence,
-every time a diminished chord is misclassified as a non chord tone,
-for example, the recall of diminished chords gets smaller, while the
-precision of the non-chord tones get smaller. Having this data allows
-us to detect biases in the algorithms, and highlight some of their
-properties. For example, Pardo and Birmingham's algorithm, as seen in
-section \ref{sec:discussion}, has a high recall and a small precision,
-while the machine learning algorithms have mostly equivalent precision
-and recall.
+the detection of each chord type separately. Hence, every time a
+diminished chord is misclassified as a non chord tone, for example,
+the recall of diminished chords gets smaller, while the precision of
+the non-chord tones get smaller. Having this data allows us to detect
+biases in the algorithms, and highlight some of their properties. For
+example, Pardo and Birmingham's algorithm, as seen in section
+\ref{sec:discussion}, has a high recall and a small precision, while
+the machine learning algorithms have mostly equivalent precision and
+recall.
 
 We will perform this evaluation on a corpus of 40 manually analyzed
 \note{eu ainda acho que vale a pena deixar mais claro que isso e feito
-  nos gabaritos, etc} Bach Chorales from the Riemenschneider edition
-\cite{bach:371}. The code and data used in this evaluation are
-available, together with instructions to reproduce our analysis, at
+  nos gabaritos, etc. passos: eu não, não tem como fazer diferente}
+Bach Chorales from the Riemenschneider edition \cite{bach:371}. The
+code and data used in this evaluation are available, together with
+instructions to reproduce our analysis, at
 \url{http://anonymous}\footnote{Url hidden to provide anonymity, the
   complete url will appear in the final publication}.
 
@@ -228,6 +228,8 @@ were trained on the chorales numbered 1, 2, 3, 4, 5, and 6 of the
 Riemenschneider corpus, plus some textbook examples of augmented
 sixths and augmented chords. These chorales were not used in our
 subsequent evaluation.
+\note{eu acho bom definir o que
+  é features. ismir é uma conferencia multi-disciplinar}
 
 \subsection{Pardo and Birmingham's algorithm}
 \label{sec:pardo}
@@ -247,33 +249,28 @@ them also apply to Pardo and Birmingham's algorithm.
 
 Some limitations are obvious from the article. The algorithm, for
 example, has no notion of a minor chord with a minor seventh, or an
-augmented chord, or a chord without a third (and, consequently, having
-a melodic purpose on the piece) \note{eu tiraria essa frase entre
-  parenteses porque nem sempre isso é verdade}. Also, since their
-system ignores enharmonic information some fine distinctions are lost,
-and a german augmented sixth is shown being classified
-\note{erroneously} as a dominant seventh. We have then extended the
-algorithm presented in the article by incorporating more chord
-templates (giving a total of ten chord templates \note{tira ``chord
-  templates''}) and enabling it to distinguish enharmonic tones, which
-improved the recall of fully diminished chords and the precision in
-recognizing major chords, as seen in section \ref{sec:discussion}. We
-have also added inversion detection. The original algorithm is
-referred to as \texttt{s-pb} and our extended version as
-\texttt{es-pb}.
+augmented chord, or a chord without a third. Also, since their system
+ignores enharmonic information some fine distinctions are lost, and a
+german augmented sixth is shown being classified erroneously as a
+dominant seventh. We have then extended the algorithm presented in the
+article by incorporating more chord templates (giving a total of ten)
+and enabling it to distinguish enharmonic tones, which improved the
+recall of fully diminished chords and the precision in recognizing
+major chords, as seen in section \ref{sec:discussion}. We have also
+added inversion detection. The original algorithm is referred to as
+\texttt{s-pb} and our extended version as \texttt{es-pb}.
 
 \subsection{Decision Tree}
 \label{sec:tree}
 
 Our decision tree uses the ID3 algorithm \cite{mitchell:machine}.
 Since our decision tree library can't handle numeric attributes well,
-the features we chose were the four pitch classes of each sonority to
-be classified. \note{colocar voz ativa} This, unfortunately, makes it
-impossible for this algorithm to generalize to musical styles not very
-similar to a four-part chorale, although an extension to allow this is
-planned. Our decision tree algorithm is named \texttt{es-tree}. It
-distinguishes enharmonic notes but ignores the surrounding context.
-\note{esse paragrafo tem muito ``our decision tree''}
+we use the four pitch classes of each sonority to be classified as
+features . This, unfortunately, makes it impossible for this algorithm
+to generalize to musical styles not very similar to a four-part
+chorale, although an extension to allow this is planned. This
+algorithm is named \texttt{es-tree}. It distinguishes enharmonic notes
+but ignores the surrounding context.
 
 \subsection{Artificial Neural Networks}
 \label{sec:neural-net}
@@ -282,17 +279,15 @@ distinguishes enharmonic notes but ignores the surrounding context.
 The artificial neural networks we used are modeled after Tsui's Root
 Network A \cite{tsui:harmonic}. The main differences are in the
 feature extraction process and that we consider chord types other than
-major and minor. Tsui uses as features \note{eu acho bom definir o que
-  é features. ismir é uma conferencia multi-disciplinar} a vector,
-each position containing how many times one pitch class sounds in a
-given sonority. On training, he \note{the algorithm} first transposes
-each sonority to the 12 possible pitch classes to ensure that the
-network is invariant under transposition. While interesting, this
-approach becomes computationally prohibitive if one wants to
-distinguish enharmonic notes. Instead, we chose to transpose each
-sonority so that it has C as its lowest note. This codification also
-preserves transposition invariance and allows a much simpler network
-structure.
+major and minor. Tsui uses as features a vector, each position
+containing how many times one pitch class sounds in a given
+sonority. On training, Tsui's algorithm first transposes each sonority
+to the 12 possible pitch classes to ensure that the network is
+invariant under transposition. While interesting, this approach
+becomes computationally prohibitive if one wants to distinguish
+enharmonic notes. Instead, we chose to transpose each sonority so that
+it has C as its lowest note. This codification also preserves
+transposition invariance and allows a much simpler network structure.
 
 We have two neural network algorithms: \texttt{es-net} and
 \texttt{ec-net}. \texttt{es-net} looks at one sonority at a time and
@@ -446,11 +441,10 @@ s-pb   &$   66  $&$ 17$      &$73.7$ \\
 We have evaluated algorithms for chord labeling of symbolic scores of
 tonal music on a corpus of 40 Bach chorales and have found that an
 artificial neural network that does not use contextual information is
-the best such algorithm \note{``best such algorithm'' is kind of
-  ugly}. We have also found that a simple memory-based classifier can
-outperform some heuristic algorithms. We also presented a modification
-to the algorithm described in \cite{pardo.ea:algorithms} that is
-demonstrably better.
+the best algorithm evaluated. We have also found that a simple
+memory-based classifier can outperform some heuristic algorithms. We
+also presented a modification to the algorithm described in
+\cite{pardo.ea:algorithms} that is demonstrably better.
 
 We will continue to reimplement, test, and benchmark algorithms for
 automated harmonic analysis. The highest priority algorithms are
