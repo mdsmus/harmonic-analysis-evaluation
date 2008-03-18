@@ -82,16 +82,15 @@ Illescas et al. designed a mixed system, based on rules and search
 through a graph of possible solutions \cite{illescas.ea:harmonic}.
 
 Most of these techniques and methods were not described rigorously,
-and very little source code is avaliable for testing. Some articles,
-most notably Barthelemy and Bonardi \cite{barthelemy.ea:figured} and
-Temperley and Sleator \cite{temperley.ea:modeling}, don't provide
-enough information to reproduce their results reliably. \note{alguma
-  ligaçao, e.g. ``Also,''} Every
-benchmark found in literature \cite{pardo.ea:automated,
-  barthelemy.ea:figured, tsui:harmonic, taube:automatic,
-  illescas.ea:harmonic} is based only on published examples, and this
-difficults a thorough statistical evaluation of the main merits and
-flaws of each technique.
+and very little source code is avaliable for testing, which is a
+problem since some articles, most notably Barthelemy and Bonardi
+\cite{barthelemy.ea:figured} and Temperley and Sleator
+\cite{temperley.ea:modeling}, don't provide enough information to
+reproduce their results reliably. Every benchmark found in literature
+\cite{pardo.ea:automated, barthelemy.ea:figured, tsui:harmonic,
+  taube:automatic, illescas.ea:harmonic} is based only on published
+examples, and this difficults a thorough statistical evaluation of the
+main merits and flaws of each technique.
 
 In this paper we present an evaluation of Pardo and Birmingham's and
 Tsui's algorithms, together with two original algorithms we propose.
@@ -155,18 +154,16 @@ chord & meaning \\ \hline
 
 Evaluating the performance of a chord labeling algorithm with a simple
 metric such as the ratio of correct classifications might be useful to
-give an idea of how well it generally works, but hides many
-defficiencies in the less common chord types \note{``but hides many
-  defficiencies in the less common chord types'' é estranho}. Some
-chord types are often mistaken for others, as can be seen in table
-\ref{tab:erros-es-net}, and some algorithms tend to ignore less
-frequent chord modes, as can be seen in table \ref{tab:erros-es-pb}.
+give an idea of how well it generally works, but may hides errors in
+analyzing uncommon chord types. Some chord types are often mistaken
+for others, as can be seen in table \ref{tab:erros-es-net}, and some
+algorithms tend to ignore less frequent chord modes, as can be seen in
+table \ref{tab:erros-es-pb}.
 
-To precisely detect each of these situations \note{what situations?}
-we propose a different evaluation methodology. We will evaluate our
-algorithms by their precision and recall with respect to each chord
-mode, thereby showing where each most easily fails \note{``where each
-  most easily fails'' too wordy}.
+To precisely detect each of the possible errors we propose a different
+evaluation methodology. We will evaluate our algorithms by their
+precision and recall with respect to each chord mode, thereby showing
+the weaknesses of each algorithm.
 
 The decision of evaluating chord labeling performance using precision
 and recall is a bit unusual, and deserves justification. Here, we
@@ -184,7 +181,7 @@ recall.
 
 We will perform this evaluation on a corpus of 40 manually analyzed
 \note{eu ainda acho que vale a pena deixar mais claro que isso e feito
-  nos gabaritos, etc. passos: eu não, não tem como fazer diferente}
+  nos gabaritos, etc. passos: eu não acho, e não sei como dizer diferente}
 Bach Chorales from the Riemenschneider edition \cite{bach:371}. The
 code and data used in this evaluation are available, together with
 instructions to reproduce our analysis, at
@@ -219,17 +216,22 @@ instructions to reproduce our analysis, at
 \label{tab:erros-es-pb}
 \end{table*}
 
-\note{eu acho que esse paragrafo ficou solto, a versao origiral, com
-  algumas melhorias estava melhor}
+Chord labeling is a classification problem, consisting of labeling
+each sonority (or sequence of sonorities) in a score with a chord
+type. Most classification algorithms operate on a set of features,
+that are previously extracted from the data. This is done mainly to
+remove irregularities in the original inputs, reduce the
+dimensionality (thereby making a problem more tractable) of the
+problem, and remove noise. Each classification algorithm we present
+operates on a distinct set of features, mostly derived from the
+pitches of the notes. Metrical information is ignored, for now.
 
-In this paper we evaluate Pardo and Birmingham's algorithm and a few
-assorted machine learning techniques. The machine learning algorithms
-were trained on the chorales numbered 1, 2, 3, 4, 5, and 6 of the
-Riemenschneider corpus, plus some textbook examples of augmented
+In this section we present Pardo and Birmingham's algorithm and a few
+machine learning techniques. The machine learning algorithms were
+trained on the chorales numbered 1, 2, 3, 4, 5, and 6 of the
+Riemenschneider edition and on some textbook examples of augmented
 sixths and augmented chords. These chorales were not used in our
 subsequent evaluation.
-\note{eu acho bom definir o que
-  é features. ismir é uma conferencia multi-disciplinar}
 
 \subsection{Pardo and Birmingham's algorithm}
 \label{sec:pardo}
