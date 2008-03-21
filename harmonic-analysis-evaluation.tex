@@ -127,22 +127,21 @@ chord & meaning \\ \hline
 
 \begin{table*}
 \centering
-\begin{tabular}{l||p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|}
-      &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct  \\  \hline\hline
-    M & $ 452 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   6 $ \\ \hline
-   M7 & $ $& $ 107 $& $ $& $   2 $& $ $& $   6 $& $ $& $ $& $ $& $ $& $ $& $  10 $ \\ \hline
-  M7+ & $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $  16 $ \\ \hline
-    m & $   2 $& $ $& $ $& $ 204 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   2 $ \\ \hline
-   m7 & $ $& $   2 $& $ $& $ $& $  56 $& $ $& $ $& $ $& $ $& $ $& $ $& $   2 $ \\ \hline
-    ° & $ $& $ $& $ $& $ $& $ $& $  59 $& $ $& $   4 $& $ $& $ $& $ $& $   2 $ \\ \hline
-   °7 & $ $& $   2 $& $ $& $ $& $ $& $ $& $  17 $& $ $& $ $& $ $& $ $& $ $ \\ \hline
-   ø7 & $ $& $ $& $ $& $ $& $   2 $& $ $& $ $& $  26 $& $ $& $ $& $ $& $ $ \\ \hline
-  aug & $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   4 $ \\ \hline
-  inc & $ $& $ $& $ $& $   2 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   4 $ \\ \hline
- aug6 & $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   1 $& $ $ \\ \hline
-  nct & $   5 $& $  12 $& $ $& $  30 $& $  33 $& $   4 $& $   2 $& $   8 $& $ $& $ $& $ $& $ 183 $ \\ \hline
+\begin{tabular}{l||r|r|r|r|r|r|r|r|r|r|r|r|r|}
+      &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct \\  \hline \hline
+    M & $ 507 $ & $   2 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   6 $ \\ \hline
+   M7 & $     $ & $ 117 $ & $     $ & $   2 $ & $     $ & $   6 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   8 $ \\ \hline
+  M7+ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  16 $ \\ \hline
+    m & $   2 $ & $     $ & $     $ & $ 218 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   2 $ \\ \hline
+   m7 & $     $ & $   2 $ & $     $ & $     $ & $  64 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   4 $ \\ \hline
+   ° & $     $ & $     $ & $     $ & $     $ & $     $ & $  65 $ & $   2 $ & $     $ & $     $ & $     $ & $     $ & $   2 $ \\ \hline
+  °7 & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  21 $ & $     $ & $     $ & $     $ & $     $ & $   2 $ \\ \hline
+  ø7 & $     $ & $     $ & $     $ & $     $ & $   2 $ & $     $ & $     $ & $  25 $ & $     $ & $     $ & $   2 $ & $     $ \\ \hline
+  aug & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   4 $ \\ \hline
+  inc & $     $ & $   4 $ & $     $ & $   2 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ \\ \hline
+ aug6 & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   2 $ & $     $ \\ \hline
+  nct & $   5 $ & $  20 $ & $     $ & $  30 $ & $  39 $ & $   4 $ & $   2 $ & $   8 $ & $     $ & $     $ & $     $ & $ 205 $ \\ \hline
 \end{tabular}
-
 
 \caption{Classifications made by our best algorithm, \texttt{ES-net}. The rows represent
   the expected answers while the columns are the returned
@@ -180,39 +179,31 @@ the machine learning algorithms have mostly equivalent precision and
 recall.
 
 We will perform this evaluation on a corpus of 40 manually analyzed
-\note{eu ainda acho que vale a pena deixar mais claro que isso e feito
-  nos gabaritos, etc. passos: eu não acho, e não sei como dizer
-  diferente. kroger: ``manually analyzed'' significa que alguem
-  analizou na mao, mas nao deixa claro e explicito que o resultado da
-  analise é salva em arquivos com codificacao especifica para isso e é
-usada para comparar os resultados e no treinamento.}
-Bach Chorales from the Riemenschneider edition \cite{bach:371}. The
-code and data used in this evaluation are available, together with
-instructions to reproduce our analysis, at
-\url{http://anonymous}\footnote{Url hidden to provide anonymity, the
-  complete url will appear in the final publication}.
+\note{pedro: colocar frase dizendo dos gabaritos} Bach Chorales from
+the Riemenschneider edition \cite{bach:371}. The code and data used in
+this evaluation are available, together with instructions to reproduce
+our analysis, at \url{http://removed-for-anonymity}.
 
 \section{Algorithms}
 \label{sec:algorithms}
 
 \begin{table*}
 \centering
-\begin{tabular}{l||p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|p{0.55cm}|}
-      &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct  \\  \hline\hline
-    M & $ 451 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   8 $& $ $& $ $ \\ 
-   M7 & $ $& $ 111 $& $   2 $& $   2 $& $ $& $   6 $& $ $& $ $& $ $& $ $& $ $& $ $ \\ \hline
-  M7+ & $ $& $ $& $   8 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $ \\ \hline
-    m & $   2 $& $ $& $ $& $ 205 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $ \\ \hline
-   m7 & $ $& $   2 $& $ $& $   2 $& $  48 $& $ $& $ $& $  16 $& $ $& $ $& $ $& $ $ \\ \hline
-   ° & $   2 $& $ $& $ $& $ $& $ $& $  60 $& $   2 $& $ $& $ $& $ $& $ $& $ $ \\ \hline
-  °7 & $ $& $ $& $ $& $ $& $ $& $ $& $  18 $& $ $& $ $& $ $& $ $& $ $ \\ \hline
-  ø7 & $ $& $ $& $ $& $ $& $ $& $ $& $ $& $  26 $& $ $& $ $& $   2 $& $ $ \\ \hline
-  aug & $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   2 $& $ $& $ $& $ $ \\ \hline
-  inc & $ $& $   4 $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   1 $& $ $& $ $ \\ \hline
- aug6 & $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $ $& $   1 $& $ $ \\ \hline
-  nct & $ 101 $& $  72 $& $  64 $& $  78 $& $  19 $& $  10 $& $   2 $& $  38 $& $   4 $& $  68 $& $   4 $& $ $ \\ \hline
+\begin{tabular}{l||r|r|r|r|r|r|r|r|r|r|r|r|r|}
+      &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct \\  \hline \hline
+    M & $ 506 $ & $   2 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   8 $ & $     $ & $     $ \\ \hline
+   M7 & $     $ & $ 120 $ & $   2 $ & $   2 $ & $     $ & $   6 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ \\ \hline
+  M7+ & $     $ & $     $ & $   8 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ \\ \hline
+    m & $   2 $ & $     $ & $     $ & $ 219 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ \\ \hline
+   m7 & $     $ & $   2 $ & $     $ & $   2 $ & $  55 $ & $     $ & $     $ & $  20 $ & $     $ & $     $ & $     $ & $     $ \\ \hline
+   ° & $   2 $ & $     $ & $     $ & $     $ & $     $ & $  66 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ \\ \hline
+  °7 & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  22 $ & $     $ & $     $ & $     $ & $     $ & $     $ \\ \hline
+  ø7 & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  26 $ & $     $ & $     $ & $   2 $ & $     $ \\ \hline
+  aug & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   2 $ & $     $ & $     $ & $     $ \\ \hline
+  inc & $     $ & $   4 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   1 $ & $     $ & $     $ \\ \hline
+ aug6 & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   2 $ & $     $ \\ \hline
+  nct & $ 111 $ & $  80 $ & $  72 $ & $  86 $ & $  25 $ & $  14 $ & $   2 $ & $  44 $ & $   6 $ & $  74 $ & $   4 $ & $     $ \\ \hline
 \end{tabular}
-
 
 \caption{Classifications made by the extended Pardo and Birmingham's algorithm. The rows represent
   the expected answers while the columns are the returned
@@ -234,8 +225,10 @@ In this section we present Pardo and Birmingham's algorithm and a few
 machine learning techniques. The machine learning algorithms were
 trained on the chorales numbered 1, 2, 3, 4, 5, and 6 of the
 Riemenschneider edition and on some textbook examples of augmented
-sixths and augmented chords. These chorales were not used in our
-subsequent evaluation.
+sixths, augmented chords, and major chords with major sevenths
+extracted from Robert Gauldin
+\cite{gauldin:harmonic}. These chorales were not
+used in our subsequent evaluation.
 
 \subsection{Pardo and Birmingham's algorithm}
 \label{sec:pardo}
