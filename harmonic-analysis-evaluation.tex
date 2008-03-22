@@ -65,30 +65,30 @@ algorithms for automatic chord labeling of symbolic scores.
 
 The problem of automatic chord labeling of symbolic scores has been
 approached from many directions since the sixties. First, Winograd
-\cite{winograd:linguistics} and Ulrich \cite{ulrich:analysis}
+\cite{winograd68:linguistics} and Ulrich \cite{ulrich77:analysis}
 developed backtracking parsers based of formal grammars and
 productions. After a hiatus they were followed by Maxwell's
-\cite{maxwell:expert} rule-based expert system and Temperley and
+\cite{maxwell92:expert} rule-based expert system and Temperley and
 Sleator's preference-rule Melisma system
-\cite{temperley.ea:modeling}. By the end of the nineties Pardo and
-Birmingham's HarmAn \cite{pardo.ea:algorithms}, Barthelemy and
-Bonardi's algorithm \cite{barthelemy.ea:figured}, and Taube's
-workbench \cite{taube:automatic} were built, all using
+\cite{temperley.ea99:modeling}. By the end of the nineties Pardo and
+Birmingham's HarmAn \cite{barthelemy.ea01:figured}, Barthelemy and
+Bonardi's algorithm \cite{pardo.ea02:algorithms}, and Taube's
+workbench \cite{taube99:automatic} were built, all using
 pattern-matching as their core chord-finding method. Parallel to these
-are Tsui's neural network algorithm \cite{tsui:harmonic}, Temperley's
-bayesian approach \cite{temperley:bayesian}, and Raphael and
-Stoddard's hidden Markov model \cite{raphael.ea:harmonic}. Recently,
+are Tsui's neural network algorithm \cite{tsui02:harmonic}, Temperley's
+bayesian approach \cite{temperley04:bayesian}, and Raphael and
+Stoddard's hidden Markov model \cite{raphael.ea03:harmonic}. Recently,
 Illescas et al. designed a mixed system, based on rules and search
-through a graph of possible solutions \cite{illescas.ea:harmonic}.
+through a graph of possible solutions \cite{illescas.ea07:harmonic}.
 
 Most of these techniques and methods were not described rigorously,
 and very little source code is avaliable for testing, which is a
 problem since some articles, most notably Barthelemy and Bonardi
-\cite{barthelemy.ea:figured} and Temperley and Sleator
-\cite{temperley.ea:modeling}, don't provide enough information to
+\cite{pardo.ea02:algorithms} and Temperley and Sleator
+\cite{temperley.ea99:modeling}, don't provide enough information to
 reproduce their results reliably. Every benchmark found in literature
-\cite{pardo.ea:automated, barthelemy.ea:figured, tsui:harmonic,
-  taube:automatic, illescas.ea:harmonic} is based only on published
+\cite{pardo.ea00:automated, pardo.ea02:algorithms, tsui02:harmonic,
+  taube99:automatic, illescas.ea07:harmonic} is based only on published
 examples, and this difficults a thorough statistical evaluation of the
 main merits and flaws of each technique.
 
@@ -180,7 +180,7 @@ recall.
 
 We will perform this evaluation on a corpus of 40 manually analyzed
 \note{pedro: colocar frase dizendo dos gabaritos} Bach Chorales from
-the Riemenschneider edition \cite{bach:371}. The code and data used in
+the Riemenschneider edition \cite{gauldin97:harmonic}. The code and data used in
 this evaluation are available, together with instructions to reproduce
 our analysis, at \url{http://removed-for-anonymity}.
 
@@ -227,15 +227,15 @@ trained on the chorales numbered 1, 2, 3, 4, 5, and 6 of the
 Riemenschneider edition and on some textbook examples of augmented
 <<<<<<< HEAD:harmonic-analysis-evaluation.tex
 sixths, augmented chords, and major chords with major sevenths extracted
-from Robert Gauldin \cite{gauldin:harmonic} and Reginald Morris
-\cite{morris:figured}. These chorales were not used in our subsequent
+from Robert Gauldin \cite{gauldin05:harmonic} and Reginald Morris
+\cite{morris33:figured}. These chorales were not used in our subsequent
 evaluation.
 
 \subsection{Pardo and Birmingham's algorithm}
 \label{sec:pardo}
 
 
-Pardo and Birmingham \cite{pardo.ea:algorithms} describe a
+Pardo and Birmingham \cite{barthelemy.ea01:figured} describe a
 pattern-matching algorithm for chordal analysis based on templates.
 The article enumerates six templates, and the algorithm searches
 across the piece for the labeling that better matches the notes found.
@@ -244,7 +244,7 @@ used (one such heuristic is ``prefer more common labelings''). In
 practice, most of the non-trivial decisions made by this algorithm are
 codified as tie-breaking rules, and this approach doesn't scale
 well. Raphael and Stoddard describe problems common to rule based
-systems \cite{raphael.ea:harmonic}, and we have found that most of
+systems \cite{raphael.ea03:harmonic}, and we have found that most of
 them also apply to Pardo and Birmingham's algorithm.
 
 Some limitations are obvious from the article. The algorithm, for
@@ -263,7 +263,7 @@ added inversion detection. The original algorithm is referred to as
 \subsection{Decision Tree}
 \label{sec:tree}
 
-Our decision tree uses the ID3 algorithm \cite{mitchell:machine}.
+Our decision tree uses the ID3 algorithm \cite{mitchell97:machine}.
 Since our decision tree library can't handle numeric attributes well,
 we use the four pitch classes of each sonority to be classified as
 features . This, unfortunately, makes it impossible for this algorithm
@@ -277,7 +277,7 @@ but ignores the surrounding context.
 
 
 The artificial neural networks we used are modeled after Tsui's Root
-Network A \cite{tsui:harmonic}. The main differences are in the
+Network A \cite{tsui02:harmonic}. The main differences are in the
 feature extraction process and that we consider chord types other than
 major and minor. Tsui uses as features a vector, each position
 containing how many times one pitch class sounds in a given
@@ -303,8 +303,8 @@ and one following sonority.
 \label{sec:knn}
 
 We implemented a k-neartest-neighbors algorithm because it has good
-performance and is easy to implement \cite{fix.ea:important,
-  gomez.ea:estimating}. The features used in this classifier were the
+performance and is easy to implement \cite{fix.ea89:important,
+  gomez.ea04:estimating}. The features used in this classifier were the
 same as in the neural networks. Our two k-nearest-neighbor algorithms,
 \texttt{es-knn} and \texttt{ec-knn}, distinguish enharmonic notes, and
 the only difference between them is that \texttt{es-knn} looks at one
@@ -442,14 +442,14 @@ artificial neural network that does not use contextual information is
 the best algorithm evaluated. We have also found that a simple
 memory-based classifier can outperform some heuristic algorithms. We
 also presented a modification to the algorithm described in
-\cite{pardo.ea:algorithms} that is demonstrably better.
+\cite{barthelemy.ea01:figured} that is demonstrably better.
 
 We will continue to reimplement, test, and benchmark algorithms for
 automated chord labeling and harmonic analysis, starting with Raphael
-and Stoddard's hidden Markov model \cite{raphael.ea:harmonic} and
-Maxwell's expert system \cite{maxwell:expert}.  We will also extend
+and Stoddard's hidden Markov model \cite{raphael.ea03:harmonic} and
+Maxwell's expert system \cite{maxwell92:expert}.  We will also extend
 our test corpus to incorporate Beethoven sonatas, the Kostka-Payne
-corpus \cite{temperley:bayesian}, Bach partitas, and other
+corpus \cite{temperley04:bayesian}, Bach partitas, and other
 representative tonal pieces. Our aim is to benchmark and study the
 whole harmonic analysis process, from pitch spelling to functional and
 non-chord tone analysis.
