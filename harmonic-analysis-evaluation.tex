@@ -20,7 +20,8 @@
 \newcommand{\comment}[1]{}
 
 \title{An evaluation of some heuristic and machine learning algorithms for
-  symbolic chord finding} \oneauthor {}{}
+  symbolic chord labeling}
+\oneauthor {}{}
 %% Teoricamente é para não botar o nome do autor no artigo, por causa
 %% do processo de revisão.
 
@@ -51,20 +52,17 @@
   Birmingham's algorithm has a very good recall, but a bad precision,
   and a k-nearest-neighbors classifier outperforms it. The decision
   tree's performance in unremarkable.
-
-
 \end{abstract}
 
 \section{Introduction}
 \label{sec:introduction}
 
-Chord labels are useful metadata. Using them it is easy to see the
-harmonic structure of a piece or find its progressions and
-cadences. The process of manual harmonic analysis usually starts with
-a rough chord labeling, that is then revised during the functional
-analysis process. Many of the objectives of harmonic analysis can be
-realized with proper chord labels. In this paper we will evaluate some
-algorithms for automatic chord labeling of symbolic scores.
+Chord labeling consists in assigning a name to a set of notes. The
+process involves dividing a musical score in symbolic format in
+different sonorities, deciding which notes in a sonority is part of a
+chord, naming the sonorities with symbols like E$\flat$ or
+A$\sharp$7M, and eventually assigning tonal meaning to the sonority
+with roman numerals or function names.
 
 The problem of automatic chord labeling of symbolic scores has been
 approached from many directions since the sixties. First, Winograd
