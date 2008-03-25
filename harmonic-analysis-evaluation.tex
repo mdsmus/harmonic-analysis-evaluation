@@ -35,23 +35,28 @@
 
 \begin{abstract}
 
-  Chord finding is an important part of harmonic analysis. Many
-  algorithms have been proposed for chord finding, but there is no
-  objective comparison of their main merits and flaws. Here we propose
-  a novel way of evaluating chord finding algorithms using precision
-  and recall instead of a plain error rate metric.
+  Chord labeling is an important part of harmonic analysis. Many
+  algorithms have been proposed for it, but there is no objective
+  comparison of their main merits and flaws. Here we present such an
+  evaluation, comparing Pardo and Birmingham's and Tsui's algorithms
+  and evaluating two new proposals: a k-nearest-neighbors and a
+  decision tree classifiers.
   
-  We propose a k-nearest-neighbors classifier and a decision tree as
-  chord labelers, and compare them agains Pardo and Birmingham's
-  algorithm and Tsui's neural network.
+  Our evaluation methodology tries to be as precise as possible in
+  enumerating the errors made by each algorithm. We split the overall
+  accuracy in precision and recall, and note which chord types are
+  most often mistaken by others. This highlights the difficult areas
+  and suggest, for example, how is it better to increment our training
+  corpus. The evaluation is performed on Bach chorales.
   
-  The neural network classifier without contextual information is the
-  best labeler for all chord modes in our corpus, and enhancing it
-  with the surrounding context is the best way of incorporating
-  contextual information in the decision process. Pardo and
-  Birmingham's algorithm has a very good recall, but a bad precision,
-  and a k-nearest-neighbors classifier outperforms it. The decision
-  tree's performance in unremarkable.
+  We find that Tsui's neural network classifier without contextual
+  information is the best labeler for all chord modes in our corpus,
+  and enhancing it with the surrounding context is the best way of
+  incorporating contextual information in the decision process. Pardo
+  and Birmingham's algorithm has a very good recall, but a bad
+  precision, probably due to its ignorance of non-chord tones, and is
+  outperformed by the k-nearest-neighbors classifier, also a pattern
+  matcher, The decision tree's performance in unremarkable.
 \end{abstract}
 
 \section{Introduction}
