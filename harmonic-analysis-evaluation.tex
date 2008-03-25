@@ -155,34 +155,35 @@ chord & meaning \\ \hline
 \label{tab:erros-es-net}
 \end{table*}
 
+The main thesis of the Heuristics and Biases program in cognitive
+psychology is that the mistakes made by a person or algorithm are more
+revealing of their behavior than its mode of functioning than its
+correct judgments \cite{gilovich.ea02:heuristics}. This thesis has
+been proved successful, and has helped detect and explain a
+substantial portion of human behavior, highlighting the biases
+inherent in the heuristics most people use to perform their day-to-day
+activities. Here we propose a similar analysis with the intention of
+facilitating detection of common biases in chord labeling algoritms. A
+few biases can be readily seen in tables \ref{tab:erros-es-net} and
+\ref{tab:erros-es-pb}, which show how some algorithms ignore less
+frequent chord modes and others display clear biases, for example
+labeling most major chords with a major seventh as non-chord tones.
 
-
-Evaluating the performance of a chord labeling algorithm with a simple
-metric such as the ratio of correct classifications might be useful to
-give an idea of how well it generally works, but may hides errors in
-analyzing uncommon chord types. Some chord types are often mistaken
-for others, as can be seen in table \ref{tab:erros-es-net}, and some
-algorithms tend to ignore less frequent chord modes, as can be seen in
-table \ref{tab:erros-es-pb}.
-
-To precisely detect each of the possible errors we propose a different
-evaluation methodology. We will evaluate our algorithms by their
-precision and recall with respect to each chord mode, thereby showing
-the weaknesses of each algorithm.
-
-The decision of evaluating chord labeling performance using precision
-and recall is a bit unusual, and deserves justification. Here, we
-assume that the aim of our algorithms is to retrieve correctly each
-sonority belonging to a certain chord type from a song. We also treat
-the detection of each chord type separately. Hence, every time a
-diminished chord is misclassified as a non chord tone, for example,
-the recall of diminished chords gets smaller, while the precision of
-the non-chord tones get smaller. Having this data allows us to detect
-biases in the algorithms, and highlight some of their properties. For
-example, Pardo and Birmingham's algorithm, as seen in section
-\ref{sec:discussion}, has a high recall and a small precision, while
-the machine learning algorithms have mostly equivalent precision and
-recall.
+To concisely show most of the errors made by these algorithms we
+propose a different evaluation methodology: each algorithm will be
+evaluated by their precision and recall with respect to each chord
+mode, highlighting many weaknesses. This decision is a bit unusual,
+and deserves justification. Here, we assume that the aim of our
+algorithms is to retrieve correctly each sonority belonging to a
+certain chord type from a song. We also treat the detection of each
+chord type separately. Hence, every time a diminished chord is
+misclassified as a non chord tone, for example, the recall of
+diminished chords gets smaller, while the precision of the non-chord
+tones get smaller. As shown is sextion \ref{sec:discussion}, Pardo and
+Birmingham's algorithm has a high recall and a small precision,
+probably due to its incapacity of handling non-chord tones; and the
+machine learning algorithm are mostly biased against less frequent
+chord types.
 
 We will perform this evaluation on a corpus of 18 Bach chorales from
 the Riemenschneider edition \cite{bach41:371}, consisting of the
@@ -191,8 +192,8 @@ chorales numbered 7, 8, 10, 12, 14, 17, 18, 19, 20, 21, 22, 23, 24,
 with the chord label for each segment. With these answer sheets, our
 system is able to automatically compare the results of each algorithm
 with the correct result as analyzed by musicians. The code and data
-used in this evaluation are available, together with instructions to
-reproduce our analysis, at \url{http://removed-for-anonymity}.
+used in this evaluation, together with instructions to reproduce our
+analysis, are available online at \url{http://removed-for-anonymity}.
 
 \section{Algorithms}
 \label{sec:algorithms}
@@ -346,8 +347,9 @@ information. Augmented chords, on the other hand, appear to require
 context to be recognized by machine learning algorithms.
 
 
-Averaged f-measure over all chord types is, as expected, highly
-correlated with overall accuracy, as seen it table \ref{tab:accuracy}.
+Averaged f-measure over all chord types is, as expected, correlated
+with overall accuracy, but shows some variation due to the weighting
+of the chord types, as seen it table \ref{tab:accuracy}.
 
 
 \begin{table}
