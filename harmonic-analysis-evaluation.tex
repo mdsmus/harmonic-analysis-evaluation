@@ -64,10 +64,9 @@
 
 Chord labeling consists in assigning a name to a set of notes. The
 process involves dividing a musical score in symbolic format in
-different sonorities, deciding which notes in a sonority is part of a
-chord, naming the sonorities with symbols like E$\flat$ or
-A$\sharp$7M, and eventually assigning tonal meaning to the sonority
-with roman numerals or function names.
+different sonorities, deciding which notes in a sonority are part of a
+chord, and naming the sonorities with symbols like E$\flat$ or
+A$\sharp$7M.
 
 The problem of automatic chord labeling of symbolic scores has been
 approached from many directions since the sixties. First, Winograd
@@ -109,23 +108,23 @@ section \ref{sec:discussion} and state our case in section
 
 \begin{table}
 \centering
-\begin{tabular}{l|l}
-chord & meaning \\ \hline
-    M & major chord \\
-   M7 & major chord, minor seventh \\
-  M7+ & major chord, major seventh \\
-    m & minor chord \\
-   m7 & minor chord, minor seventh \\
-    ° & diminished triad \\
-   °7 & fully diminished chord \\
-   ø7 & half-diminished chord \\
-  aug & augmented chord \\
-  inc & incomplete chord \\
- aug6 & augmented sixth chord \\
-  nct & non-chord tone \\
-  avg & average over all chord types \\
+\begin{tabular}{r|l|r}
+chord & meaning                   & count\\ \hline
+    M & major chord               & 773 \\
+   M7 & major chord, minor seventh& 182 \\
+  M7+ & major chord, major seventh& 20 \\
+    m & minor chord               & 311 \\
+   m7 & minor chord, minor seventh& 109 \\
+    ° & diminished triad          & 91 \\
+   °7 & fully diminished chord    & 30 \\
+   ø7 & half-diminished chord     & 44  \\
+  aug & augmented chord           & 2   \\
+  inc & incomplete chord          & 4   \\
+ aug6 & augmented sixth chord     & 3   \\
+  nct & non-chord tone            & 410 \\
 \end{tabular}
-\caption{Labels used in this article}
+\caption{Chord labels used in this article and their occurences in our
+corpus}
 \label{tab:legenda}
 \end{table}
 
@@ -328,23 +327,63 @@ surrounding sonorities in \texttt{ec-knn} are weighted by a factor of
 \section{Results}
 \label{sec:discussion}
 
+The results are displayed in a few tables. The
+first two, \ref{tab:erros-es-net}, and \ref{tab:erros-es-pb} display
+in detail the classifications made by \texttt{ES-net} and
+\texttt{ES-pb}, respectively. Tables \ref{tab:precision},
+\ref{tab:recall}, and \ref{tab:f-measure} show the precision, recall
+and f-measure of the evaluated algorithms. Table \ref{tab:accuracy}
+shows their overall accuracy over all chords in our corpus.
 
-Overall, \texttt{es-net} has the best precision, recall, f-measure and
-accuracy, as seen in tables \ref{tab:precision}, \ref{tab:recall},
-\ref{tab:f-measure}, and \ref{tab:accuracy}. The high performance of
-\texttt{ES-knn},as seen in table \ref{tab:f-measure}, suggests that
-smarter pattern matching might boost the performance of \texttt{ES-PB}, since
-both algorithms work as glorified template matchers. \texttt{s-pb} and
-\texttt{es-pb} have very good recall but terrible precision, probably
-due to their discarding of non-chord tones, as can be seen in table
-\ref{tab:erros-es-pb}.
+\subsection{Performance by algorithm}
+\label{sec:algo-perf}
+
+The performance Pardo and Birmingham's original algorithm , \texttt{S-pb}, is
+very low on our corpus due to the variety of chord types
+considered. For this reason it has the highest recall on major chords,
+major chords with a minor seventh, and half-diminished chords.
+
+The decision tree algorithm's performance is unremarkable. It displays
+the smallest hability to generalize from training data of our machine
+learning algorithms, probably due to a bad choice of features.
+
+The contextual algorithms, \texttt{EC-knn} and \texttt{EC-net}, are
+overall worse than their non-contextual equivalents, probably due to
+having a smaller performance on the more common chord modes. On the
+other hand, \texttt{EC-net} is the only machine learning algorithm
+that recognizes augmented chords and \texttt{EC-knn}, unlike
+\texttt{ES-knn}, recognizes major chords with a major seventh. As
+expected, contextual information is useful in disambiguating less
+frequent chord types, but might also confuse the algorithm due to the
+problem known as ``the curse of dimensionality''
+\cite{duda.ea00:pattern}.
+
+Overall, \texttt{ES-net} has the best precision, f-measure and
+accuracy, as seen in tables \ref{tab:precision}, \ref{tab:f-measure},
+and \ref{tab:accuracy}; but \texttt{ES-pb} has the best recall. As can
+be seen in tables \ref{tab:erros-es-net} and \ref{tab:erros-es-pb},
+this is most likely due to \texttt{ES-pb}'s ignorance of non-chord
+tones. This suggestes that an enhanced pattern matcher supporting
+non-chord tones, like the one described by Taube
+\cite{taube99:automatic}, can be a very good chord labeling
+algorithm. This is supported by \texttt{ES-knn}'s good precision, as
+seen in table \ref{tab:precision}.
 
 
-Diminished chords and
-non-chord tones, as seen in table \ref{tab:f-measure}, are not
-fundamentally easier to recognize without contextual
-information. Augmented chords, on the other hand, appear to require
-context to be recognized by machine learning algorithms.
+\subsection{Performance by chord type}
+\label{sec:chord-perf}
+
+In this analysis we chose to separate the errors by chord type, which
+can show some interesting biases. The most difficult to recognize
+chord type is the incomplete chord, closely followed by the augmented
+chords and the augmented sixth chords. As table \ref{tab:legenda}
+shows, they are the less frequent chord types. This can cause two
+problems: the machine learning algorithms have less examples to learn
+from and man-made heuristics tend to either overestimate their
+occurrence (as seen in table \ref{tab:precision} in the \texttt{ES-pb}
+column) or ignore them at all (as seen in table \ref{tab:f-measure} on
+the \texttt{S-pb} column). These biases are difficult to correct
+accurately.
 
 
 Averaged f-measure over all chord types is, as expected, correlated
@@ -355,20 +394,21 @@ of the chord types, as seen it table \ref{tab:accuracy}.
 \begin{table}
   \centering
 \begin{tabular}{l|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
-       &      EC-Knn &      EC-net &      ES-Knn &       ES-PB &      ES-net &     ES-tree &        S-PB \\ \hline
-   M & $  88.4$ & $  94.4$ & $  95.8$ & $  90.6$ & $  97.7$ & $  89.2$ & $  71.4$ \\
-  M7 & $  85.3$ & $  91.0$ & $  89.7$ & $  75.0$ & $  94.1$ & $  82.9$ & $  74.1$ \\
- M7+ & $  50.0$ & $  25.0$ & $ ~~0.0$ & $  38.6$ & $ 100$ & $ ~~0.0$ & $ ~~0.0$ \\
-   m & $  82.7$ & $  89.5$ & $  89.4$ & $  83.9$ & $  94.6$ & $  83.8$ & $  83.6$ \\
-  m7 & $  65.5$ & $  66.2$ & $  76.9$ & $  86.3$ & $  80.3$ & $  54.8$ & $ ~~0.0$ \\
-  ° & $  86.0$ & $  71.0$ & $  90.0$ & $  87.1$ & $  95.2$ & $  70.4$ & $  83.5$ \\
- °7 & $  87.5$ & $  54.5$ & $ 100$ & $  96.8$ & $  90.9$ & $  51.4$ & $ 100$ \\
- ø7 & $  60.6$ & $  50.0$ & $  97.3$ & $  50.0$ & $  89.8$ & $  71.1$ & $  49.5$ \\
- aug & $ ~~0.0$ & $ 100$ & $ ~~0.0$ & $  28.6$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ \\
- inc & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~2.5$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ \\
-aug6 & $  50.0$ & $  12.5$ & $ 100$ & $  50.0$ & $ 100$ & $ ~~0.0$ & $ ~~0.0$ \\
- nct & $  74.1$ & $  76.6$ & $  80.8$ & $ ~~0.0$ & $  88.3$ & $  70.0$ & $ ~~0.0$ \\
-\hline avg & $  60.8$ & $  60.9$ & $  68.3$ & $  57.4$ & $  77.6$ & $  47.8$ & $  38.5$ \\
+     &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &   S-PB \\ \hline
+   M & $  88.4$ & $  94.4$ & $  95.8$ & $  97.7$ & $  90.6$ & $  89.2$ & $  71.4$ \\
+  M7 & $  85.3$ & $  91.0$ & $  89.7$ & $  94.1$ & $  75.0$ & $  82.9$ & $  74.1$ \\
+ M7+ & $  50.0$ & $  25.0$ & $ ~~0.0$ & $ 100  $ & $  38.6$ & $ ~~0.0$ & $ ~~0.0$ \\
+   m & $  82.7$ & $  89.5$ & $  89.4$ & $  94.6$ & $  83.9$ & $  83.8$ & $  83.6$ \\
+  m7 & $  65.5$ & $  66.2$ & $  76.9$ & $  80.3$ & $  86.3$ & $  54.8$ & $ ~~0.0$ \\
+  °  & $  86.0$ & $  71.0$ & $  90.0$ & $  95.2$ & $  87.1$ & $  70.4$ & $  83.5$ \\
+ °7  & $  87.5$ & $  54.5$ & $ 100$   & $  90.9$ & $  96.8$ & $  51.4$ & $ 100$ \\
+ ø7  & $  60.6$ & $  50.0$ & $  97.3$ & $  89.8$ & $  50.0$ & $  71.1$ & $  49.5$ \\
+ aug & $ ~~0.0$ & $ 100  $ & $ ~~0.0$ & $ ~~0.0$ & $  28.6$ & $ ~~0.0$ & $ ~~0.0$ \\
+ inc & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~2.5$ & $ ~~0.0$ & $ ~~0.0$ \\
+aug6 & $  50.0$ & $  12.5$ & $ 100  $ & $ 100  $ & $  50.0$ & $ ~~0.0$ & $ ~~0.0$ \\
+ nct & $  74.1$ & $  76.6$ & $  80.8$ & $  88.3$ & $ ~~0.0$ & $  70.0$ & $ ~~0.0$ \\
+\hline                                                       
+avg & $   60.8$ & $  60.9$ & $  68.3$ & $  77.6$ & $  57.4$ & $  47.8$ & $  38.5$ \\
 \end{tabular}
 
 
@@ -379,20 +419,21 @@ aug6 & $  50.0$ & $  12.5$ & $ 100$ & $  50.0$ & $ 100$ & $ ~~0.0$ & $ ~~0.0$ \\
 \begin{table}
   \centering
 \begin{tabular}{l|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
-       &      EC-Knn &      EC-net &      ES-Knn &       ES-PB &      ES-net &     ES-tree &        S-PB \\ \hline
-   M & $  95.2$ & $  97.3$ & $  98.3$ & $  97.2$ & $  98.7$ & $  96.3$ & $  99.7$ \\
-  M7 & $  78.4$ & $  87.6$ & $  94.1$ & $  96.3$ & $  95.1$ & $  62.0$ & $  96.8$ \\
- M7+ & $  12.5$ & $ ~~4.5$ & $ ~~0.0$ & $  96.4$ & $ ~~4.5$ & $ ~~0.0$ & $ ~~0.0$ \\
-   m & $  87.7$ & $  88.7$ & $  95.9$ & $  98.8$ & $  98.4$ & $  89.3$ & $  98.4$ \\
-  m7 & $  66.1$ & $  78.6$ & $  83.0$ & $  77.9$ & $  94.6$ & $  56.8$ & $ ~~0.0$ \\
-  ° & $  80.0$ & $  71.7$ & $  97.1$ & $  99.0$ & $  98.0$ & $  57.0$ & $  99.0$ \\
- °7 & $  70.0$ & $  20.0$ & $  70.0$ & $ 100$ & $ 100$ & $  60.0$ & $  86.7$ \\
- ø7 & $  42.6$ & $  21.3$ & $  76.6$ & $  97.9$ & $  93.6$ & $  56.2$ & $ 100$ \\
- aug & $ ~~0.0$ & $  50.0$ & $ ~~0.0$ & $ 100$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ \\
- inc & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ & $  50.0$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ \\
-aug6 & $  66.7$ & $  33.3$ & $ 100$ & $ 100$ & $ 100$ & $ ~~0.0$ & $ ~~0.0$ \\
- nct & $  69.5$ & $  81.9$ & $  75.1$ & $ ~~0.0$ & $  82.3$ & $  69.8$ & $ ~~0.0$ \\
-\hline avg & $  55.7$ & $  52.9$ & $  65.8$ & $  84.5$ & $  72.1$ & $  45.6$ & $  48.4$ \\
+     &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &     S-PB \\ \hline
+   M & $  95.2$ & $  97.3$ & $  98.3$ & $  98.7$ & $  97.2$ & $  96.3$ & $  99.7$ \\
+  M7 & $  78.4$ & $  87.6$ & $  94.1$ & $  95.1$ & $  96.3$ & $  62.0$ & $  96.8$ \\
+ M7+ & $  12.5$ & $ ~~4.5$ & $ ~~0.0$ & $ ~~4.5$ & $  96.4$ & $ ~~0.0$ & $ ~~0.0$ \\
+   m & $  87.7$ & $  88.7$ & $  95.9$ & $  98.4$ & $  98.8$ & $  89.3$ & $  98.4$ \\
+  m7 & $  66.1$ & $  78.6$ & $  83.0$ & $  94.6$ & $  77.9$ & $  56.8$ & $ ~~0.0$ \\
+   ° & $  80.0$ & $  71.7$ & $  97.1$ & $  98.0$ & $  99.0$ & $  57.0$ & $  99.0$ \\
+  °7 & $  70.0$ & $  20.0$ & $  70.0$ & $ 100  $ & $ 100  $ & $  60.0$ & $  86.7$ \\
+  ø7 & $  42.6$ & $  21.3$ & $  76.6$ & $  93.6$ & $  97.9$ & $  56.2$ & $ 100$ \\
+ aug & $ ~~0.0$ & $  50.0$ & $ ~~0.0$ & $ ~~0.0$ & $ 100  $ & $ ~~0.0$ & $ ~~0.0$ \\
+ inc & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ & $  50.0$ & $ ~~0.0$ & $ ~~0.0$ \\
+aug6 & $  66.7$ & $  33.3$ & $ 100  $ & $ 100  $ & $ 100  $ & $ ~~0.0$ & $ ~~0.0$ \\
+ nct & $  69.5$ & $  81.9$ & $  75.1$ & $  82.3$ & $ ~~0.0$ & $  69.8$ & $ ~~0.0$ \\
+\hline                                                       
+ avg & $  55.7$ & $  52.9$ & $  65.8$ & $  72.1$ & $  84.5$ & $  45.6$ & $  48.4$ \\
 \end{tabular}
 
 
@@ -404,20 +445,21 @@ aug6 & $  66.7$ & $  33.3$ & $ 100$ & $ 100$ & $ 100$ & $ ~~0.0$ & $ ~~0.0$ \\
 \begin{table}
   \centering
 \begin{tabular}{l|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
-       &      EC-Knn &      EC-net &      ES-Knn &       ES-PB &      ES-net &     ES-tree &        S-PB \\ \hline
-   M & $  91.7$ & $  95.8$ & $  97.0$ & $  93.8$ & $  98.2$ & $  92.6$ & $  83.2$ \\
-  M7 & $  81.7$ & $  89.3$ & $  91.8$ & $  84.3$ & $  94.6$ & $  70.9$ & $  83.9$ \\
- M7+ & $  20.0$ & $ ~~7.6$ & $ ~~0.0$ & $  55.1$ & $ ~~8.6$ & $ ~~0.0$ & $ ~~0.0$ \\
-   m & $  85.1$ & $  89.1$ & $  92.5$ & $  90.7$ & $  96.5$ & $  86.5$ & $  90.4$ \\
-  m7 & $  65.8$ & $  71.9$ & $  79.8$ & $  81.9$ & $  86.9$ & $  55.8$ & $ ~~0.0$ \\
-  ° & $  82.9$ & $  71.3$ & $  93.4$ & $  92.7$ & $  96.6$ & $  63.0$ & $  90.6$ \\
- °7 & $  77.8$ & $  29.3$ & $  82.4$ & $  98.4$ & $  95.2$ & $  55.4$ & $  92.9$ \\
- ø7 & $  50.0$ & $  29.9$ & $  85.7$ & $  66.2$ & $  91.7$ & $  62.8$ & $  66.2$ \\
- aug & $ ~~0.0$ & $  66.7$ & $ ~~0.0$ & $  44.5$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ \\
- inc & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~4.8$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ \\
-aug6 & $  57.2$ & $  18.2$ & $ 100$ & $  66.7$ & $ 100$ & $ ~~0.0$ & $ ~~0.0$ \\
- nct & $  71.7$ & $  79.2$ & $  77.8$ & $ ~~0.0$ & $  85.2$ & $  69.9$ & $ ~~0.0$ \\
-\hline avg & $  57.0$ & $  54.0$ & $  66.7$ & $  64.9$ & $  71.1$ & $  46.4$ & $  42.3$ \\
+     &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &        S-PB \\ \hline
+   M & $  91.7$ & $  95.8$ & $  97.0$ & $  98.2$ & $  93.8$ & $  92.6$ & $  83.2$ \\
+  M7 & $  81.7$ & $  89.3$ & $  91.8$ & $  94.6$ & $  84.3$ & $  70.9$ & $  83.9$ \\
+ M7+ & $  20.0$ & $ ~~7.6$ & $ ~~0.0$ & $ ~~8.6$ & $  55.1$ & $ ~~0.0$ & $ ~~0.0$ \\
+   m & $  85.1$ & $  89.1$ & $  92.5$ & $  96.5$ & $  90.7$ & $  86.5$ & $  90.4$ \\
+  m7 & $  65.8$ & $  71.9$ & $  79.8$ & $  86.9$ & $  81.9$ & $  55.8$ & $ ~~0.0$ \\
+   ° & $  82.9$ & $  71.3$ & $  93.4$ & $  96.6$ & $  92.7$ & $  63.0$ & $  90.6$ \\
+  °7 & $  77.8$ & $  29.3$ & $  82.4$ & $  95.2$ & $  98.4$ & $  55.4$ & $  92.9$ \\
+  ø7 & $  50.0$ & $  29.9$ & $  85.7$ & $  91.7$ & $  66.2$ & $  62.8$ & $  66.2$ \\
+ aug & $ ~~0.0$ & $  66.7$ & $ ~~0.0$ & $ ~~0.0$ & $  44.5$ & $ ~~0.0$ & $ ~~0.0$ \\
+ inc & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~0.0$ & $ ~~4.8$ & $ ~~0.0$ & $ ~~0.0$ \\
+aug6 & $  57.2$ & $  18.2$ & $ 100  $ & $ 100  $ & $  66.7$ & $ ~~0.0$ & $ ~~0.0$ \\
+ nct & $  71.7$ & $  79.2$ & $  77.8$ & $  85.2$ & $ ~~0.0$ & $  69.9$ & $ ~~0.0$ \\
+\hline                                                       
+ avg & $  57.0$ & $  54.0$ & $  66.7$ & $  71.1$ & $  64.9$ & $  46.4$ & $  42.3$ \\
 \end{tabular}
 
 
@@ -454,19 +496,21 @@ We have evaluated algorithms for chord labeling of symbolic scores of
 tonal music on a corpus of 40 Bach chorales and have found that an
 artificial neural network that does not use contextual information is
 the best algorithm evaluated. We have also found that a simple
-memory-based classifier can outperform some heuristic algorithms. We
-also presented a modification to the algorithm described in
-\cite{barthelemy.ea01:figured} that is demonstrably better.
+memory-based classifier can outperform a simple heuristic algorithm,
+although with better heuristics this result might be reversed. We also
+presented a modification to the algorithm described in
+\cite{pardo.ea02:algorithms} that is demonstrably better.
 
-We will continue to reimplement, test, and benchmark algorithms for
-automated chord labeling and harmonic analysis, starting with Raphael
-and Stoddard's hidden Markov model \cite{raphael.ea03:harmonic} and
-Maxwell's expert system \cite{maxwell92:expert}.  We will also extend
-our test corpus to incorporate Beethoven sonatas, the Kostka-Payne
-corpus \cite{temperley04:bayesian}, Bach partitas, and other
-representative tonal pieces. Our aim is to benchmark and study the
-whole harmonic analysis process, from pitch spelling to functional and
-non-chord tone analysis.
+We currently plan on continuing to reimplement, test, and benchmark
+algorithms for automated chord labeling and harmonic analysis,
+starting with Raphael and Stoddard's hidden Markov model
+\cite{raphael.ea03:harmonic} and Maxwell's expert system
+\cite{maxwell92:expert}.  We will extend our test corpus to
+incorporate Beethoven sonatas, the Kostka-Payne corpus
+\cite{temperley04:bayesian}, Bach partitas, and other classic tonal
+pieces. Our aim is to benchmark and study the whole automatic harmonic
+analysis process, from pitch spelling to functional and non-chord tone
+analysis.
 
 \bibliographystyle{plain}
 \bibliography{strings-short,ismir,programs,coding,harmonic-analysis,dont-have,artifical-inteligence,music-harmony-and-theory,licenses,icmc,music-scores}
