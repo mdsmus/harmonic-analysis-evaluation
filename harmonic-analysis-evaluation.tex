@@ -37,10 +37,10 @@
 
   Chord labeling is an important part of harmonic analysis. Many
   algorithms have been proposed for it, but there is no objective
-  comparison of their main merits and flaws. Here we present such an
-  evaluation, comparing Pardo and Birmingham's and Tsui's algorithms
-  and evaluating two new proposals: a k-nearest-neighbors and a
-  decision tree classifiers.
+  comparison of their main merits and flaws. In this paper we present
+  such an evaluation, comparing Pardo and Birmingham's and Tsui's
+  algorithms and evaluating two new proposals: a k-nearest-neighbors
+  and a decision tree classifiers.
   
   Our evaluation methodology tries to be as precise as possible in
   enumerating the errors made by each algorithm. We split the overall
@@ -56,7 +56,7 @@
   and Birmingham's algorithm has a very good recall, but a bad
   precision, probably due to its ignorance of non-chord tones, and is
   outperformed by the k-nearest-neighbors classifier, also a pattern
-  matcher, The decision tree's performance in unremarkable.
+  matcher. The decision tree's performance in unremarkable.
 \end{abstract}
 
 \section{Introduction}
@@ -87,24 +87,24 @@ Illescas et al. designed a mixed system, based on rules and search
 through a graph of possible solutions \cite{illescas.ea07:harmonic}.
 
 Most of these techniques and methods were not described rigorously,
-and very little source code is avaliable for testing, which is a
+and very little source code is available for testing, which is a
 problem since some articles, most notably Barthelemy and Bonardi
 \cite{pardo.ea02:algorithms} and Temperley and Sleator
 \cite{temperley.ea99:modeling}, don't provide enough information to
 reproduce their results reliably. Every benchmark found in literature
 \cite{pardo.ea00:automated, pardo.ea02:algorithms, tsui02:harmonic,
-  taube99:automatic, illescas.ea07:harmonic} is based only on published
-examples, and this difficults a thorough statistical evaluation of the
-main merits and flaws of each technique.
+  taube99:automatic, illescas.ea07:harmonic} is based only on
+published examples, and this makes difficult a thorough statistical
+evaluation of the main merits and flaws of each technique.
 
 In this paper we present an evaluation of Pardo and Birmingham's and
 Tsui's algorithms, together with two original algorithms we propose.
 First, in section \ref{sec:methodology} we discuss our evaluation
-methodology. In section \ref{sec:algorithms} we present Pardo et al's
-HarmAn, Tsui's artificial neural networks, our decision trees and our
-k-nearest-neighbors method. We compare their overall performance in
-section \ref{sec:discussion} and state our case in section
-\ref{sec:conclusions}.
+methodology. In section \ref{sec:algorithms} we present Pardo and
+Birmingham's HarmAn, Tsui's artificial neural networks, our decision
+trees and our k-nearest-neighbors method. We compare their overall
+performance in section \ref{sec:discussion} and state our case in
+section \ref{sec:conclusions}.
 
 \begin{table}
 \centering
@@ -123,7 +123,7 @@ chord & meaning                   & count\\ \hline
  aug6 & augmented sixth chord     & 3   \\
   nct & non-chord tone            & 410 \\
 \end{tabular}
-\caption{Chord labels used in this article and their occurences in our
+\caption{Chord labels used in this article and their occurrences in our
 corpus}
 \label{tab:legenda}
 \end{table}
@@ -162,7 +162,7 @@ been proved successful, and has helped detect and explain a
 substantial portion of human behavior, highlighting the biases
 inherent in the heuristics most people use to perform their day-to-day
 activities. Here we propose a similar analysis with the intention of
-facilitating detection of common biases in chord labeling algoritms. A
+facilitating detection of common biases in chord labeling algorithms. A
 few biases can be readily seen in tables \ref{tab:erros-es-net} and
 \ref{tab:erros-es-pb}, which show how some algorithms ignore less
 frequent chord modes and others display clear biases, for example
@@ -178,7 +178,7 @@ certain chord type from a song. We also treat the detection of each
 chord type separately. Hence, every time a diminished chord is
 misclassified as a non chord tone, for example, the recall of
 diminished chords gets smaller, while the precision of the non-chord
-tones get smaller. As shown is sextion \ref{sec:discussion}, Pardo and
+tones get smaller. As shown is section \ref{sec:discussion}, Pardo and
 Birmingham's algorithm has a high recall and a small precision,
 probably due to its incapacity of handling non-chord tones; and the
 machine learning algorithm are mostly biased against less frequent
@@ -192,7 +192,7 @@ with the chord label for each segment. With these answer sheets, our
 system is able to automatically compare the results of each algorithm
 with the correct result as analyzed by musicians. The code and data
 used in this evaluation, together with instructions to reproduce our
-analysis, are available online at \url{http://removed-for-anonymity}.
+analysis, are available on-line at \url{http://removed-for-anonymity}.
 
 \section{Algorithms}
 \label{sec:algorithms}
@@ -260,7 +260,7 @@ Some limitations are obvious from the article. The algorithm, for
 example, has no notion of a minor chord with a minor seventh, or an
 augmented chord, or a chord without a third. Also, since their system
 ignores enharmonic information some fine distinctions are lost, and a
-german augmented sixth is shown being classified erroneously as a
+German augmented sixth is shown being classified erroneously as a
 dominant seventh. We have then extended the algorithm presented in the
 article by incorporating more chord templates (giving a total of ten)
 and enabling it to distinguish enharmonic tones, which improved the
@@ -275,7 +275,7 @@ added inversion detection. The original algorithm is referred to as
 Our decision tree uses the ID3 algorithm \cite{mitchell97:machine}.
 Since our decision tree library can't handle numeric attributes well,
 we use the four pitch classes of each sonority to be classified as
-features . This, unfortunately, makes it impossible for this algorithm
+features. This, unfortunately, makes it impossible for this algorithm
 to generalize to musical styles not very similar to a four-part
 chorale, although an extension to allow this is planned. This
 algorithm is named \texttt{es-tree}. It distinguishes enharmonic notes
@@ -311,7 +311,7 @@ and one following sonority.
 \subsection{K-Nearest-Neighbors}
 \label{sec:knn}
 
-We implemented a k-neartest-neighbors algorithm because it has good
+We implemented a k-nearest-neighbors algorithm because it has good
 performance and is easy to implement \cite{fix.ea89:important,
   gomez.ea04:estimating}. The features used in this classifier were the
 same as in the neural networks. Our two k-nearest-neighbor algorithms,
@@ -338,13 +338,13 @@ shows their overall accuracy over all chords in our corpus.
 \subsection{Performance by algorithm}
 \label{sec:algo-perf}
 
-The performance Pardo and Birmingham's original algorithm , \texttt{S-pb}, is
-very low on our corpus due to the variety of chord types
-considered. For this reason it has the highest recall on major chords,
-major chords with a minor seventh, and half-diminished chords.
+The performance of Pardo and Birmingham's original algorithm,
+\texttt{S-pb}, is very low on our corpus due to the variety of chord
+types considered. For this reason it has the highest recall on major
+chords, major chords with a minor seventh, and half-diminished chords.
 
 The decision tree algorithm's performance is unremarkable. It displays
-the smallest hability to generalize from training data of our machine
+the smallest ability to generalize from training data of our machine
 learning algorithms, probably due to a bad choice of features.
 
 The contextual algorithms, \texttt{EC-knn} and \texttt{EC-net}, are
@@ -363,7 +363,7 @@ accuracy, as seen in tables \ref{tab:precision}, \ref{tab:f-measure},
 and \ref{tab:accuracy}; but \texttt{ES-pb} has the best recall. As can
 be seen in tables \ref{tab:erros-es-net} and \ref{tab:erros-es-pb},
 this is most likely due to \texttt{ES-pb}'s ignorance of non-chord
-tones. This suggestes that an enhanced pattern matcher supporting
+tones. This suggests that an enhanced pattern matcher supporting
 non-chord tones, like the one described by Taube
 \cite{taube99:automatic}, can be a very good chord labeling
 algorithm. This is supported by \texttt{ES-knn}'s good precision, as
@@ -493,7 +493,7 @@ S-pb   &$   68  $&$ 15$      &$42.3$ \\
 \label{sec:conclusions}
 
 We have evaluated algorithms for chord labeling of symbolic scores of
-tonal music on a corpus of 40 Bach chorales and have found that an
+tonal music on a corpus of 18 Bach chorales and have found that an
 artificial neural network that does not use contextual information is
 the best algorithm evaluated. We have also found that a simple
 memory-based classifier can outperform a simple heuristic algorithm,
