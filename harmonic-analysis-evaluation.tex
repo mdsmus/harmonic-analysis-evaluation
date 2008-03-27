@@ -19,8 +19,7 @@
 }
 \newcommand{\comment}[1]{}
 
-\title{An evaluation of some heuristic and machine learning algorithms for
-  symbolic chord labeling}
+\title{An evaluation of some algorithms for symbolic chord labeling}
 \oneauthor {}{}
 %% Teoricamente é para não botar o nome do autor no artigo, por causa
 %% do processo de revisão.
@@ -38,18 +37,17 @@
   Chord labeling is an important part of harmonic analysis. Many
   algorithms have been proposed for it, but there is no objective
   comparison of their main merits and flaws. In this paper we present
-  such an \note{eu acho que tira ou such ou an} evaluation \note{on 18
-  Bach's chorales}, comparing
-  Pardo and Birmingham's and Tsui's algorithms and evaluating two new
-  proposals: a k-nearest-neighbors and a decision tree classifiers.
+  an evaluation of chord labeling algorithms on 18 Bach's chorales,
+  comparing Pardo and Birmingham's and Tsui's algorithms and
+  evaluating two new proposals: a k-nearest-neighbors and a decision
+  tree classifiers.
   
   Our evaluation methodology tries to be as precise as possible in
   enumerating the errors made by each algorithm. We split the overall
   accuracy in precision and recall, and note which chord types are
   most often mistaken by others. This highlights the difficult areas
-  and suggest, for example, how is it better \note{``better ways'' is
-    better IMHO} to increment our training corpus. The evaluation is
-  performed on Bach chorales. \note{merge com 1o paragrafo}
+  and suggest, for example, how to better extend our training
+  corpus. 
   
   We find that Tsui's neural network classifier without contextual
   information is the best labeler for all chord modes in our corpus,
@@ -88,27 +86,25 @@ Stoddard's hidden Markov model \cite{raphael.ea03:harmonic}. Recently,
 Illescas et al. designed a mixed system, based on rules and search
 through a graph of possible solutions \cite{illescas.ea07:harmonic}.
 
-Most of these techniques and methods were \note{eu usaria ``are''} not
-described rigorously, and very little source code is available for
-testing, which is a problem since some articles, most notably
-Barthelemy and Bonardi \cite{pardo.ea02:algorithms} and Temperley and
-Sleator \cite{temperley.ea99:modeling}, don't provide enough
-information to reproduce their results reliably. Every benchmark found
-in literature \cite{pardo.ea00:automated, pardo.ea02:algorithms,
-  tsui02:harmonic, taube99:automatic, illescas.ea07:harmonic} is based
-only on published examples, and this makes difficult a thorough
-statistical evaluation of the main merits and flaws of each technique.
-\note{dizer que estamos re-implementando, etc. o mesmo do outro paper}
+Most of these techniques and methods are not described rigorously, and
+very little source code is available for testing, which is a problem
+since some articles, most notably Barthelemy and Bonardi
+\cite{pardo.ea02:algorithms} and Temperley and Sleator
+\cite{temperley.ea99:modeling}, don't provide enough information to
+reproduce their results reliably. Every benchmark found in literature
+\cite{pardo.ea00:automated, pardo.ea02:algorithms, tsui02:harmonic,
+  taube99:automatic, illescas.ea07:harmonic} is based only on
+published examples, and this makes difficult a thorough statistical
+evaluation of the main merits and flaws of each technique.
 
-In this paper we present an evaluation of Pardo and Birmingham's and
-Tsui's algorithms, together with two original algorithms we propose.
-First, \note{tira o first. nos enumeramos quando tem paralelismo} in
-section \ref{sec:methodology} we discuss our evaluation methodology.
-In section \ref{sec:algorithms} we present Pardo and Birmingham's
-HarmAn, Tsui's artificial neural networks, our decision trees and our
-k-nearest-neighbors method. We compare their overall performance in
-section \ref{sec:discussion} and state our case in section
-\ref{sec:conclusions}.
+To correct this defficiency we have reimplemented and evaluated some
+chord labeling algorithms in a precise statistical framework. This
+evaluation is performed on Bach Chorales, and we describe our
+methodology in section \ref{sec:methodology}. The algorithms we
+reimplemented (and the algorithms we propose in this paper) are
+described in section \ref{sec:algorithms}. We compare their overall
+performance in section \ref{sec:discussion} and state our case in
+section \ref{sec:conclusions}.
 
 \begin{table}
 \centering
@@ -155,23 +151,23 @@ corpus}
 \caption{Classifications made by our best algorithm, \texttt{ES-net}. The rows represent
   the expected answers while the columns are the returned
   results. Note that the matrix is not symmetric.}
-\label{tab:erros-es-net}
+\label{tab:erros-ES-net}
 \end{table*}
 
 The main thesis of the Heuristics and Biases program in cognitive
 psychology is that the mistakes made by a person or algorithm are more
-revealing of their behavior than its mode of functioning than its
-correct judgments \cite{gilovich.ea02:heuristics} \note{tem 2 than,
-  pick one}. This thesis has been proved successful, and has helped
-detect and explain a substantial portion of human behavior,
-highlighting the biases inherent in the heuristics most people use to
-perform their day-to-day activities. Here we propose a similar
-analysis with the intention of facilitating detection of common biases
-in chord labeling algorithms. A few biases can be readily seen in
-tables \ref{tab:erros-es-net} and \ref{tab:erros-es-pb}, which show
-how some algorithms ignore less frequent chord modes and others
-display clear biases, for example labeling most major chords with a
-major seventh as non-chord tones.
+revealing of their behavior and its mode of functioning than its
+correct judgments \cite{gilovich.ea02:heuristics}. This thesis has
+been proved successful, and has helped detect and explain a
+substantial portion of human behavior, highlighting the biases
+inherent in the heuristics most people use to perform their day-to-day
+activities. Here we propose a similar analysis with the intention of
+facilitating detection of common biases in chord labeling
+algorithms. A few biases can be readily seen in tables
+\ref{tab:erros-ES-net} and \ref{tab:erros-ES-pb}, which show how some
+algorithms ignore less frequent chord modes and others display clear
+biases, for example labeling most major chords with a major seventh as
+non-chord tones.
 
 To concisely show most of the errors made by these algorithms we
 propose a different evaluation methodology: each algorithm will be
@@ -223,7 +219,7 @@ analysis, are available on-line at \url{http://removed-for-anonymity}.
 \caption{Classifications made by the extended Pardo and Birmingham's algorithm. The rows represent
   the expected answers while the columns are the returned
   results. Note that many chord types are ignored.}
-\label{tab:erros-es-pb}
+\label{tab:erros-ES-pb}
 \end{table*}
 
 Chord labeling is a classification problem, consisting of labeling
@@ -272,7 +268,7 @@ and enabling it to distinguish enharmonic tones, which improved the
 recall of fully diminished chords and the precision in recognizing
 major chords, as seen in section \ref{sec:discussion}. We have also
 added inversion detection. The original algorithm is referred to as
-\texttt{s-pb} and our extended version as \texttt{es-pb}.
+\texttt{S-pb} and our extended version as \texttt{ES-pb}.
 
 \subsection{Decision Tree}
 \label{sec:tree}
@@ -282,9 +278,9 @@ Since our decision tree library can't handle numeric attributes well,
 we use the four pitch classes of each sonority to be classified as
 features. This, unfortunately, makes it impossible for this algorithm
 to generalize to musical styles not very similar to a four-part
-chorale, although an extension to allow this is planned. \note{``allow
-  this'' is kind of ugly} This algorithm is named \texttt{es-tree}. It
-distinguishes enharmonic notes but ignores the surrounding context.
+chorale, although we plan on extending it to overcome this
+limitation. The algorithm is named \texttt{ES-tree}. It distinguishes
+enharmonic notes but ignores the surrounding context.
 
 \subsection{Artificial Neural Networks}
 \label{sec:neural-net}
@@ -300,17 +296,16 @@ possible pitch classes to ensure that the network is invariant under
 transposition. While interesting, this approach becomes
 computationally prohibitive if one wants to distinguish enharmonic
 notes. Instead, we chose to transpose each sonority so that it has C
-as its lowest note. This codification \note{nao é codificacao. eu
-  diria operacao.} also preserves transposition invariance and allows
-a much simpler network structure.
+as its lowest note. This codification is transposition invariance and
+allows a much simpler network structure.
 
-We implemented two neural network algorithms: \texttt{es-net}, that
-does not use contextual information, and \texttt{ec-net}, which
+We implemented two neural network algorithms: \texttt{ES-net}, that
+does not use contextual information, and \texttt{EC-net}, which
 does. Both distinguish enharmonic notes.  It should be noted that,
 unlike Tsui, our neural networks have an overall worse accuracy as
 context is added, as can be seen in section \ref{sec:discussion}. Our
 experiments determined that the best amount of contextual information
-is the least possible, so \texttt{ec-net} looks only at one preceding
+is the least possible, so \texttt{EC-net} looks only at one preceding
 and one following sonority.
 
 
@@ -321,28 +316,25 @@ We implemented a k-nearest-neighbors algorithm because it has good
 performance and is easy to implement \cite{fix.ea89:important,
   gomez.ea04:estimating}. The features used in this classifier were the
 same as in the neural networks. Our two k-nearest-neighbor algorithms,
-\texttt{es-knn} and \texttt{ec-knn}, distinguish enharmonic notes, and
-the only difference between them is that \texttt{es-knn} looks at one
-sonority at a time, while \texttt{ec-knn} also receives information
+\texttt{ES-knn} and \texttt{EC-knn}, distinguish enharmonic notes, and
+the only difference between them is that \texttt{ES-knn} looks at one
+sonority at a time, while \texttt{EC-knn} also receives information
 from surrounding sonorities as input. Experimentally we have
 determined that the best k value is 1, using only the nearest
-neighbor, for \texttt{es-knn} and 2 for \texttt{ec-knn}. The
-surrounding sonorities in \texttt{ec-knn} are weighted by a factor of
+neighbor, for \texttt{ES-knn} and 2 for \texttt{EC-knn}. The
+surrounding sonorities in \texttt{EC-knn} are weighted by a factor of
 2 times their distance from the current sonority.
 
 \section{Results}
 \label{sec:discussion}
 
-The results are displayed in a few tables. The first two, \note{a
-  proxima ref expande para 2, entao o texto fica dificil de parsear:
-  ``The first two, 2, and 3''. é melhor tirar o ``first two'' e usar o
-  esquema de ``Tables 2 and 3''.} \ref{tab:erros-es-net}, and
-\ref{tab:erros-es-pb} display in detail the classifications made by
-\texttt{ES-net} and \texttt{ES-pb}, respectively. Tables
-\ref{tab:precision}, \ref{tab:recall}, and \ref{tab:f-measure} show
-the precision, recall and f-measure of the evaluated algorithms. Table
-\ref{tab:accuracy} shows their overall accuracy over all chords in our
-corpus.
+The results are displayed in a few tables. Tables
+\ref{tab:erros-ES-net}, and \ref{tab:erros-ES-pb} display in detail
+the classifications made by \texttt{ES-net} and \texttt{ES-pb},
+respectively. Tables \ref{tab:precision}, \ref{tab:recall}, and
+\ref{tab:f-measure} show the precision, recall and f-measure of the
+evaluated algorithms. Table \ref{tab:accuracy} shows their overall
+accuracy over all chords in our corpus.
 
 \subsection{Performance by algorithm}
 \label{sec:algo-perf}
@@ -352,10 +344,10 @@ The performance of Pardo and Birmingham's original algorithm,
 types considered. For this reason it has the highest recall on major
 chords, major chords with a minor seventh, and half-diminished chords.
 
-The decision tree algorithm's performance is unremarkable \note{ainda
-  sim é melhor que s-pb na média}. It displays the smallest ability to
-generalize from training data of our machine learning algorithms,
-probably due to a bad choice of features.
+The decision tree algorithm's performance is unremarkable in
+comparison with the other machine learning algorithms. It displays the
+smallest ability to generalize from training data, probably due to a
+bad choice of features.
 
 The contextual algorithms, \texttt{EC-knn} and \texttt{EC-net}, are
 overall worse than their non-contextual equivalents, probably due to
@@ -372,7 +364,7 @@ problem known as ``the curse of dimensionality''
 Overall, \texttt{ES-net} has the best precision, f-measure and
 accuracy, as seen in tables \ref{tab:precision}, \ref{tab:f-measure},
 and \ref{tab:accuracy}; but \texttt{ES-pb} has the best recall. As can
-be seen in tables \ref{tab:erros-es-net} and \ref{tab:erros-es-pb},
+be seen in tables \ref{tab:erros-ES-net} and \ref{tab:erros-ES-pb},
 this is most likely due to \texttt{ES-pb}'s ignorance of non-chord
 tones. This suggests that an enhanced pattern matcher supporting
 non-chord tones, like the one described by Taube
@@ -386,13 +378,12 @@ seen in table \ref{tab:precision}.
 
 In this analysis we chose to separate the errors by chord type, which
 can show some interesting biases. The most difficult chord type to
-recognize is the incomplete chord \note{(a chord without a third), ja
-  que um acorde incompleto é um que falta alguma coisa (7a, 5a, etc)},
-closely followed by the augmented chords and the augmented sixth
-chords. As table \ref{tab:legenda} shows, they are the less frequent
-chord types. This can cause two problems: the machine learning
-algorithms have less examples to learn from and man-made heuristics
-tend to either overestimate their occurrence (as seen in table
+recognize is the incomplete chord, a chord without a third, closely
+followed by the augmented chords and the augmented sixth chords. As
+table \ref{tab:legenda} shows, they are the less frequent chord
+types. This can cause two problems: the machine learning algorithms
+have less examples to learn from and man-made heuristics tend to
+either overestimate their occurrence (as seen in table
 \ref{tab:precision} in the \texttt{ES-pb} column) or ignore them at
 all (as seen in table \ref{tab:f-measure} on the \texttt{S-pb}
 column). These biases are difficult to correct accurately.
