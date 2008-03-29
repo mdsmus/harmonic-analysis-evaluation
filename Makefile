@@ -16,7 +16,7 @@ CLEAN_FILES+= diff.* 1.tex 2.tex
 
 diff:
 	git show HEAD^:$(NAME).tex > 1.tex
-	git show HEAD:$(NAME) > 2.tex
+	git show HEAD:$(NAME).tex > 2.tex
 	latexdiff-so 1.tex 2.tex > da.tex
 	latex diff.tex
 	bibtex diff

@@ -63,45 +63,45 @@
 \label{sec:introduction}
 
 Chord labeling consists in assigning a name to a set of notes. The
-process involves dividing a musical score in symbolic format in
+process involves dividing a musical score in symbolic format into
 different sonorities, deciding which notes in a sonority are part of a
 chord, and naming the sonorities with symbols like E$\flat$ or
 A$\sharp$7M.
 
 The problem of automatic chord labeling of symbolic scores has been
-approached from many directions since the sixties. First, Winograd
+approached from many angles since the sixties. First, Winograd
 \cite{winograd68:linguistics} and Ulrich \cite{ulrich77:analysis}
-developed backtracking parsers based of formal grammars and
+developed backtracking parsers based on formal grammars and
 productions. After a hiatus they were followed by Maxwell's
 \cite{maxwell92:expert} rule-based expert system and Temperley and
 Sleator's preference-rule Melisma system
-\cite{temperley.ea99:modeling}. By the end of the nineties Pardo and
+\cite{temperley.ea99:modeling}. In the end of the nineties Pardo and
 Birmingham's HarmAn \cite{barthelemy.ea01:figured}, Barthelemy and
 Bonardi's algorithm \cite{pardo.ea02:algorithms}, and Taube's
 workbench \cite{taube99:automatic} were built, all using
 pattern-matching as their core chord-finding method. Parallel to these
-are Tsui's neural network algorithm \cite{tsui02:harmonic}, Temperley's
-bayesian approach \cite{temperley04:bayesian}, and Raphael and
-Stoddard's hidden Markov model \cite{raphael.ea03:harmonic}. Recently,
-Illescas et al. designed a mixed system, based on rules and search
-through a graph of possible solutions \cite{illescas.ea07:harmonic}.
+are Tsui's neural network algorithm \cite{tsui02:harmonic},
+Temperley's bayesian approach \cite{temperley04:bayesian}, and Raphael
+and Stoddard's hidden Markov model
+\cite{raphael.ea03:harmonic}. Recently, Illescas et al. designed a
+mixed system, based on rules and search through a graph of possible
+solutions \cite{illescas.ea07:harmonic}.
 
 Most of these techniques and methods are not described rigorously, and
-very little source code is available for testing, which is a problem
-since some articles, most notably Barthelemy and Bonardi
-\cite{pardo.ea02:algorithms} and Temperley and Sleator
-\cite{temperley.ea99:modeling}, don't provide enough information to
-reproduce their results reliably. Every benchmark found in literature
-\cite{pardo.ea00:automated, pardo.ea02:algorithms, tsui02:harmonic,
-  taube99:automatic, illescas.ea07:harmonic} is based only on
-published examples, and this makes difficult a thorough statistical
-evaluation of the main merits and flaws of each technique.
+very little source code is available for testing. For example,
+Barthelemy and Bonardi \cite{pardo.ea02:algorithms} and Temperley and
+Sleator \cite{temperley.ea99:modeling}, don't provide enough
+information to reproduce their results reliably. Every benchmark found
+in literature \cite{pardo.ea00:automated, pardo.ea02:algorithms,
+  tsui02:harmonic, taube99:automatic, illescas.ea07:harmonic} is based
+only on published examples, and this makes difficult a thorough
+statistical evaluation of the main merits and flaws of each technique.
 
 To correct this defficiency we have reimplemented and evaluated some
 chord labeling algorithms in a precise statistical framework. This
 evaluation is performed on Bach Chorales, and we describe our
 methodology in section \ref{sec:methodology}. The algorithms we
-reimplemented (and the algorithms we propose in this paper) are
+reimplemented (and the algorithms we present in this paper) are
 described in section \ref{sec:algorithms}. We compare their overall
 performance in section \ref{sec:discussion} and state our case in
 section \ref{sec:conclusions}.
@@ -133,7 +133,7 @@ corpus}
 
 \begin{table*}
 \centering
-\begin{tabular}{l||r|r|r|r|r|r|r|r|r|r|r|r|r}
+\begin{tabular}{r||r|r|r|r|r|r|r|r|r|r|r|r|r}
       &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct \\  \hline \hline
     M & $ 774 $ & $     $ & $     $ & $   1 $ & $   1 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  34 $ \\ \hline
    M7 & $     $ & $ 176 $ & $     $ & $   2 $ & $     $ & $   7 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  12 $ \\ \hline
@@ -201,7 +201,7 @@ on-line at \url{http://removed-for-anonymity}.
 
 \begin{table*}
 \centering
-\begin{tabular}{l||r|r|r|r|r|r|r|r|r|r|r|r|r}
+\begin{tabular}{r||r|r|r|r|r|r|r|r|r|r|r|r|r}
       &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct \\  \hline \hline
     M & $ 774 $ & $     $ & $   3 $ & $   5 $ & $     $ & $     $ & $     $ & $   3 $ & $     $ & $  55 $ & $     $ & $     $ \\ \hline
    M7 & $     $ & $ 180 $ & $   2 $ & $   5 $ & $     $ & $   7 $ & $     $ & $     $ & $     $ & $   4 $ & $     $ & $     $ \\ \hline
@@ -228,10 +228,11 @@ each sonority (or sequence of sonorities) in a score with a chord
 type. Most classification algorithms operate on a set of features,
 that are previously extracted from the data. This is done mainly to
 remove irregularities in the original inputs, reduce the
-dimensionality (thereby making a problem more tractable) of the
-problem, and remove noise. Each classification algorithm we present
-operates on a distinct set of features, mostly derived from the
-pitches of the notes. Metrical information is ignored, for now.
+dimensionality of the problem, thereby making it more tractable, and
+remove noise. Each classification algorithm we present operates on a
+distinct set of features, mostly derived from the pitches of the
+notes. Metrical information is not considered in any algorithm
+discussed here.
 
 In this section we present Pardo and Birmingham's algorithm and a few
 machine learning techniques. The machine learning algorithms were
@@ -258,7 +259,7 @@ well. Raphael and Stoddard describe problems common to rule based
 systems \cite{raphael.ea03:harmonic}, and we have found that most of
 them also apply to Pardo and Birmingham's algorithm.
 
-Some limitations are obvious from the article. The algorithm, for
+Some limitations are described in the article. The algorithm, for
 example, has no notion of a minor chord with a minor seventh, or an
 augmented chord, or a chord without a third. Also, since their system
 ignores enharmonic information some fine distinctions are lost, and a
@@ -276,8 +277,8 @@ added inversion detection. The original algorithm is referred to as
 
 Our decision tree uses the ID3 algorithm \cite{mitchell97:machine}.
 Since our decision tree library can't handle numeric attributes well,
-we use the four pitch classes of each sonority to be classified as
-features. This, unfortunately, makes it impossible for this algorithm
+the features we use for classifying a sonority are its four
+pitches. This, unfortunately, makes it impossible for this algorithm
 to generalize to musical styles not very similar to a four-part
 chorale, although we plan on extending it to overcome this
 limitation. The algorithm is named \texttt{ES-tree}. It distinguishes
@@ -288,11 +289,11 @@ enharmonic notes but ignores the surrounding context.
 
 
 The artificial neural networks we used are modeled after Tsui's Root
-Network A \cite{tsui02:harmonic}. The main differences are in the
-feature extraction process and that we consider chord types other than
-major and minor. Tsui uses as features a vector, each position
-containing how many times one pitch class sounds in a given sonority.
-On training, Tsui's algorithm first transposes each sonority to the 12
+Network A \cite{tsui02:harmonic}. The main differences are the feature
+extraction process and our considering chord types other than major
+and minor. Tsui uses as features a vector, each position containing
+how many times one pitch class sounds in a given sonority.  On
+training, Tsui's algorithm first transposes each sonority to the 12
 possible pitch classes to ensure that the network is invariant under
 transposition. While interesting, this approach becomes
 computationally prohibitive if one wants to distinguish enharmonic
@@ -300,10 +301,10 @@ notes. Instead, we chose to transpose each sonority so that it has C
 as its lowest note. This codification is transposition invariance and
 allows a much simpler network structure.
 
-We implemented two neural network algorithms: \texttt{ES-net}, that
+We implemented two neural network algorithms: \texttt{ES-net}, which
 does not use contextual information, and \texttt{EC-net}, which
 does. Both distinguish enharmonic notes.  It should be noted that,
-unlike Tsui, our neural networks have an overall worse accuracy as
+unlike Tsui, our neural networks have an overall worse accuracy when
 context is added, as can be seen in section \ref{sec:discussion}. Our
 experiments determined that the best amount of contextual information
 is the least possible, so \texttt{EC-net} looks only at one preceding
@@ -335,7 +336,7 @@ the classifications made by \texttt{ES-net} and \texttt{ES-pb},
 respectively. Tables \ref{tab:precision}, \ref{tab:recall}, and
 \ref{tab:f-measure} show the precision, recall and f-measure of the
 evaluated algorithms. Table \ref{tab:accuracy} shows their overall
-accuracy over all chords in our corpus.
+accuracy across all chords in our corpus.
 
 \subsection{Performance by algorithm}
 \label{sec:algo-perf}
@@ -386,12 +387,12 @@ table \ref{tab:legenda} shows, they are the less frequent chord
 types. This can cause two problems: the machine learning algorithms
 have less examples to learn from and man-made heuristics tend to
 either overestimate their occurrence (as seen in table
-\ref{tab:precision} in the \texttt{ES-pb} column) or ignore them at
-all (as seen in table \ref{tab:f-measure} on the \texttt{S-pb}
+\ref{tab:precision} in the \texttt{ES-pb} column) or ignore them
+altogether (as seen in table \ref{tab:f-measure} on the \texttt{S-pb}
 column). These biases are difficult to correct accurately.
 
 
-Averaged f-measure over all chord types is, as expected, correlated
+Averaged f-measure across all chord types is, as expected, correlated
 with overall accuracy, but shows some variation due to the weighting
 of the chord types, as seen it table \ref{tab:accuracy}.
 
