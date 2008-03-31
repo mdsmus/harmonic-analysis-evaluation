@@ -353,11 +353,11 @@ comparison with the other machine learning algorithms. It displays the
 smallest ability to generalize from training data, probably due to a
 bad choice of features.
 
-The contextual algorithms, \texttt{EC-knn} and \texttt{EC-net}, are
+The contextual algorithms, \texttt{EC-knn} and \texttt{EC\--net}, are
 overall worse than their non-contextual equivalents, probably due to
 having a smaller performance on the more common chord modes. On the
 other hand, \texttt{EC-net} is the only machine learning algorithm
-that recognizes augmented chords and \texttt{EC-knn}, unlike
+that recognizes aug\-ment\-ed chor\-ds and \texttt{EC\--knn}, unlike
 \texttt{ES-knn}, recognizes major chords with a major seventh. As
 expected, contextual information is useful in disambiguating less
 frequent chord types, but might also confuse the algorithm due to the
@@ -401,7 +401,7 @@ of the chord types, as seen it table \ref{tab:accuracy}.
 
 \begin{table}
   \centering
-\begin{tabular}{l|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
+\begin{tabular}{r|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
      &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &   S-PB \\ \hline
    M & $  88.4$ & $  94.4$ & $  95.8$ & $  97.7$ & $  90.6$ & $  89.2$ & $  71.4$ \\
   M7 & $  85.3$ & $  91.0$ & $  89.7$ & $  94.1$ & $  75.0$ & $  82.9$ & $  74.1$ \\
@@ -426,7 +426,7 @@ avg & $   60.8$ & $  60.9$ & $  68.3$ & $  77.6$ & $  57.4$ & $  47.8$ & $  38.5
 
 \begin{table}
   \centering
-\begin{tabular}{l|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
+\begin{tabular}{r|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
      &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &     S-PB \\ \hline
    M & $  95.2$ & $  97.3$ & $  98.3$ & $  98.7$ & $  97.2$ & $  96.3$ & $  99.7$ \\
   M7 & $  78.4$ & $  87.6$ & $  94.1$ & $  95.1$ & $  96.3$ & $  62.0$ & $  96.8$ \\
@@ -452,7 +452,7 @@ aug6 & $  66.7$ & $  33.3$ & $ 100  $ & $ 100  $ & $ 100  $ & $ ~~0.0$ & $ ~~0.0
 
 \begin{table}
   \centering
-\begin{tabular}{l|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
+\begin{tabular}{r|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
      &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &        S-PB \\ \hline
    M & $  91.7$ & $  95.8$ & $  97.0$ & $  98.2$ & $  93.8$ & $  92.6$ & $  83.2$ \\
   M7 & $  81.7$ & $  89.3$ & $  91.8$ & $  94.6$ & $  84.3$ & $  70.9$ & $  83.9$ \\
