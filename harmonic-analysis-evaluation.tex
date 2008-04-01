@@ -19,6 +19,8 @@
 }
 \newcommand{\comment}[1]{}
 
+\hyphenation{aug-ment-ed}
+
 \title{An evaluation of some algorithms for symbolic chord labeling}
 \oneauthor {}{}
 %% Teoricamente é para não botar o nome do autor no artigo, por causa
@@ -37,7 +39,7 @@
   Chord labeling is an important part of harmonic analysis. Many
   algorithms have been proposed for it, but there is no objective
   comparison of their main merits and flaws. In this paper we present
-  an evaluation of chord labeling algorithms on 18 Bach's chorales,
+  an evaluation of chord labeling algorithms on 28 Bach's chorales,
   comparing Pardo and Birmingham's and Tsui's algorithms and
   evaluating two new proposals: a k-nearest-neighbors and a decision
   tree classifiers.
@@ -76,16 +78,16 @@ productions. After a hiatus they were followed by Maxwell's
 \cite{maxwell92:expert} rule-based expert system and Temperley and
 Sleator's preference-rule Melisma system
 \cite{temperley.ea99:modeling}. In the end of the nineties Pardo and
-Birmingham's HarmAn \cite{barthelemy.ea01:figured}, Barthelemy and
-Bonardi's algorithm \cite{pardo.ea02:algorithms}, and Taube's
+Birmingham's HarmAn \cite{pardo.ea02:algorithms}, Barthelemy and
+Bonardi's algorithm \cite{barthelemy.ea01:figured}, and Taube's
 workbench \cite{taube99:automatic} were built, all using
 pattern-matching as their core chord-finding method. Parallel to these
 are Tsui's neural network algorithm \cite{tsui02:harmonic},
 Temperley's bayesian approach \cite{temperley04:bayesian}, and Raphael
-and Stoddard's hidden Markov model
-\cite{raphael.ea03:harmonic}. Recently, Illescas et al. designed a
-mixed system, based on rules and search through a graph of possible
-solutions \cite{illescas.ea07:harmonic}.
+and Stoddard's hidden Markov model \cite{raphael.ea03:harmonic}.
+Recently, Illescas et al. designed a mixed system, based on rules and
+search through a graph of possible solutions
+\cite{illescas.ea07:harmonic}.
 
 Most of these techniques and methods are not described rigorously, and
 very little source code is available for testing. For example,
@@ -357,7 +359,7 @@ The contextual algorithms, \texttt{EC-knn} and \texttt{EC\--net}, are
 overall worse than their non-contextual equivalents, probably due to
 having a smaller performance on the more common chord modes. On the
 other hand, \texttt{EC-net} is the only machine learning algorithm
-that recognizes aug\-ment\-ed chor\-ds and \texttt{EC\--knn}, unlike
+that recognizes augmented chords and \texttt{EC\--knn}, unlike
 \texttt{ES-knn}, recognizes major chords with a major seventh. As
 expected, contextual information is useful in disambiguating less
 frequent chord types, but might also confuse the algorithm due to the
