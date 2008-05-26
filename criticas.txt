@@ -1,0 +1,91 @@
+Title: 	An evaluation of some algorithms for symbolic chord labeling
+Authors: 	Pedro Kroger, Alexandre Passos, Marcos Sampaio and Givaldo Cidra
+
+Instructions
+
+The author response period will be from Thursday May 15 until Tuesday May 20 (midnight Eastern US time). The reviews for your submission are displayed on this page. If you want to respond to the points raised in the reviews, you may do so in the box provided below in no more than 500 words. From Wednesday May 21, PC members and reviewers will engage in discussion in order to resolve conflicting reviews. In some cases, reviews may be modified to reflect the outcome of these discussions. Your response will inform both this process and the final decision to be made by the program chairs. Please note that you are not obligated to respond to the reviews.
+
+Review #1
+
+    How would you rate the paper topic's importance to colleagues working in the field?: 	medium high
+    How would you rate this paper's relevance to the conference?: 	medium high
+    How would you rate the technical depth of the paper?: 	medium low
+    How would you rate the technical content of the paper?: 	medium low
+    How would you rate the novelty of the paper?: 	medium low
+    The overall organization of the paper is satisfactory.: 	neither agree nor disagree
+    The title and abstract are appropriate.: 	agree
+    The bibliography is appropriate.: 	agree
+    How would you rate the readability of the paper?: 	medium
+    Does the paper span two or more disciplines?: 	no
+    Would this paper increase the diversity of topics at the conference?: 	maybe
+    What is your recommendation for publication?: 	weak reject
+
+    Comments
+
+    This paper proposes a method for evaluating various chord labeling algorithms for MIDI data. The evaluation is based on precision and recall values interpreting the chord labeling algorithm as a retrieval algorithm for a given fixed chord type.
+
+    The topic of the paper is interesting - the automated evaluation and comparison of MIR methods is an important issue. However, the contributions of this paper seem to be rather small and the suggested evaluation methods reveal some conceptual flaws.
+
+    In Section 3, the authors summarize various methods for automated chord labeling. The extension of Pardo and Birmingham's algorithm by simply increasing the number of templates is marginal.
+
+    Section 4 then discusses the labeling results. Fixing a chord type, the authors consider the set R of all chords of this type (i.e., R is the set of relevant chords). Furthermore, the authors consider the set P of all chords that were labeled by the respective algorithm with the label of the fixed chord type. Based on R and P, the authors compute the Precision = |R\intersect P|/|P| and the Recall = |R\intersect P|/|R|. (To make their idea clearer, the authors should formulate their approach explicitly!)
+
+    This idea is not bad. However, in their test data set some of the chord types only appear a few times (e.g., "aug" appears only twice). Such numbers are too small to be statistically relevant. For example, in case of "aug", the recall is already 50 % if one of the two chords were labeled correctly. In others words, a more or less random "hit" may have an exorbitant effect on the recall value. Then, taking just an average over all chord types, the small chord type classes may dominate the overall average score for a specific algorithm. This does not seem to be a "fair" evaluation.
+
+    Finally, the test corpus consists only of 28 pieces and is drawn from a single corpus. Since this paper is on evaluation, this is a rather limited and non-representative collection to make general conclusions about the performance of the algorithms.
+
+    Even though I cannot recommend this paper for ISMIR in the current form, I encourage the authors to extensively revise the paper by fixing their evaluation methods, by considering also other chord labeling algorithms, and by significantly extending their test collection and then to submit the revised paper elsewhere.
+
+Review #2
+
+    How would you rate the paper topic's importance to colleagues working in the field?: 	medium high
+    How would you rate this paper's relevance to the conference?: 	medium high
+    How would you rate the technical depth of the paper?: 	medium low
+    How would you rate the technical content of the paper?: 	medium
+    How would you rate the novelty of the paper?: 	medium low
+    The overall organization of the paper is satisfactory.: 	disagree
+    The title and abstract are appropriate.: 	neither agree nor disagree
+    The bibliography is appropriate.: 	neither agree nor disagree
+    How would you rate the readability of the paper?: 	medium low
+    Does the paper span two or more disciplines?: 	no
+    Would this paper increase the diversity of topics at the conference?: 	maybe
+    What is your recommendation for publication?: 	reject
+
+    Comments
+
+    This paper presents an evaluation of two existing systems and two machine learning techniques for chord labeling. While the paper starts with a good intention to provide a common ground for system comparisons, it is confusing and unclear in its design and presentation:
+
+    1. In the first paragraph in Section 2, author(s) describe the impressiveness of the Heuristics and Biases program in cognitive psychology, and address the necessity of studying biases to understand system behavior. It is very confusing since bias is a well-defined concept in machine learning. The definition of bias in relation to the result in Table 2 is never clear in this paper. Are all errors biases? To what degree an error becomes a bias? Is the bias discussed in this paper different from the bias generally used in machine learning?
+
+    2. The author(s) need to address in much greater details regarding constructing the matrix. In the last paragraph in Section 2, it is unclear how the ground-truth is obtained. What does “each segment” refer to? Is it a bar? Do all the tested methods have the same information about those segments?
+
+    3. In this paper, only chord type (mood) but not name is considered in the evaluation. What happen when a C major chord is recognized as F major? Is it an error or a correct hit in this paper?
+
+    4. It is unclear how NCT is counted in the matrix. Suppose a segment has pitches {c, d, f, g} and the ground-truth for the chord is F major. According to the ground-truth, two pitches {c, f} are chord tones and {d, g} are non-chord tones. How would the author(s) explain the result if a system recognizes it as D minor? Will it be counted as an error on major chord mislabeled as minor chord (M->m), and a NCT mislabeled as minor (pitch d), and a major chord mislabeled as NCT (pitch c)?
+
+    5. Many sentences in the paper are confusing and contain grammar errors. For example, the last sentence in the last paragraph in Section 3.3, “Our experiments determined … is the LEAST POSSIBLE…” And the third sentence in its previous paragraph, “Tsui uses as features a vector”. This paper needs to be more carefully edited.
+
+    6. The author(s) need to be more careful in wording. Many sentences in this paper are unclear and not specific enough. For example, what is a “precise” statistical framework? (last paragraph in Introduction). In the conclusion section, what is “a simple memory-based classifier” and what is “a simple heuristic algorithm”? These terms are mentioned in the last section in the paper without further explanations. The readers may have difficulty understanding those statements especially considering the interdisciplinary nature of this conference.
+
+Review #3
+
+    How would you rate the paper topic's importance to colleagues working in the field?: 	medium
+    How would you rate this paper's relevance to the conference?: 	high
+    How would you rate the technical depth of the paper?: 	medium low
+    How would you rate the technical content of the paper?: 	medium
+    How would you rate the novelty of the paper?: 	medium
+    The overall organization of the paper is satisfactory.: 	agree
+    The title and abstract are appropriate.: 	agree
+    The bibliography is appropriate.: 	disagree
+    How would you rate the readability of the paper?: 	medium high
+    Does the paper span two or more disciplines?: 	maybe
+    Would this paper increase the diversity of topics at the conference?: 	no
+    What is your recommendation for publication?: 	weak reject
+
+    Comments
+
+    This is a survey paper, applying a different-from-usual evaluation method to compare the work surveyed. The method is novel and quite interesting. The survey, though, is lacking, in that it misses two of the most important works in the area: Pachet & Roy (ECAI, 1998), on harmony inference by constraint reasoning, and Barucha (Music Perception, 1987) on a neural network for harmony inference. So, on balance, I think it would be best to look again at the literature and present the work on another occasion.
+
+Submit Response
+
+Use the following box to enter your response to the reviews. Please limit your comments to 500 words (longer responses will not be accepted by the system). 

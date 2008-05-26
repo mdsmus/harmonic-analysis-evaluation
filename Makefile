@@ -1,4 +1,4 @@
-NAME = harmonic-analysis-evaluation
+NAME = harmonic-analysis-evaluation-ismir
 USE_DVIPDFM = 1
 
 FIGSDIR = figs

@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage{ismir}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+%\usepackage[htt]{hyphenat}
+\usepackage{times}
+\usepackage{color}
+\usepackage[displaymath,textmath,sections,graphics,floats,auctex]{preview}
+
+\newcounter{notecounter}
+
+\newcommand{\note}[1]{
+  \addtocounter{notecounter}{1}
+  \textcolor{red}{[note \arabic{notecounter}: #1]}
+}
+\newcommand{\comment}[1]{}
+
+\hyphenation{aug-ment-ed}
+
+\title{An evaluation of some algorithms for symbolic chord labeling}
+\oneauthor {}{}
+%% Teoricamente é para não botar o nome do autor no artigo, por causa
+%% do processo de revisão.
+
+\PreviewEnvironment{itemize}
+\PreviewEnvironment{enumerate}
+
+
+\begin{document}
+\graphicspath{{figs/}{data/}}
+\maketitle
+
+\begin{abstract}
+\input{abstract.txt}
+\end{abstract}
+
+\input{body-en}
+
+\bibliographystyle{plain}
+\bibliography{strings-short,ismir,programs,coding,harmonic-analysis,dont-have,artificial-inteligence,music-harmony-and-theory,licenses,icmc,music-scores}
+
+\end{document}
+

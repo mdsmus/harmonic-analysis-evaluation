@@ -1,66 +1,3 @@
-\documentclass{article}
-\usepackage{ismir}
-\usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage[utf8x]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[english]{babel}
-%\usepackage[htt]{hyphenat}
-\usepackage{times}
-\usepackage{color}
-\usepackage[displaymath,textmath,sections,graphics,floats,auctex]{preview}
-
-\newcounter{notecounter}
-
-\newcommand{\note}[1]{
-  \addtocounter{notecounter}{1}
-  \textcolor{red}{[note \arabic{notecounter}: #1]}
-}
-\newcommand{\comment}[1]{}
-
-\hyphenation{aug-ment-ed}
-
-\title{An evaluation of some algorithms for symbolic chord labeling}
-\oneauthor {}{}
-%% Teoricamente é para não botar o nome do autor no artigo, por causa
-%% do processo de revisão.
-
-\PreviewEnvironment{itemize}
-\PreviewEnvironment{enumerate}
-
-
-\begin{document}
-\graphicspath{{figs/}{data/}}
-\maketitle
-
-\begin{abstract}
-
-  Chord labeling is an important part of harmonic analysis. Many
-  algorithms have been proposed for it, but there is no objective
-  comparison of their main merits and flaws. In this paper we present
-  an evaluation of chord labeling algorithms on 28 Bach's chorales,
-  comparing Pardo and Birmingham's \cite{pardo.ea02:algorithms} and
-  Tsui's \cite{tsui02:harmonic} algorithms and evaluating two new
-  proposals: a k-nearest-neighbors and a decision tree classifiers.
-  
-  Our evaluation methodology tries to be as precise as possible in
-  enumerating the errors made by each algorithm. We split the overall
-  accuracy in precision and recall, and note which chord types are
-  most often mistaken by others. This highlights the difficult areas
-  and suggest, for example, how to better extend our training
-  corpus. 
-  
-  We find that Tsui's neural network classifier without contextual
-  information is the best labeler for all chord modes in our corpus,
-  and enhancing it with the surrounding context is the best way of
-  incorporating contextual information in the decision process. Pardo
-  and Birmingham's algorithm has a very good recall, but a bad
-  precision, probably due to its ignorance of non-chord tones, and is
-  outperformed by the k-nearest-neighbors classifier, also a pattern
-  matcher. The decision tree's performance in unremarkable.
-\end{abstract}
-
 \section{Introduction}
 \label{sec:introduction}
 
@@ -522,8 +459,7 @@ pieces. Our aim is to benchmark and study the whole automatic harmonic
 analysis process, from pitch spelling to functional and non-chord tone
 analysis.
 
-\bibliographystyle{plain}
-\bibliography{strings-short,ismir,programs,coding,harmonic-analysis,dont-have,artifical-inteligence,music-harmony-and-theory,licenses,icmc,music-scores}
-
-\end{document}
-
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
