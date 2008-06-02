@@ -1,4 +1,4 @@
-NAME = harmonic-analysis-evaluation-ismir harmonic-analysis-evaluation-anppom
+NAME = harmonic-analysis-evaluation-anppom
 TEXSRCS = body-en.tex
 OTHER += abstract.txt
 
