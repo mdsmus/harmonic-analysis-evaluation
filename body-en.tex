@@ -26,26 +26,6 @@ Recently, Illescas et al. designed a mixed system, based on rules and
 search through a graph of possible solutions
 \cite{illescas.ea07:harmonic}.
 
-Most of these techniques and methods are not described rigorously, and
-very little source code is available for testing. For example,
-Barthelemy and Bonardi \cite{pardo.ea02:algorithms} and Temperley and
-Sleator \cite{temperley.ea99:modeling}, don't provide enough
-information to reproduce their results reliably. Every benchmark found
-in literature
-\cite{pardo.ea00:automated,pardo.ea02:algorithms,tsui02:harmonic,taube99:automatic,illescas.ea07:harmonic}
-is based only on published examples, and this makes difficult a
-thorough statistical evaluation of the main merits and flaws of each
-technique.
-
-To correct this deficiency we have reimplemented and evaluated some
-chord labeling algorithms in a precise statistical framework. This
-evaluation is performed on Bach Chorales, and we describe our
-methodology in section \ref{sec:methodology}. The chord types we
-consider are shown in table \ref{tab:legenda}. The algorithms we
-reimplemented (and the algorithms we present in this paper) are
-described in section \ref{sec:algorithms}. We compare their overall
-performance in section \ref{sec:discussion} and state our case in
-section \ref{sec:conclusions}.
 
 \begin{table}[!h]
 \centering
@@ -69,54 +49,41 @@ corpus}
 \label{tab:legenda}
 \end{table}
 
+
+
+Most of these techniques and methods are not described rigorously, and
+very little source code is available for testing. For example,
+Barthelemy and Bonardi \cite{pardo.ea02:algorithms} and Temperley and
+Sleator \cite{temperley.ea99:modeling}, don't provide enough
+information to reproduce their results reliably. Every benchmark found
+in literature
+\cite{pardo.ea00:automated,pardo.ea02:algorithms,tsui02:harmonic,taube99:automatic,illescas.ea07:harmonic}
+is based only on published examples, and this makes difficult a
+thorough statistical evaluation of the main merits and flaws of each
+technique.
+
+To correct this deficiency we have reimplemented and evaluated some
+chord labeling algorithms in a precise statistical framework. This
+evaluation is performed on Bach Chorales, and we describe our
+methodology in section \ref{sec:methodology}. The chord types we
+consider are shown in table \ref{tab:legenda}. The algorithms we
+reimplemented (and the algorithms we present in this paper) are
+described in section \ref{sec:algorithms}. We compare their overall
+performance in section \ref{sec:discussion} and state our case in
+section \ref{sec:conclusions}.
+
+
 \section{Methodology}
 \label{sec:methodology}
 
-\begin{table*}
-\centering
-\begin{tabular}{r||r|r|r|r|r|r|r|r|r|r|r|r|r}
-      &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct \\  \hline \hline
-    M & $ 774 $ & $     $ & $     $ & $   1 $ & $   1 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  34 $ \\ \hline
-   M7 & $     $ & $ 176 $ & $     $ & $   2 $ & $     $ & $   7 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  12 $ \\ \hline
-  M7+ & $  11 $ & $     $ & $   1 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  38 $ \\ \hline
-    m & $   3 $ & $     $ & $   1 $ & $ 313 $ & $   4 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   7 $ \\ \hline
-   m7 & $   5 $ & $   4 $ & $     $ & $     $ & $ 106 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   5 $ \\ \hline
-   ° & $     $ & $     $ & $     $ & $     $ & $     $ & $ 100 $ & $   2 $ & $     $ & $     $ & $     $ & $     $ & $   2 $ \\ \hline
-  °7 & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  30 $ & $     $ & $     $ & $     $ & $     $ & $     $ \\ \hline
-  ø7 & $     $ & $     $ & $     $ & $   1 $ & $   6 $ & $     $ & $     $ & $  44 $ & $     $ & $     $ & $     $ & $     $ \\ \hline
-  aug & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   4 $ \\ \hline
-  inc & $   5 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   4 $ \\ \hline
- aug6 & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   3 $ & $     $ \\ \hline
-  nct & $  27 $ & $  21 $ & $     $ & $  40 $ & $  44 $ & $  14 $ & $   4 $ & $  13 $ & $     $ & $     $ & $     $ & $ 304 $ \\ \hline
-\end{tabular}
-\caption{Classifications made by our best algorithm, \texttt{ES-net}. The rows represent
-  the expected answers while the columns are the returned
-  results. Note that the matrix is not symmetric.}
-\label{tab:erros-ES-net}
-\end{table*}
 
-The main thesis of the Heuristics and Biases program in cognitive
-psychology is that the mistakes made by a person or algorithm are more
-revealing of their behavior and its mode of functioning than its
-correct judgments \cite{gilovich.ea02:heuristics}. This thesis has
-been proved successful, and has helped detect and explain a
-substantial portion of human behavior, highlighting the biases
-inherent in the heuristics most people use to perform their day-to-day
-activities. Here we propose a similar analysis with the intention of
-facilitating detection of common biases in chord labeling
-algorithms. A few biases can be readily seen in tables
-\ref{tab:erros-ES-net} and \ref{tab:erros-ES-pb}, which show how some
-algorithms ignore less frequent chord modes and others display clear
-biases, for example labeling most major chords with a major seventh as
-non-chord tones.
-
-To concisely show most of the errors made by these algorithms we
-propose a different evaluation methodology: each algorithm will be
-evaluated by their precision and recall with respect to each chord
-mode, highlighting many weaknesses. This decision is a bit unusual,
-and deserves justification. Here, we assume that the aim of our
-algorithms is to retrieve correctly each sonority belonging to a
-certain chord type from a song. We also treat the detection of each
+To concisely show most of the errors made by the algorithms considered
+in this paper we propose a different evaluation methodology: each
+algorithm will be evaluated by their precision and recall with respect
+to each chord mode, highlighting many weaknesses. This decision is a
+bit unusual, and deserves justification. Here, we assume that the aim
+of our algorithms is to retrieve correctly each sonority belonging to
+a certain chord type from a song. We also treat the detection of each
 chord type separately. Hence, every time a diminished chord is
 misclassified as a non chord tone, for example, the recall of
 diminished chords gets smaller, while the precision of the non-chord
@@ -141,40 +108,16 @@ on-line at \url{http://removed-for-anonymity}\footnote{The real URL
 \section{Algorithms}
 \label{sec:algorithms}
 
-\begin{table*}
-\centering
-\begin{tabular}{r||r|r|r|r|r|r|r|r|r|r|r|r|r}
-      &     M &    M7 &   M7+ &     m &    m7 &    ° &   °7 &   ø7 &   aug &   inc &  aug6 &   nct \\  \hline \hline
-    M & $ 774 $ & $     $ & $   3 $ & $   5 $ & $     $ & $     $ & $     $ & $   3 $ & $     $ & $  55 $ & $     $ & $     $ \\ \hline
-   M7 & $     $ & $ 180 $ & $   2 $ & $   5 $ & $     $ & $   7 $ & $     $ & $     $ & $     $ & $   4 $ & $     $ & $     $ \\ \hline
-  M7+ & $     $ & $     $ & $  27 $ & $   4 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ \\ \hline
-    m & $   3 $ & $     $ & $   1 $ & $ 317 $ & $   2 $ & $     $ & $     $ & $   2 $ & $     $ & $   3 $ & $     $ & $     $ \\ \hline
-   m7 & $   5 $ & $   4 $ & $     $ & $   5 $ & $  88 $ & $     $ & $     $ & $  39 $ & $     $ & $     $ & $     $ & $     $ \\ \hline
-   ° & $   2 $ & $     $ & $     $ & $     $ & $     $ & $ 101 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ \\ \hline
-  °7 & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $  30 $ & $     $ & $     $ & $     $ & $     $ & $     $ \\ \hline
-  ø7 & $     $ & $     $ & $     $ & $   1 $ & $     $ & $     $ & $     $ & $  46 $ & $     $ & $     $ & $   2 $ & $     $ \\ \hline
-  aug & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   2 $ & $     $ & $     $ & $     $ \\ \hline
-  inc & $   1 $ & $   4 $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   2 $ & $     $ & $     $ \\ \hline
- aug6 & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $     $ & $   3 $ & $     $ \\ \hline
-  nct & $ 163 $ & $ 115 $ & $  91 $ & $ 133 $ & $  28 $ & $  34 $ & $   2 $ & $  55 $ & $  10 $ & $ 138 $ & $   4 $ & $     $ \\ \hline
-\end{tabular}
-
-\caption{Classifications made by the extended Pardo and Birmingham's algorithm. The rows represent
-  the expected answers while the columns are the returned
-  results. Note that many chord types are ignored.}
-\label{tab:erros-ES-pb}
-\end{table*}
 
 Chord labeling is a classification problem, consisting of labeling
 each sonority (or sequence of sonorities) in a score with a chord
 type. Most classification algorithms operate on a set of features,
 that are previously extracted from the data. This is done mainly to
-remove irregularities in the original inputs, reduce the
-dimensionality of the problem, thereby making it more tractable, and
-remove noise. Each classification algorithm we present operates on a
-distinct set of features, mostly derived from the pitches of the
-notes. Metrical information is not considered in any algorithm
-discussed here.
+remove irregularities in the original inputs and reduce the
+dimensionality of the problem, thereby making it more tractable. Each
+classification algorithm we present operates on a distinct set of
+features, mostly derived from the pitches of the notes. Metrical
+information is not considered in any algorithm discussed here.
 
 In this section we present Pardo and Birmingham's algorithm and a few
 machine learning techniques. The machine learning algorithms were
@@ -182,8 +125,7 @@ trained on the chorales numbered 1, 2, 3, 4, 5, and 6 of the
 Riemenschneider edition and on some textbook examples of augmented
 sixths, augmented chords, and major chords with major sevenths
 extracted from Robert Gauldin \cite{gauldin05:harmonic} and Reginald
-Morris \cite{morris33:figured}. These chorales were not used in our
-subsequent evaluation.
+Morris \cite{morris33:figured}. 
 
 \subsection{Pardo and Birmingham's algorithm}
 \label{sec:pardo}
@@ -264,83 +206,13 @@ k-nearest-neighbor algorithms, \texttt{ES-knn} and \texttt{EC-knn},
 distinguish enharmonic notes, and the only difference between them is
 that \texttt{ES-knn} looks at one sonority at a time, while
 \texttt{EC-knn} also receives information from surrounding sonorities
-as input. Experimentally we have determined that the best k value is
-1, using only the nearest neighbor, for \texttt{ES-knn} and 2 for
-\texttt{EC-knn}. The surrounding sonorities in \texttt{EC-knn} are
-weighted by a factor of 2 times their distance from the current
-sonority.
+as input. 
 
 \section{Results}
 \label{sec:discussion}
 
-The results are displayed in a few tables. Tables
-\ref{tab:erros-ES-net}, and \ref{tab:erros-ES-pb} display in detail
-the classifications made by \texttt{ES-net} and \texttt{ES-pb},
-respectively. Tables \ref{tab:precision}, \ref{tab:recall}, and
-\ref{tab:f-measure} show the precision, recall and f-measure of the
-evaluated algorithms. Table \ref{tab:accuracy} shows their overall
-accuracy across all chords in our corpus.
-
-\subsection{Performance by algorithm}
-\label{sec:algo-perf}
-
-The performance of Pardo and Birmingham's original algorithm,
-\texttt{S-pb}, is very low on our corpus due to the variety of chord
-types considered. For this reason it has the highest recall on major
-chords, major chords with a minor seventh, and half-diminished chords.
-
-The decision tree algorithm's performance is unremarkable in
-comparison with the other machine learning algorithms. It displays the
-smallest ability to generalize from training data, probably due to a
-bad choice of features.
-
-The contextual algorithms, \texttt{EC-knn} and \texttt{EC-net}, are
-overall worse than their non-contextual equivalents, probably due to
-having a smaller performance on the more common chord modes. On the
-other hand, \texttt{EC-net} is the only machine learning algorithm
-that is able to recognize augmented chords and \texttt{EC-knn}, unlike
-\texttt{ES-knn}, recognizes major chords with a major seventh. As
-expected, contextual information is useful in disambiguating less
-frequent chord types, but might also confuse the algorithm due to the
-problem known as ``the curse of dimensionality'', or the difficulty of
-efficiently handling data in too many dimensions
-\cite{duda.ea00:pattern}.
-
-
-Overall, \texttt{ES-net} has the best precision, f-measure and
-accuracy, as seen in tables \ref{tab:precision}, \ref{tab:f-measure},
-and \ref{tab:accuracy}; but \texttt{ES-pb} has the best recall. As can
-be seen in tables \ref{tab:erros-ES-net} and \ref{tab:erros-ES-pb},
-this is most likely due to \texttt{ES-pb}'s ignorance of non-chord
-tones. This suggests that an enhanced pattern matcher supporting
-non-chord tones, like the one described by Taube
-\cite{taube99:automatic}, can be a very good chord labeling
-algorithm. This is supported by \texttt{ES-knn}'s good precision, as
-seen in table \ref{tab:precision}.
-
-
-\subsection{Performance by chord type}
-\label{sec:chord-perf}
-
-In this analysis we chose to separate the errors by chord type, which
-can show some interesting biases. The most difficult chord type to
-recognize is the incomplete chord, a chord without a third, closely
-followed by the augmented chords and the augmented sixth chords. As
-table \ref{tab:legenda} shows, they are the less frequent chord
-types. This can cause two problems: the machine learning algorithms
-have less examples to learn from and man-made heuristics tend to
-either overestimate their occurrence (as seen in table
-\ref{tab:precision} in the \texttt{ES-pb} column) or ignore them
-altogether (as seen in table \ref{tab:f-measure} on the \texttt{S-pb}
-column). These biases are difficult to correct accurately.
-
-
-Averaged f-measure across all chord types is, as expected, correlated
-with overall accuracy, but shows some variation due to the weighting
-of the chord types, as seen it table \ref{tab:accuracy}.
-
 \begin{table}
-  \subfloat[Precision (\%)]{
+  \centering
 \begin{tabular}{r|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
      &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &   S-PB \\ \hline
    M & $  88.4$ & $  94.4$ & $  95.8$ & $  97.7$ & $  90.6$ & $  89.2$ & $  71.4$ \\
@@ -358,6 +230,9 @@ aug6 & $  50.0$ & $  12.5$ & $ 100  $ & $ 100  $ & $  50.0$ & $ ~~0.0$ & $ ~~0.0
 \hline                                                       
 avg & $   60.8$ & $  60.9$ & $  68.3$ & $  77.6$ & $  57.4$ & $  47.8$ & $  38.5$ \\
 \end{tabular}
+
+
+  \caption{Precision (\%)}
   \label{tab:precision}
 }
 \subfloat[Recall (\%)]{
@@ -378,10 +253,15 @@ aug6 & $  66.7$ & $  33.3$ & $ 100  $ & $ 100  $ & $ 100  $ & $ ~~0.0$ & $ ~~0.0
 \hline                                                       
  avg & $  55.7$ & $  52.9$ & $  65.8$ & $  72.1$ & $  84.5$ & $  45.6$ & $  48.4$ \\
 \end{tabular}
-  \label{tab:recall}
-}
 
-\subfloat[F-measure (\%)]{
+
+  \caption{Recall (\%)}
+  \label{tab:recall}
+\end{table}
+
+
+\begin{table}
+  \centering
 \begin{tabular}{r|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
      &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &        S-PB \\ \hline
    M & $  91.7$ & $  95.8$ & $  97.0$ & $  98.2$ & $  93.8$ & $  92.6$ & $  83.2$ \\
@@ -399,8 +279,16 @@ aug6 & $  57.2$ & $  18.2$ & $ 100  $ & $ 100  $ & $  66.7$ & $ ~~0.0$ & $ ~~0.0
 \hline                                                       
  avg & $  57.0$ & $  54.0$ & $  66.7$ & $  71.1$ & $  64.9$ & $  46.4$ & $  42.3$ \\
 \end{tabular}
-}
-\subfloat[Overall Accuracy (\%)]{
+
+
+  \caption{F-measure (\%)}
+  \label{tab:f-measure}
+\end{table}
+
+
+
+\begin{table}
+  \centering
   \begin{tabular}{l|rrr}
        & accuracy& $\sigma$  & f-measure\\
 \hline
@@ -411,10 +299,46 @@ EC-knn &$   82  $&$  4$      &$57.0$ \\
 ES-pb  &$   80  $&$  5$      &$64.9$ \\
 ES-tree&$   79  $&$  7$      &$46.4$ \\
 S-pb   &$   68  $&$ 15$      &$42.3$ \\
+
   \end{tabular}                                                        
+
+
+  \caption{Overall Accuracy (\%)}
   \label{tab:accuracy}
-}
 \end{table}
+
+
+The results are displayed in a few tables. Tables \ref{tab:precision},
+\ref{tab:recall}, and \ref{tab:f-measure} show the precision, recall
+and f-measure of the evaluated algorithms. Table \ref{tab:accuracy}
+shows their overall accuracy across all chords in our corpus.
+
+\subsection{Performance by algorithm}
+\label{sec:algo-perf}
+
+The performance of Pardo and Birmingham's original algorithm,
+\texttt{S-pb}, is very low on our corpus due to the variety of chord
+types considered. 
+
+The decision tree algorithm's performance is unremarkable in
+comparison with the other machine learning algorithms. It displays the
+smallest ability to generalize from training data, probably due to a
+bad choice of features.
+
+The contextual algorithms, \texttt{EC-knn} and \texttt{EC-net}, are
+overall worse than their non-contextual equivalents, probably due to
+having a smaller performance on the more common chord modes. On the
+other hand, \texttt{EC-net} is the only machine learning algorithm
+that is able to recognize augmented chords and \texttt{EC-knn}, unlike
+\texttt{ES-knn}, recognizes major chords with a major seventh.
+
+
+Overall, \texttt{ES-net} has the best precision, f-measure and
+accuracy, as seen in tables \ref{tab:precision}, \ref{tab:f-measure},
+and \ref{tab:accuracy}; but \texttt{ES-pb} has the best recall. This
+is most likely due to \texttt{ES-pb}'s ignorance of non-chord
+tones. 
+
 
 \section{Conclusions and future work}
 \label{sec:conclusions}
