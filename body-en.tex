@@ -212,7 +212,7 @@ as input.
 \label{sec:discussion}
 
 \begin{table}
-  \centering
+  \subfloat[Precision (\%)]{
 \begin{tabular}{r|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
      &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &   S-PB \\ \hline
    M & $  88.4$ & $  94.4$ & $  95.8$ & $  97.7$ & $  90.6$ & $  89.2$ & $  71.4$ \\
@@ -230,14 +230,10 @@ aug6 & $  50.0$ & $  12.5$ & $ 100  $ & $ 100  $ & $  50.0$ & $ ~~0.0$ & $ ~~0.0
 \hline                                                       
 avg & $   60.8$ & $  60.9$ & $  68.3$ & $  77.6$ & $  57.4$ & $  47.8$ & $  38.5$ \\
 \end{tabular}
-
-
-  \caption{Precision (\%)}
   \label{tab:precision}
-\end{table}
+}
 
-\begin{table}
-  \centering
+\subfloat[Recall (\%)]{
 \begin{tabular}{r|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
      &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &     S-PB \\ \hline
    M & $  95.2$ & $  97.3$ & $  98.3$ & $  98.7$ & $  97.2$ & $  96.3$ & $  99.7$ \\
@@ -255,15 +251,10 @@ aug6 & $  66.7$ & $  33.3$ & $ 100  $ & $ 100  $ & $ 100  $ & $ ~~0.0$ & $ ~~0.0
 \hline                                                       
  avg & $  55.7$ & $  52.9$ & $  65.8$ & $  72.1$ & $  84.5$ & $  45.6$ & $  48.4$ \\
 \end{tabular}
-
-
-  \caption{Recall (\%)}
   \label{tab:recall}
-\end{table}
+}
 
-
-\begin{table}
-  \centering
+\subfloat[F-measure (\%)]{
 \begin{tabular}{r|p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}p{0.5cm}}
      &   EC-Knn &   EC-net &   ES-Knn &   ES-net &    ES-PB &  ES-tree &        S-PB \\ \hline
    M & $  91.7$ & $  95.8$ & $  97.0$ & $  98.2$ & $  93.8$ & $  92.6$ & $  83.2$ \\
@@ -281,16 +272,8 @@ aug6 & $  57.2$ & $  18.2$ & $ 100  $ & $ 100  $ & $  66.7$ & $ ~~0.0$ & $ ~~0.0
 \hline                                                       
  avg & $  57.0$ & $  54.0$ & $  66.7$ & $  71.1$ & $  64.9$ & $  46.4$ & $  42.3$ \\
 \end{tabular}
-
-
-  \caption{F-measure (\%)}
-  \label{tab:f-measure}
-\end{table}
-
-
-
-\begin{table}
-  \centering
+}
+\subfloat[Overall Accuracy (\%)]{
   \begin{tabular}{l|rrr}
        & accuracy& $\sigma$  & f-measure\\
 \hline
@@ -301,12 +284,9 @@ EC-knn &$   82  $&$  4$      &$57.0$ \\
 ES-pb  &$   80  $&$  5$      &$64.9$ \\
 ES-tree&$   79  $&$  7$      &$46.4$ \\
 S-pb   &$   68  $&$ 15$      &$42.3$ \\
-
   \end{tabular}                                                        
-
-
-  \caption{Overall Accuracy (\%)}
   \label{tab:accuracy}
+}
 \end{table}
 
 
