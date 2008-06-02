@@ -65,12 +65,12 @@ technique.
 To correct this deficiency we have reimplemented and evaluated some
 chord labeling algorithms in a precise statistical framework. This
 evaluation is performed on Bach Chorales, and we describe our
-methodology in section \ref{sec:methodology}. The chord types we
+methodology in the section ``Methodology''. The chord types we
 consider are shown in table \ref{tab:legenda}. The algorithms we
 reimplemented (and the algorithms we present in this paper) are
-described in section \ref{sec:algorithms}. We compare their overall
-performance in section \ref{sec:discussion} and state our case in
-section \ref{sec:conclusions}.
+described in section ``Algorithms''. We compare their overall
+performance in section ``Discussion'' and state our case in section
+``Conclusions''.
 
 
 \section{Methodology}
@@ -87,7 +87,7 @@ a certain chord type from a song. We also treat the detection of each
 chord type separately. Hence, every time a diminished chord is
 misclassified as a non chord tone, for example, the recall of
 diminished chords gets smaller, while the precision of the non-chord
-tones get smaller. As shown is section \ref{sec:discussion}, Pardo and
+tones get smaller. As shown is section ``Discussion'', Pardo and
 Birmingham's algorithm has a high recall and a small precision,
 probably due to its incapacity of handling non-chord tones; and the
 machine learning algorithm are mostly biased against less frequent
@@ -152,9 +152,9 @@ dominant seventh. We have then extended the algorithm presented in the
 article by incorporating more chord templates (giving a total of ten)
 and enabling it to distinguish enharmonic tones, which improved the
 recall of fully diminished chords and the precision in recognizing
-major chords, as seen in section \ref{sec:discussion}. We have also
-added inversion detection. The original algorithm is referred to as
-\texttt{S-pb} and our extended version as \texttt{ES-pb}.
+major chords, as seen in ``Discussion''. We have also added inversion
+detection. The original algorithm is referred to as \texttt{S-pb} and
+our extended version as \texttt{ES-pb}.
 
 \subsection{Decision Tree}
 \label{sec:tree}
@@ -186,13 +186,13 @@ as its lowest note. This codification is transposition invariance and
 allows a much simpler network structure.
 
 We implemented two neural network algorithms: \texttt{ES-net}, which
-does not use contextual information, and \texttt{EC-net}, which
-does. Both distinguish enharmonic notes.  It should be noted that,
-unlike Tsui, our neural networks have an overall worse accuracy when
-context is added, as can be seen in section \ref{sec:discussion}. Our
-experiments determined that the best amount of contextual information
-is the least possible, so \texttt{EC-net} looks only at one preceding
-and one following sonority.
+does not use contextual information, and \texttt{EC-net}, which does.
+Both distinguish enharmonic notes. It should be noted that, unlike
+Tsui, our neural networks have an overall worse accuracy when context
+is added, as can be seen in ``Discussion''. Our experiments determined
+that the best amount of contextual information is the least possible,
+so \texttt{EC-net} looks only at one preceding and one following
+sonority.
 
 
 \subsection{K-Nearest-Neighbors}
