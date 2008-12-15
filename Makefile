@@ -4,4 +4,4 @@ OTHER += abstract.txt
 
 anppom: harmonic-analysis-evaluation-anppom.pdf
 
--include ~/lib/make/latex.mk
+include ~/.latexmk
